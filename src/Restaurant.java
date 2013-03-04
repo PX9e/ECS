@@ -7,7 +7,7 @@ public class Restaurant {
 	
 	private Cuisine cuisine;
 	private Forfait forfait;
-	private String nom;
+	private String nom = "Nouveau restaurant";
 	
 	
 	public Cuisine getCuisine() {
@@ -29,11 +29,17 @@ public class Restaurant {
 		this.nom = nom;
 	}
 	
-	public float calculerConsommationJournaliere()
+	
+	public float consommationPonctuelle(Heure heure)
 	{
-		
-		return 159;
+		float consommation = 0;
+		for(int i=0; i<(cuisine.ObtenirAppareils(0).size()); i++)
+		{
+			consommation += cuisine.ObtenirAppareil(i).consommationPonctuelle(heure);
+		}
+		return consommation;
 	}
 	
+
 
 }
