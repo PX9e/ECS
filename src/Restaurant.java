@@ -33,7 +33,7 @@ public class Restaurant {
 	public float consommationPonctuelle(Heure heure)
 	{
 		float consommation = 0;
-		for(int i=0; i<(cuisine.ObtenirAppareils(0).size()); i++)
+		for(int i=0; i<(cuisine.ObtenirAppareils().size()); i++)
 		{
 			consommation += cuisine.ObtenirAppareil(i).consommationPonctuelle(heure);
 		}

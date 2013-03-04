@@ -19,10 +19,15 @@ public class Heure
 		this.minutes = minutes;
 	}
 	
-	public Heure add(Heure MonHeure)
+	public void add(Heure MonHeure)
 	{
-		this.
+		minutes = minutes + MonHeure.minutes;
 		
+		if(minutes>60)
+		{
+			minutes = minutes - 60; 
+		    heures = heures + 1;
+		}
 	}
 	
 	
