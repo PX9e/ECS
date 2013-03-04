@@ -6,23 +6,72 @@ public class PlanAllumage {
 
 	
     
-	private ArrayList<ArrayList<Heure>> PlageHoraire ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireLundi ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireMardi ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireMercredi ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireJeudi ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireVendredi ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireSamedi ;
+	private ArrayList<ArrayList<Heure>> PlageHoraireDimanche;
 
-	public ArrayList<ArrayList<Heure>> getPlageHoraire() {
-		return PlageHoraire;
-	}
+	
 
-	public void setPlageHoraire(ArrayList<ArrayList<Heure>> plageHoraire) {
-		PlageHoraire = plageHoraire;
+	public void addPlageHoraire(String jour,Heure Debut,Heure Fin){
+		
+		switch (jour) {
+		case "Lundi" :
+		 PlageHoraireLundi.get(PlageHoraireLundi.size()).add(Debut);
+		 PlageHoraireLundi.get(PlageHoraireLundi.size()).add(Fin);
+		 break;
+		case "Mardi" :
+			PlageHoraireMardi.get(PlageHoraireMardi.size()).add(Debut);
+			 PlageHoraireMardi.get(PlageHoraireMardi.size()).add(Fin);
+			 break;
+		case "Mercredi" :
+			PlageHoraireMercredi.get(PlageHoraireMercredi.size()).add(Debut);
+			 PlageHoraireMercredi.get(PlageHoraireMercredi.size()).add(Fin);
+			 break;
+		case "Jeudi" :
+			PlageHoraireJeudi.get(PlageHoraireJeudi.size()).add(Debut);
+			 PlageHoraireJeudi.get(PlageHoraireJeudi.size()).add(Fin);
+			 break;
+		case "Vendredi" :
+			PlageHoraireVendredi.get(PlageHoraireVendredi.size()).add(Debut);
+			 PlageHoraireVendredi.get(PlageHoraireVendredi.size()).add(Fin);
+			 break;
+		case "Samedi" :
+			PlageHoraireSamedi.get(PlageHoraireSamedi.size()).add(Debut);
+			 PlageHoraireSamedi.get(PlageHoraireSamedi.size()).add(Fin);
+			 break;
+		case "Dimanche" :
+			PlageHoraireDimanche.get(PlageHoraireDimanche.size()).add(Debut);
+			 PlageHoraireDimanche.get(PlageHoraireDimanche.size()).add(Fin);
+			 break;
+		}
 	}
 	
-	public void AddPlageHoraire(Heure Debut,Heure Fin)
-	{
-		PlageHoraire.add(new ArrayList<Heure>());
-		PlageHoraire.get(PlageHoraire.size()).add(Debut);
-		PlageHoraire.get(PlageHoraire.size()).add(Fin);
+	public ArrayList<ArrayList<Heure>> getPlageHoraire(String jour){
+		
+		switch (jour) {
+		case "Lundi" :
+		 return PlageHoraireLundi;
+		case "Mardi" :
+			 return PlageHoraireMardi;
+		case "Mercredi" :
+			 return PlageHoraireMercredi;
+		case "Jeudi" :
+			 return PlageHoraireJeudi;
+		case "Vendredi" :
+			 return PlageHoraireVendredi;
+		case "Samedi" :
+			 return PlageHoraireSamedi;
+		case "Dimanche" :
+			 return PlageHoraireDimanche;
+		}
+		return null;
+		
 	}
-	
+
 	
 	
 	
