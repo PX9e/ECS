@@ -5,7 +5,6 @@ public class Cuisine {
 
 	private ArrayList<AppareilElectrique> AppareilsElectriques;
 	
-	
 	public void AjouterAppareil(AppareilElectrique MonAppareil)
 	{
 		AppareilsElectriques.add(MonAppareil);
