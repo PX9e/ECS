@@ -7,6 +7,8 @@ public class Restaurant {
 	
 	private Cuisine cuisine;
 	private Forfait forfait;
+	private String nom;
+	
 	
 	public Cuisine getCuisine() {
 		return cuisine;
@@ -20,7 +22,18 @@ public class Restaurant {
 	public void setForfait(Forfait forfait) {
 		this.forfait = forfait;
 	}
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 	
+	public float calculerConsommationJournaliere()
+	{
+		
+		return 159;
+	}
 	
 
 }
