@@ -1,14 +1,10 @@
-
-
-
 public class Restaurant {
 	
 	/*Attributs*/
 	
 	private Cuisine cuisine;
 	private Forfait forfait;
-	private String nom = "Nouveau restaurant";
-	
+	private String nom;
 	
 	public Cuisine getCuisine() {
 		return cuisine;
@@ -27,6 +23,41 @@ public class Restaurant {
 	}
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	
+	Restaurant()
+	{
+		cuisine = new Cuisine();
+		forfait = new Forfait();
+		nom = "Nouveau restaurant";
+	}
+	
+	Restaurant(Cuisine cuisine)
+	{
+		this.cuisine = cuisine;
+		forfait = new Forfait();
+		nom = "Nouveau restaurant";
+	}
+	
+	Restaurant(String nomRestaurant)
+	{
+		this.cuisine = new Cuisine();
+		forfait = new Forfait();
+		nom = nomRestaurant;
+	}
+	
+	Restaurant(Cuisine cuisine, String nomRestaurant)
+	{
+		this.cuisine = cuisine;
+		forfait = new Forfait();
+		nom = nomRestaurant;
+	}
+	
+	Restaurant(Cuisine cuisine, String nomRestaurant, Forfait forfait)
+	{
+		this.cuisine = cuisine;
+		this.forfait = forfait;
+		nom = nomRestaurant;
 	}
 	
 	
