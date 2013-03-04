@@ -23,7 +23,7 @@ public class Cuisine {
 		}
 	}
 	
-	public ArrayList<AppareilElectrique> ObtenirAppareils(int i)
+	public ArrayList<AppareilElectrique> ObtenirAppareils()
 	{
 		return AppareilsElectriques;
 	}

@@ -4,6 +4,8 @@ public class Heure
 
 	private int heures;
 	private int minutes;
+	
+	
 	public int getHeures() {
 		return heures;
 	}
@@ -17,6 +19,11 @@ public class Heure
 		this.minutes = minutes;
 	}
 	
+	public Heure add(Heure MonHeure)
+	{
+		this.
+		
+	}
 	
 	
 }
