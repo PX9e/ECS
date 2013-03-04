@@ -18,6 +18,12 @@ public class AppareilElectrique {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+	public PlanAllumage getPlanAllumage() {
+		return planAllumage;
+	}
+	public void setPlanAllumage(PlanAllumage planAllumage) {
+		this.planAllumage = planAllumage;
+	}
 	
 	
 	
