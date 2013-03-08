@@ -65,12 +65,16 @@ public class Sequence {
 	}
 	
 	public void GetAppareilFromProduit(){
-		
+		ProduitAlimentaire TempProduct;
 		for(int i = 0; i<ProduitsAProduire.size();i++)
 		{
-			for(int y = 0 ; y <ProduitsAProduire.keySet().size();y++)
+			while(ProduitsAProduire.keySet().iterator().hasNext())
 			{
-				ProduitsAProduire.keySet()
+				TempProduct  = ProduitsAProduire.keySet().iterator().next();
+				for(int y = 0; y< TempProduct.AppareilsNecessaires.size();y++)
+				{
+					SetAppareil(TempProduct.AppareilsNecessaires.get(y));
+				}
 			}
 		}
 	}
