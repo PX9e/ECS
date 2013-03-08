@@ -28,6 +28,11 @@ public class Heure
 			minutes = minutes - 60; 
 		    heures = heures + 1;
 		}
+		if(heures>23)
+		{
+			heures = 0 ;
+			
+		}
 	}
 	
 	
