@@ -79,9 +79,12 @@ public class main extends Application {
         
                
         MenuBar menuBar = new MenuBar();
+        
         menuBar.getMenus().addAll(menuFichier, menuRestaurant, menuCuisine, menuAppareilElectrique,menuPlanAllumage,menuForfait,menuAide);
        
-        final Group root = new Group();
+        
+        
+        final Group root = new Group();        
         root.getChildren().add(menuBar);
         primaryStage.setScene(new Scene(root, 600, 400));
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
