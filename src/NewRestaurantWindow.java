@@ -28,7 +28,8 @@ class NewRestaurantWindow {
 	NewRestaurantWindow(){
 		Stage Window = new Stage();
 		final Group root = new Group();
-		Window.setScene(new Scene(root, 200, 200));
+		
+		Window.setScene(new Scene(root, 400, 400));
 		Window.show();
 		
 	}
