@@ -8,6 +8,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.MenuItemBuilder;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
  
@@ -30,7 +31,9 @@ public class main extends Application {
         final Menu menuForfait = new Menu("Forfaits");
         final Menu menuAide = new Menu("Aide");
         menuFichier.getItems().add(new MenuItem("Options"));
-        menuFichier.getItems().add(MenuItemBuilder.create()
+        new KeyCombination() {
+		};
+		menuFichier.getItems().add(MenuItemBuilder.create()
         		.text("Quitter")
         		.onAction(
         		new EventHandler<ActionEvent>()
@@ -39,7 +42,7 @@ public class main extends Application {
         		{
         			primaryStage.close();
         		}
-        		}).build());
+        		}).accelerator( KeyCombination.keyCombination("ctrl+q")).build());
         
         
      
