@@ -88,6 +88,7 @@ public  class main extends Application {
         root.getChildren().add(menuBar);
         Scene MyScene = new Scene(root, 600, 400);
         MyScene.getStylesheets().add("style.css");
+        System.out.println(MyScene.getStylesheets().toString());
         primaryStage.setScene(MyScene);
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
         primaryStage.show();
