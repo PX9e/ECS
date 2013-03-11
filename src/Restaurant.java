@@ -71,6 +71,11 @@ public class Restaurant {
 		return consommation;
 	}
 	
+	/*public Restaurant getRestaurantFromName(String nom)
+	{
+		
+	}*/
+	
 
 
 }
