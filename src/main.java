@@ -22,7 +22,7 @@ public class main extends Application {
     @Override
     public void start(final Stage primaryStage) {
         primaryStage.setTitle("ECS");    
-
+        new KeyCombination() {};
         final Menu menuFichier = new Menu("Fichier");
         final Menu menuRestaurant = new Menu("Restaurant");
         final Menu menuCuisine = new Menu("Cuisine");
@@ -30,9 +30,18 @@ public class main extends Application {
         final Menu menuPlanAllumage = new Menu("Plans d'allumage");
         final Menu menuForfait = new Menu("Forfaits");
         final Menu menuAide = new Menu("Aide");
-        menuFichier.getItems().add(new MenuItem("Options"));
-        new KeyCombination() {
-		};
+        menuFichier.getItems().add(MenuItemBuilder.create()
+        		.text("Option")
+        		.onAction(
+        		new EventHandler<ActionEvent>()
+        		{
+        		@Override public void handle(ActionEvent e)
+        		{
+        			Stage optionStage = new Stage();
+        			optionStage.show();
+        		}
+        		}).accelerator( KeyCombination.keyCombination("ctrl+o")).build());
+       
 		menuFichier.getItems().add(MenuItemBuilder.create()
         		.text("Quitter")
         		.onAction(
@@ -43,11 +52,7 @@ public class main extends Application {
         			primaryStage.close();
         		}
         		}).accelerator( KeyCombination.keyCombination("ctrl+q")).build());
-        
-        
-     
-        		
-        		
+
         		
         menuRestaurant.getItems().add(new MenuItem("Nouveau"));
         menuRestaurant.getItems().add(new MenuItem("Modifier/Supprimer"));
