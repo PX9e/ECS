@@ -82,9 +82,8 @@ public  class main extends Application {
        
         final Group root = new Group();        
         root.getChildren().add(menuBar);
-        root.setId("pane");
         Scene MyScene = new Scene(root, 600, 400);
-        MyScene.getStylesheets().add(this.getClass().getResource("style.css").toExternalForm());
+        MyScene.getStylesheets().add("style.css");
         primaryStage.setScene(MyScene);
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
         primaryStage.show();
