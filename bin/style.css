@@ -1,0 +1,9 @@
+.root {
+    -fx-background-image: url("http://upload.wikimedia.org/wikipedia/fr/1/11/Ecosia_logo.png");
+}
+
+#pane{
+   -fx-background-image: url("http://upload.wikimedia.org/wikipedia/fr/1/11/Ecosia_logo.png");
+   -fx-background-repeat: stretch;   
+   -fx-background-position: center center;
+}
