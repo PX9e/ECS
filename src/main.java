@@ -96,12 +96,4 @@ public  class main extends Application {
         
              
     }
-<<<<<<< HEAD
-
-
-	
-=======
-    
-   
->>>>>>> 85f5db195d9c8803d1e2dd3300a8b224f1a0d2d0
 }
