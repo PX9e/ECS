@@ -12,7 +12,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
  
 public  class main extends Application {
     
@@ -86,11 +88,17 @@ public  class main extends Application {
        
         final Group root = new Group();        
         root.getChildren().add(menuBar);
+        
+      
         Scene MyScene = new Scene(root, 600, 400);
-        MyScene.getStylesheets().add("style.css");
-        System.out.println(MyScene.getStylesheets().toString());
-        primaryStage.setScene(MyScene);
+        
+        
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
+        MyScene.getStylesheets().add(main.class.getResource("style.css").toExternalForm());
+        
+        primaryStage.setScene(MyScene);
+
+
         primaryStage.show();
    
         

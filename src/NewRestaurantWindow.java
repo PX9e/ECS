@@ -87,7 +87,7 @@ class NewRestaurantWindow {
         });
 
 		Window.setScene(new Scene(grid, 400, 200));
-		Window.setScene(new Scene(root, 400, 400));
+
 		Window.show();
 		
 		
