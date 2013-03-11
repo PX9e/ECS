@@ -44,6 +44,7 @@ class NewRestaurantWindow {
 		Stage Window = new Stage();
 		final Group root = new Group();
 		
+<<<<<<< HEAD
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -88,6 +89,9 @@ class NewRestaurantWindow {
         });
 
 		Window.setScene(new Scene(grid, 400, 200));
+=======
+		Window.setScene(new Scene(root, 400, 400));
+>>>>>>> 85f5db195d9c8803d1e2dd3300a8b224f1a0d2d0
 		Window.show();
 		
 		

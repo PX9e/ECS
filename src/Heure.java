@@ -6,7 +6,6 @@ public class Heure
 	private int minutes;
 	
 	
-	
 	public int getHeures() {
 		return heures;
 	}

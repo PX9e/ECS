@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
  
-public class main extends Application {
+public  class main extends Application {
     
 	
 	
@@ -79,25 +79,29 @@ public class main extends Application {
         menuPlanAllumage.getItems().add(new MenuItem("Nouveau"));
         menuPlanAllumage.getItems().add(new MenuItem("Modifier/Supprimer"));
         menuAide.getItems().add(new MenuItem("Guide Utilisateur"));
-        
-        
                
         MenuBar menuBar = new MenuBar();
         
         menuBar.getMenus().addAll(menuFichier, menuRestaurant, menuCuisine, menuAppareilElectrique,menuPlanAllumage,menuForfait,menuAide);
        
-        
-        
         final Group root = new Group();        
         root.getChildren().add(menuBar);
-        primaryStage.setScene(new Scene(root, 600, 400));
+        Scene MyScene = new Scene(root, 600, 400);
+        MyScene.getStylesheets().add("style.css");
+        primaryStage.setScene(MyScene);
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
         primaryStage.show();
+   
         
         
-        
+             
     }
+<<<<<<< HEAD
 
 
 	
+=======
+    
+   
+>>>>>>> 85f5db195d9c8803d1e2dd3300a8b224f1a0d2d0
 }
