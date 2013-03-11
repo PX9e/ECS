@@ -23,24 +23,24 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+ 
 
+class NewCuisineWindow {
 
-class NewRestaurantWindow {
+	public Cuisine MaCuisine;
 
-	public Restaurant MonRestaurant;
-
-	public Restaurant getMonRestaurant() {
-		return MonRestaurant;
+	public Cuisine getMonCuisine() {
+		return MaCuisine;
 	}
 
-	public void setMonRestaurant(Restaurant monRestaurant) {
-		MonRestaurant = monRestaurant;
+	public void setMonCuisine(Cuisine monCuisine) {
+		MaCuisine = monCuisine;
 	}
+	
 
-
-
-
-	NewRestaurantWindow(){
+	
+	
+	NewCuisineWindow(){
 		Stage Window = new Stage();
 		final Group root = new Group();
 		GridPane grid = new GridPane();
@@ -48,65 +48,54 @@ class NewRestaurantWindow {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-
-		Text scenetitle = new Text("Ajouter un restaurant");
+		
+		Text scenetitle = new Text("Ajouter une cuisine");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		Label nomRestaurantLabel = new Label("Nom du restaurant:");
-		grid.add(nomRestaurantLabel, 0, 1);
-
-		final TextField nomRestaurantTextField = new TextField();
-		grid.add(nomRestaurantTextField, 1, 1);
-
 		Label nomCuisineLabel = new Label("Nom de la cuisine:");
-		grid.add(nomCuisineLabel, 0, 2);
+		grid.add(nomCuisineLabel, 0, 1);
 
 		final TextField nomCuisineTextField = new TextField();
-		grid.add(nomCuisineTextField, 1, 2);
+		grid.add(nomCuisineTextField, 1, 1);
 
 		Button boutonEnregistrer = new Button("Enregistrer");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(boutonEnregistrer);
 		grid.add(hbBtn, 1, 4);
-
+		
 		final Text actiontarget = new Text();
-		grid.add(actiontarget, 1, 6);
-
-
-		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				String tempNomRestaurant = nomRestaurantTextField.getText();
-				String tempNomCuisine = nomCuisineTextField.getText();
-				
-				if((AppCore.getCuisineFromName(tempNomCuisine) != null) && (tempNomRestaurant != null))
-				{
-					MonRestaurant = new Restaurant(AppCore.getCuisineFromName(nomCuisineTextField.getText()),nomRestaurantTextField.getText());
-					AppCore.AjouterRestaurantToList(MonRestaurant);
-					actiontarget.setFill(Color.LIMEGREEN);
-					actiontarget.setText("Enregistrement réussi");
-				}
-				else
-				{
-					actiontarget.setFill(Color.FIREBRICK);
-					actiontarget.setText("Bouton appuyé");
-				}
-			}
-		});
+        grid.add(actiontarget, 1, 6);
+        
+        
+        boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
+        	 
+            @Override
+            public void handle(ActionEvent e) {
+                
+            	MaCuisine = new Cuisine(nomCuisineTextField.getText());
+            	if(MaCuisine != null)
+            	{
+            	AppCore.AjouterCuisineToList(MaCuisine);
+            	actiontarget.setFill(Color.LIMEGREEN);
+                actiontarget.setText("Enregistrement réussi");
+            	}
+            	else
+            	{
+            	actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Bouton appuyé");
+            	}               
+                
+            }
+        });
 
 		Window.setScene(new Scene(grid, 400, 200));
-<<<<<<< HEAD
-
-=======
->>>>>>> b0d12d69140c0195ba6d062e9eb47032202aec96
 		Window.show();
-
-
-
+		
+		
+		
 	}
-
-
+	
+	
 }

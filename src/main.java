@@ -71,8 +71,18 @@ public  class main extends Application {
         		}
         		}).accelerator( KeyCombination.keyCombination("ctrl+r")).build());
         
+        menuCuisine.getItems().add(MenuItemBuilder.create()
+        		.text("Nouveau")
+        		.onAction(
+        		new EventHandler<ActionEvent>()
+        		{
+        		@Override public void handle(ActionEvent e)
+        		{
+        			new NewCuisineWindow();
+        		}
+        		}).accelerator( KeyCombination.keyCombination("ctrl+c")).build());
+        
         menuRestaurant.getItems().add(new MenuItem("Modifier/Supprimer"));
-        menuCuisine.getItems().add(new MenuItem("Nouveau"));
         menuCuisine.getItems().add(new MenuItem("Modifier/Supprimer"));
         menuForfait.getItems().add(new MenuItem("Nouveau"));
         menuForfait.getItems().add(new MenuItem("Modifier/Supprimer"));

@@ -38,6 +38,11 @@ public class Cuisine {
 		AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	}
 	
+	Cuisine(String nom)
+	{
+		Nom = nom;
+	}
+	
 	Cuisine( ArrayList<AppareilElectrique> MesAppareils)
 	{
 		this.AppareilsElectriques = MesAppareils;
