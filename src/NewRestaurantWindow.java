@@ -98,10 +98,7 @@ class NewRestaurantWindow {
 		});
 
 		Window.setScene(new Scene(grid, 400, 200));
-<<<<<<< HEAD
 
-=======
->>>>>>> b0d12d69140c0195ba6d062e9eb47032202aec96
 		Window.show();
 
 
