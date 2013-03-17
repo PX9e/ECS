@@ -43,8 +43,7 @@ public  class main extends Application {
         		{
         		@Override public void handle(ActionEvent e)
         		{
-        			Stage optionStage = new Stage();
-        			optionStage.show();
+        			ErrorMessage EM = new ErrorMessage("Il s'est passé quelque chose de complétement imprévu, vous devriez peut être réessayer");
         		}
         		}).accelerator( KeyCombination.keyCombination("ctrl+o")).build());
        

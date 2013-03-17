@@ -1,5 +1,7 @@
 import java.util.ArrayList;
-
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 public class AppCore {
 	
@@ -7,12 +9,28 @@ public class AppCore {
 	
 	private static ArrayList<Restaurant> Restaurants = new ArrayList<Restaurant>();;
 	private static ArrayList<Cuisine> Cuisines = new ArrayList<Cuisine>();
-	
+	private static ArrayList<AppareilElectrique> AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	
 	public static ArrayList<Restaurant> getListeRestaurants() {
 		return Restaurants;
 	}
-
+	
+	
+	
+	public static void SaveRestaurant()
+	{
+		try {
+			PrintWriter writer = new PrintWriter("restaurant.save");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			
+		}
+		
+		
+		
+		
+	}
+	
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		Restaurants.add(MonRestaurant);
 	}
