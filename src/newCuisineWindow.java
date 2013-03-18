@@ -112,7 +112,6 @@ class NewCuisineWindow {
             @Override
             public void handle(ActionEvent e) 
             {
-            	//Ajouter choix cuisine depuis liste ici
             }
         });
 
