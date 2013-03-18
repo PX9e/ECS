@@ -43,7 +43,7 @@ public  class main extends Application {
         		{
         		@Override public void handle(ActionEvent e)
         		{
-        			ErrorMessage EM = new ErrorMessage("Il s'est passé quelque chose de complétement imprévu, vous devriez peut être réessayer");
+        			
         		}
         		}).accelerator( KeyCombination.keyCombination("ctrl+o")).build());
        
@@ -54,6 +54,7 @@ public  class main extends Application {
         		{
         		@Override public void handle(ActionEvent e)
         		{
+        			AppCore.SaveRestaurant();
         			primaryStage.close();
         		}
         		}).accelerator( KeyCombination.keyCombination("ctrl+q")).build());

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintWriter;
 
 public class AppCore {
@@ -21,12 +22,29 @@ public class AppCore {
 	{
 		try {
 			PrintWriter writer = new PrintWriter("restaurant.save");
+			
+			for(int i = 0 ; i < Restaurants.size(); i++)
+			{
+				writer.println("NewRestaurant");
+				writer.println("Name:"+Restaurants.get(i).getNom());
+				writer.println("Cuisine:"+Restaurants.get(i).getCuisine().getNom());
+				writer.println("Forfait:"+Restaurants.get(i).getForfait().getName());
+			}
+			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			
 		}
 		
-		
+		public static void LoadRestaurant()
+		{
+			try {
+				FileReader reader = new FileReader("restaurant.save");
+				reader.read
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				
+			}	
 		
 		
 	}
