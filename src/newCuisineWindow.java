@@ -86,9 +86,8 @@ class NewCuisineWindow {
         			MaCuisine = new Cuisine(nomCuisineTextField.getText());
         			if(MaCuisine != null)
         			{
-        				AppCore.AjouterCuisineToList(MaCuisine);
-        				actiontarget.setFill(Color.LIMEGREEN);
-        				actiontarget.setText("Enregistrement réussi");
+
+                    	AppCore.AjouterCuisineToList(MaCuisine);
         				//Rafraichissement affichage liste
         				ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
         				list.setItems(items);
@@ -111,8 +110,9 @@ class NewCuisineWindow {
         boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
         	 
             @Override
-            public void handle(ActionEvent e) {
-                
+            public void handle(ActionEvent e) 
+            {
+            	//Ajouter choix cuisine depuis liste ici
             }
         });
 
