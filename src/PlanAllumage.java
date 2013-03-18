@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class PlanAllumage {
 
+	private String Name;
 	private ArrayList<ArrayList<Heure>> PlageHoraireLundi;
 	private ArrayList<ArrayList<Heure>> PlageHoraireMardi;
 	private ArrayList<ArrayList<Heure>> PlageHoraireMercredi;
@@ -11,6 +12,17 @@ public class PlanAllumage {
 	private ArrayList<ArrayList<Heure>> PlageHoraireVendredi;
 	private ArrayList<ArrayList<Heure>> PlageHoraireSamedi;
 	private ArrayList<ArrayList<Heure>> PlageHoraireDimanche;
+
+	
+
+	
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
 
 	public void addPlageHoraire(String jour, Heure Debut, Heure Fin) {
 

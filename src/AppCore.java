@@ -1,8 +1,13 @@
 import java.util.ArrayList;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 
 public class AppCore {
 	
@@ -16,6 +21,28 @@ public class AppCore {
 		return Restaurants;
 	}
 	
+	public static void OpenAppareilsElectrique()
+	{
+		try{
+			  // Open the file that is the first 
+			  // command line parameter
+			  FileInputStream fstream = new FileInputStream("appareil.save");
+			  // Get the object of DataInputStream
+			  DataInputStream in = new DataInputStream(fstream);
+			  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			   String strLine;
+			  //Read File Line By Line
+			  while ((strLine = br.readLine()) != null)   {
+			  // Print the content on the console
+			  System.out.println (strLine);
+			  }
+			  //Close the input stream
+			  in.close();
+			    }catch (Exception e){//Catch exception if any
+			  System.err.println("Error: " + e.getMessage());
+		   }
+	}
+		
 	
 	
 	public static void SaveRestaurant()
@@ -35,20 +62,45 @@ public class AppCore {
 			e.printStackTrace();
 			
 		}
-		
-		public static void LoadRestaurant()
-		{
-			try {
-				FileReader reader = new FileReader("restaurant.save");
-				reader.read
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+	}
+	public static void SaveCuisine()
+	{
+		try {
+			PrintWriter writer = new PrintWriter("cuisine.save");
+			for(int i = 0 ; i < Cuisines.size(); i++)
+			{
+				writer.println("NewCuisine");
+				writer.println("Name:"+Cuisines.get(i).getNom());
+				writer.println("MesAppareils");
 				
-			}	
-		
-		
+				for(int y = 0 ; y < Cuisines.get(i).ObtenirAppareils().size();y++)
+				{
+					writer.println(Cuisines.get(i).ObtenirAppareils().get(y).getNom());
+				}
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
+	public static void SaveAppareilElectrique()
+	{
+		try {
+			PrintWriter writer = new PrintWriter("appareil.save");
+			for(int i = 0 ; i < AppareilsElectriques.size(); i++)
+			{
+				writer.println("NewAppareilElectrique");
+				writer.println("Name:"+AppareilsElectriques.get(i).getNom());		
+				writer.println("planAllumage:"+AppareilsElectriques.get(i).getPlanAllumage().getName());
+				writer.println("consommationMax:"+AppareilsElectriques.get(i).getConsommationMax());
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+		
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		Restaurants.add(MonRestaurant);
 	}
