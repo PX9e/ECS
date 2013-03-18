@@ -43,10 +43,6 @@ public  class main extends Application {
         		{
         		@Override public void handle(ActionEvent e)
         		{
-<<<<<<< HEAD
-        			
-=======
->>>>>>> 0de9bd6196cfb2a361a552e3e347c50887cf9320
         		}
         		}).accelerator( KeyCombination.keyCombination("ctrl+o")).build());
        
