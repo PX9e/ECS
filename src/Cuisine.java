@@ -58,6 +58,12 @@ public class Cuisine {
 		Nom = nom;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return Nom;
+	}
+	
 	
 	
 }
