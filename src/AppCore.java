@@ -42,7 +42,7 @@ public class AppCore {
 	public static ArrayList<Cuisine> getListeCuisines() {
 		return Cuisines;
 	}
-
+	
 	public static void AjouterCuisineToList(Cuisine MaCuisine) {
 		Cuisines.add(MaCuisine);
 	}
