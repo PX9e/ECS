@@ -47,6 +47,12 @@ public class Cuisine {
 	{
 		this.AppareilsElectriques = MesAppareils;
 	}
+	
+	Cuisine (String nom, ArrayList<AppareilElectrique> MesAppareils)
+	{
+		Nom = nom;
+		this.AppareilsElectriques = MesAppareils;
+	}
 
 
 	public String getNom() {

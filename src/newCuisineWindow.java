@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,32 +20,32 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
- 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
-class NewCuisineWindow {
+
+class NewCuisineWindow extends Stage{
 
 	public Cuisine MaCuisine;
 
-	public Cuisine getMonCuisine() {
+	public Cuisine getMaCuisine() {
 		return MaCuisine;
 	}
 
-	public void setMonCuisine(Cuisine monCuisine) {
+	public void setMaCuisine(Cuisine monCuisine) {
 		MaCuisine = monCuisine;
 	}
-	
 
-	
-	
-	NewCuisineWindow(){
-		Stage Window = new Stage();
+	NewCuisineWindow()
+	{
+		//Stage Window = new Stage();
 		final Group root = new Group();
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		
+
 		Text scenetitle = new Text("Ajouter une cuisine");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
@@ -51,76 +53,147 @@ class NewCuisineWindow {
 		Label nomCuisineLabel = new Label("Nom de la cuisine:");
 		grid.add(nomCuisineLabel, 0, 1);
 
+		final ListView<AppareilElectrique> listAppareilsAssocies= new ListView<AppareilElectrique>();
+		final ListView<AppareilElectrique> listAppareilsNonAssocies = new ListView<AppareilElectrique>();
 		final TextField nomCuisineTextField = new TextField();
-		nomCuisineTextField.setPrefSize(15, 200);
+		nomCuisineTextField.setPrefSize(15, 20);
 		grid.add(nomCuisineTextField, 1, 1);
-		
+
+		/*nomCuisineTextField.setOnKeyPressed(new EventHandler<KeyEvent>()
+				{
+
+			@Override
+			public void handle(KeyEvent pressedKey) 
+			{
+				System.out.println(pressedKey.getCode());
+				if(pressedKey.getCode() == KeyCode.ENTER)
+				{
+					if(!nomCuisineTextField.getText().isEmpty())
+					{
+						MaCuisine = new Cuisine(nomCuisineTextField.getText());
+						if(MaCuisine != null)
+						{
+							AppCore.AjouterCuisineToList(MaCuisine);
+							//Rafraichissement affichage liste
+							ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
+							listCuisine.setItems(items);
+							nomCuisineTextField.setText("");
+						}
+					}
+				}
+			}
+
+				});*/
+
 		Button boutonAjouterCuisine = new Button("Ajouter Cuisine");
 		grid.add(boutonAjouterCuisine,3,1);
-		
+
 
 		Button boutonEnregistrer = new Button("Enregistrer");
+		Button boutonAnnuler = new Button("Annuler");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+		hbBtn.getChildren().add(boutonAnnuler);
 		hbBtn.getChildren().add(boutonEnregistrer);
-		grid.add(hbBtn, 1, 2);
+		grid.add(hbBtn, 1, 3);
 		
+		Button boutonFlecheGauche = new Button("<-");
+		Button boutonFlecheDroite = new Button("->");
+		boutonFlecheDroite.setPrefSize(boutonFlecheDroite.getMaxHeight(), boutonFlecheDroite.getMaxWidth());
+		HBox hbBtnFleches = new HBox(10);
+		hbBtnFleches.setAlignment(Pos.CENTER);
+		hbBtnFleches.getChildren().add(boutonFlecheDroite);
+		hbBtnFleches.getChildren().add(boutonFlecheGauche);
+		hbBtnFleches.getChildren().add(listAppareilsNonAssocies);
+		grid.add(hbBtnFleches, 1, 2);
+		
+
 		final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, 6);
-        
-        final ListView<Cuisine> list = new ListView<Cuisine>();
-        ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
-        list.setItems(items);
-        grid.add(list,0 ,2);
-        
-        if(!AppCore.getListeCuisines().isEmpty())
-        System.out.println(AppCore.getListeCuisines().get(0));
-        
-        boutonAjouterCuisine.setOnAction(new EventHandler<ActionEvent>() {
-        	
-        	@Override
-            public void handle(ActionEvent e) 
-        	{
-        		if(!nomCuisineTextField.getText().isEmpty())
-        		{
-        			MaCuisine = new Cuisine(nomCuisineTextField.getText());
-        			if(MaCuisine != null)
-        			{
+		grid.add(actiontarget, 1, 6);
 
-                    	AppCore.AjouterCuisineToList(MaCuisine);
-        				//Rafraichissement affichage liste
-        				ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
-        				list.setItems(items);
-        			}
-        			else
-        			{
-        				actiontarget.setFill(Color.FIREBRICK);
-        				actiontarget.setText("Une erreur s'est produite");
-        			}               
-        		}
-        		else
-        		{
-        			actiontarget.setFill(Color.FIREBRICK);
-        			actiontarget.setText("Entrer un nom pour votre nouvelle cuisine");
-        		}
-            	
-        	}
+		final ObservableList<AppareilElectrique> itemsAppareilsAssocies= FXCollections.observableArrayList ();
+		listAppareilsAssocies.setItems(itemsAppareilsAssocies);
+		grid.add(listAppareilsAssocies,0 ,2);
+		
+		final ObservableList<AppareilElectrique> itemsAppareilsNonAssocies = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
+		listAppareilsNonAssocies.setItems(itemsAppareilsNonAssocies);
+		//grid.add(listAppareilsNonAssocies, 2, 2);
+
+		if(!AppCore.getListeCuisines().isEmpty())
+			System.out.println(AppCore.getListeCuisines().get(0));
+		
+		/*
+		boutonAjouterCuisine.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) 
+			{
+				if(!nomCuisineTextField.getText().isEmpty())
+				{
+					MaCuisine = new Cuisine(nomCuisineTextField.getText());
+					if(MaCuisine != null)
+					{
+
+						AppCore.AjouterCuisineToList(MaCuisine);
+						//Rafraichissement affichage liste
+						ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
+						listCuisine.setItems(items);
+
+						nomCuisineTextField.setText("");
+					}
+					else
+					{
+						actiontarget.setFill(Color.FIREBRICK);
+						actiontarget.setText("Une erreur s'est produite");
+					}               
+				}
+				else
+				{
+					actiontarget.setFill(Color.FIREBRICK);
+					actiontarget.setText("Entrer un nom pour votre nouvelle cuisine");
+				}
+
+			}
 		});
-        
-        boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
-        	 
-            @Override
-            public void handle(ActionEvent e) 
-            {
-            }
-        });
+		*/
+		boutonFlecheGauche.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e)
+			{
+				itemsAppareilsAssocies.add(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+				itemsAppareilsNonAssocies.remove(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+			}
+		});
+		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
 
-		Window.setScene(new Scene(grid, 600, 400));
-		Window.show();
+			@Override
+			public void handle(ActionEvent e) 
+			{
+				ArrayList<AppareilElectrique> tempArraylist = new ArrayList<AppareilElectrique>();
+				for(int i = 0; i < itemsAppareilsAssocies.size() ; i++ )
+				{
+					tempArraylist.add(itemsAppareilsAssocies.get(i));
+				}
+				Cuisine cuisineCreee = new Cuisine (nomCuisineTextField.getText(),tempArraylist);
+				AppCore.AjouterCuisineToList(cuisineCreee);
+				close();
+			}
+		});
 		
-		
-		
+		boutonAnnuler.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e)
+			{
+				close();
+			}
+		});
+
+		this.setScene(new Scene(grid, 800, 600));
+		this.show();
+
+
+
 	}
-	
-	
+
+
 }

@@ -101,6 +101,10 @@ public class AppCore {
 		}
 	}
 		
+	public static ArrayList<AppareilElectrique> getListeAppareilsElectriques() {
+		return AppareilsElectriques;
+	}
+	
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		Restaurants.add(MonRestaurant);
 	}
@@ -119,6 +123,14 @@ public class AppCore {
 	
 	public static void RetirerCuisineFromList(Cuisine MaCuisine) {
 		Cuisines.remove(MaCuisine);
+	}
+	
+	public static void AjouterAppareilToList(AppareilElectrique MonAppareil) {
+		AppareilsElectriques.add(MonAppareil);
+	}
+	
+	public static void RetirerAppareilFromList(Cuisine MonAppareil) {
+		AppareilsElectriques.remove(MonAppareil);
 	}
 
 	/**
@@ -150,6 +162,23 @@ public class AppCore {
 			if(Cuisines.get(i).getNom().compareTo(Name) == 0)
 				{
 				return Cuisines.get(i);
+				}
+		}
+		return null;
+	}
+	
+	/**
+	 * Penser a gérer les exceptions (si return null)
+	 * @param Name
+	 * @return
+	 */
+	public static AppareilElectrique getAppareilFromName(String Name)
+	{
+		for(int i=0; i < AppareilsElectriques.size(); i++)
+		{
+			if(AppareilsElectriques.get(i).getNom().compareTo(Name) == 0)
+				{
+				return AppareilsElectriques.get(i);
 				}
 		}
 		return null;

@@ -5,6 +5,11 @@ public class AppareilElectrique {
 	private String nom;
 	private PlanAllumage planAllumage;
 	
+	AppareilElectrique(String Nom)
+	{
+		nom = Nom;
+	}
+	
 	public float getConsommationMax() 
 	{
 		return consommationMax;
@@ -37,5 +42,10 @@ public class AppareilElectrique {
 		return 0;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return nom;		
+	}
 	
 }
