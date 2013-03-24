@@ -108,6 +108,7 @@ class NewRestaurantWindow extends Stage{
 					AppCore.AjouterRestaurantToList(MonRestaurant);
 					actiontarget.setFill(Color.LIMEGREEN);
 					actiontarget.setText("Enregistrement réussi");
+					
 				}
 				else
 				{

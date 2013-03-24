@@ -10,6 +10,14 @@ public class AppareilElectrique {
 		nom = Nom;
 	}
 	
+	AppareilElectrique(String pNom,float pconsommationMax,PlanAllumage pplanAllumage)
+	{
+		nom = pNom;
+		consommationMax = pconsommationMax;
+		planAllumage =pplanAllumage;
+	
+	}
+	
 	public float getConsommationMax() 
 	{
 		return consommationMax;

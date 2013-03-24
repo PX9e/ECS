@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -21,28 +22,6 @@ public class AppCore {
 		return Restaurants;
 	}
 	
-	public static void OpenAppareilsElectrique()
-	{
-		try{
-			  // Open the file that is the first 
-			  // command line parameter
-			  FileInputStream fstream = new FileInputStream("appareil.save");
-			  // Get the object of DataInputStream
-			  DataInputStream in = new DataInputStream(fstream);
-			  BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			   String strLine;
-			  //Read File Line By Line
-			  while ((strLine = br.readLine()) != null)   {
-			  // Print the content on the console
-			  System.out.println (strLine);
-			  }
-			  //Close the input stream
-			  in.close();
-			    }catch (Exception e){//Catch exception if any
-			  System.err.println("Error: " + e.getMessage());
-		   }
-	}
-		
 	
 	
 	public static void SaveRestaurant()
@@ -100,13 +79,85 @@ public class AppCore {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void LoadAppareilElectrique()
+	{
+		String myfile = readdatafromtextfile("appareil.save");
+		String[] MyAppareils = myfile.split("NewAppareilEletrique");
+		String[] MyParameters;
+		for(int i=0;i<MyAppareils.length;i++)
+		{
+			MyParameters = MyAppareils[i].split("\n");
+			AppareilsElectriques.add(new AppareilElectrique(MyParameters[1].substring(5),Float.parseFloat(MyParameters[2].substring(13)),null));
+			
+			
+		}
+	}
+	
+	public static void LoadRestaurant()
+	{
+		String myfile = readdatafromtextfile("restaurant.save");
+		String[] MyAppareils = myfile.split("NewRestaurant");
+		String[] MyParameters;
+		for(int i=0;i<MyAppareils.length;i++)
+		{
+			try{
+			System.out.println(i + " " + MyAppareils[i]);
+			MyParameters = MyAppareils[i].split("\n");
+			System.out.println(MyParameters[2].substring(8).toString());
+			System.out.println(MyParameters[1].substring(5).toString());
+			System.out.println(MyParameters[3].substring(8).toString());
+			Restaurants.add(new Restaurant(MyParameters[2].substring(8), MyParameters[1].substring(5), MyParameters[3].substring(8)));
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	
+	public static String readdatafromtextfile(String filename)
+	{
+		BufferedReader br = null;
+		String everything = "";
+	    try {
+	    	
+			br = new BufferedReader(new FileReader(filename));
+			
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        everything = sb.toString();
+	    	} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			
+	    } finally {
+	        try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+	    }
+	    return everything;
+	}
+	
 		
 	public static ArrayList<AppareilElectrique> getListeAppareilsElectriques() {
 		return AppareilsElectriques;
 	}
 	
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
+		
 		Restaurants.add(MonRestaurant);
+		SaveRestaurant();
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {

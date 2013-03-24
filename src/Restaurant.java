@@ -59,6 +59,11 @@ public class Restaurant {
 		this.forfait = forfait;
 		nom = nomRestaurant;
 	}
+	Restaurant(String cuisine, String nomRestaurant, String forfait)
+	{
+		
+		nom = nomRestaurant;
+	}
 	
 	
 	public float consommationPonctuelle(Heure heure)
