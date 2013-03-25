@@ -167,8 +167,11 @@ class NewCuisineWindow extends Stage{
 			@Override
 			public void handle(ActionEvent e)
 			{
+				if(listAppareilsNonAssocies.getFocusModel().getFocusedItem() != null)
+				{
 				itemsAppareilsAssocies.add(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
 				itemsAppareilsNonAssocies.remove(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+				}
 			}
 		});
 		
@@ -176,8 +179,11 @@ class NewCuisineWindow extends Stage{
 			@Override
 			public void handle(ActionEvent e)
 			{
+				if(listAppareilsAssocies.getFocusModel().getFocusedItem() != null)
+				{
 				itemsAppareilsNonAssocies.add(listAppareilsAssocies.getFocusModel().getFocusedItem());
 				itemsAppareilsAssocies.remove(listAppareilsAssocies.getFocusModel().getFocusedItem());
+				}
 			}
 		});
 		
@@ -187,8 +193,11 @@ class NewCuisineWindow extends Stage{
 			public void handle(MouseEvent me) {
 				if(me.getClickCount() > 1)
 				{
+					if(listAppareilsAssocies.getFocusModel().getFocusedItem() != null)
+					{
 					itemsAppareilsNonAssocies.add(listAppareilsAssocies.getFocusModel().getFocusedItem());
 					itemsAppareilsAssocies.remove(listAppareilsAssocies.getFocusModel().getFocusedItem());
+					}
 				}
 				
 			}});
@@ -199,8 +208,11 @@ class NewCuisineWindow extends Stage{
 			public void handle(MouseEvent me) {
 				if(me.getClickCount() > 1)
 				{
+					if(listAppareilsNonAssocies.getFocusModel().getFocusedItem() != null)
+					{
 					itemsAppareilsAssocies.add(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
 					itemsAppareilsNonAssocies.remove(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+					}
 				}
 				
 			}});
@@ -229,9 +241,9 @@ class NewCuisineWindow extends Stage{
 			}
 		});
 
-		nomCuisineTextField.requestFocus();
 		this.setScene(new Scene(grid, 800, 600));
 		this.show();
+		nomCuisineTextField.requestFocus();
 
 
 

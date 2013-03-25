@@ -203,7 +203,6 @@ public class AppCore {
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		
 		Restaurants.add(MonRestaurant);
-		SaveRestaurant();
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {
