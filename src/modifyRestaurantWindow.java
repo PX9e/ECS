@@ -7,8 +7,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,14 +47,26 @@ public class modifyRestaurantWindow extends Stage{
 		
 		Label recapLabelRecap = new Label("Récapitulatif : ");
 		Label recapLabelNom = new Label("Nom : ");
+		TextField nomRestaurantTextField = new TextField();
+		nomRestaurantTextField.setPrefSize(200, 120);
 		Label recapLabelCuisine = new Label("Cuisine : ");
+		ComboBox<Cuisine> comboCuisines = new ComboBox<Cuisine>();
 		Label recapListAppareils = new Label("Liste des appareils associés : ");
 		final ListView<AppareilElectrique> listAppareilsAssocies = new ListView<AppareilElectrique>();
 		
+		HBox hbRestaurant = new HBox(10);
+		hbRestaurant.getChildren().add(recapLabelNom);
+		hbRestaurant.getChildren().add(nomRestaurantTextField);
+		
+		HBox hbCuisine = new HBox(10);
+		hbCuisine.getChildren().add(recapLabelCuisine);
+		hbCuisine.getChildren().add(comboCuisines);
+		
+		
 		VBox vbRecap = new VBox(10);
 		vbRecap.getChildren().add(recapLabelRecap);
-		vbRecap.getChildren().add(recapLabelNom);
-		vbRecap.getChildren().add(recapLabelCuisine);
+		vbRecap.getChildren().add(hbRestaurant);
+		vbRecap.getChildren().add(hbCuisine);
 		vbRecap.getChildren().add(recapListAppareils);
 		vbRecap.getChildren().add(listAppareilsAssocies);
 		grid.add(vbRecap,1,2);

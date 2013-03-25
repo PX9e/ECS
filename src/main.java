@@ -97,13 +97,13 @@ public  class main extends Application{
 							@Override public void handle(ActionEvent e)
 							{
 								NewRestaurantWindow maFenetreNouveauResto = new NewRestaurantWindow();
-								maFenetreNouveauResto.setOnCloseRequest(new EventHandler<WindowEvent>()
+								maFenetreNouveauResto.setOnHiding(new EventHandler<WindowEvent>()
 										{
 											@Override
 											public void handle(WindowEvent e) 
 											{
 												System.out.println("Fenetre Restruant : " + e.getEventType().toString());
-												if(e.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST)
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
 												{
 													ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
 													listRestaurant.setItems(itemsRestaurant);
