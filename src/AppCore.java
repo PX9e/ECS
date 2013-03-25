@@ -191,9 +191,12 @@ public class AppCore {
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		
 		Restaurants.add(MonRestaurant);
+<<<<<<< HEAD
 		
 		SaveRestaurant();	
 		
+=======
+>>>>>>> 379487cb532e346a34451f555048d9737f94c8f3
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {
