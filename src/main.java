@@ -253,6 +253,7 @@ public  class main extends Application{
 			AppCore.LoadAppareilElectrique();
 			AppCore.LoadCuisine();
 			AppCore.LoadRestaurant();	
+	
 		
 		
 		

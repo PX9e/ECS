@@ -1,13 +1,17 @@
 
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 
 
-public class AppCore {
+public class AppCore  {
 	
 	private AppCore(){}
 	
@@ -15,6 +19,10 @@ public class AppCore {
 	private static ArrayList<Cuisine> Cuisines = new ArrayList<Cuisine>();
 	private static ArrayList<AppareilElectrique> AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	private static ArrayList<Forfait> Forfaits = new ArrayList<Forfait>();
+	
+	
+
+	
 	
 	public static ArrayList<Restaurant> getListeRestaurants() {
 		return Restaurants;
@@ -89,7 +97,7 @@ public class AppCore {
 	{
 		//System.out.println("Chargement AppareilElectrique");
 		String myfile = readdatafromtextfile("appareil.save");
-		String[] MyAppareils = myfile.split("NewAppareilEletrique");
+		String[] MyAppareils = myfile.split("NewAppareilElectrique");
 		String[] MyParameters;
 		String Name;
 		float Consommation = 0 ;
@@ -117,7 +125,6 @@ public class AppCore {
 					System.out.println(Consommation);
 				}
 			}
-			System.out.println(Name);
 			if(Name!="")
 			{
 				AppareilsElectriques.add(new AppareilElectrique(Name,Consommation,null));
