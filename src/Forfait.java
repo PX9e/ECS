@@ -4,11 +4,11 @@
 public class Forfait {
 	private String Name;
 
-	public String getName() {
+	public String getNom() {
 		return Name;
 	}
 
-	public void setName(String name) {
+	public void setNom(String name) {
 		Name = name;
 	}
 	

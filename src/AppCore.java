@@ -17,6 +17,7 @@ public class AppCore {
 	private static ArrayList<Restaurant> Restaurants = new ArrayList<Restaurant>();;
 	private static ArrayList<Cuisine> Cuisines = new ArrayList<Cuisine>();
 	private static ArrayList<AppareilElectrique> AppareilsElectriques = new ArrayList<AppareilElectrique>();
+	private static ArrayList<Forfait> Forfaits = new ArrayList<Forfait>();
 	
 	public static ArrayList<Restaurant> getListeRestaurants() {
 		return Restaurants;
@@ -34,7 +35,7 @@ public class AppCore {
 				writer.println("NewRestaurant");
 				writer.println("Name:"+Restaurants.get(i).getNom());
 				writer.println("Cuisine:"+Restaurants.get(i).getCuisine().getNom());
-				writer.println("Forfait:"+Restaurants.get(i).getForfait().getName());
+				writer.println("Forfait:"+Restaurants.get(i).getForfait().getNom());
 			}
 			writer.close();
 		} catch (FileNotFoundException e) {
@@ -62,6 +63,8 @@ public class AppCore {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	public static void SaveAppareilElectrique()
 	{
@@ -107,7 +110,50 @@ public class AppCore {
 			System.out.println(MyParameters[2].substring(8).toString());
 			System.out.println(MyParameters[1].substring(5).toString());
 			System.out.println(MyParameters[3].substring(8).toString());
-			Restaurants.add(new Restaurant(MyParameters[2].substring(8), MyParameters[1].substring(5), MyParameters[3].substring(8)));
+			Restaurants.add(new Restaurant(getCuisineFromName(MyParameters[2].substring(8)), MyParameters[1].substring(5), getForfaitFromName(MyParameters[3].substring(8))));
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	
+	/*public static void SaveCuisine()
+	{
+		try {
+			PrintWriter writer = new PrintWriter("cuisine.save");
+			for(int i = 0 ; i < Cuisines.size(); i++)
+			{
+				writer.println("NewCuisine");
+				writer.println("Name:"+Cuisines.get(i).getNom());
+				writer.println("MesAppareils");
+				
+				for(int y = 0 ; y < Cuisines.get(i).ObtenirAppareils().size();y++)
+				{
+					writer.println(Cuisines.get(i).ObtenirAppareils().get(y).getNom());
+				}
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}*/
+	public static void LoadCuisine()
+	{
+		String myfile = readdatafromtextfile("cuisine.save");
+		String[] MyAppareils = myfile.split("NewCuisine");
+		String[] MyParameters;
+		for(int i=0;i<MyAppareils.length;i++)
+		{
+			try{
+			System.out.println(i + " " + MyAppareils[i]);
+			MyParameters = MyAppareils[i].split("MesAppareils");
+			System.out.println(MyParameters[2].substring(8).toString());
+			System.out.println(MyParameters[1].substring(5).toString());
+			System.out.println(MyParameters[3].substring(8).toString());
+			Restaurants.add(new Restaurant(getCuisineFromName(MyParameters[2].substring(8)), MyParameters[1].substring(5), getForfaitFromName(MyParameters[3].substring(8))));
 			}
 			catch(Exception e)
 			{
@@ -213,6 +259,19 @@ public class AppCore {
 			if(Cuisines.get(i).getNom().compareTo(Name) == 0)
 				{
 				return Cuisines.get(i);
+				}
+		}
+		return null;
+	}
+	
+	
+	public static Forfait getForfaitFromName(String Name)
+	{
+		for(int i=0; i < Forfaits.size(); i++)
+		{
+			if(Forfaits.get(i).getNom().compareTo(Name) == 0)
+				{
+				return Forfaits.get(i);
 				}
 		}
 		return null;

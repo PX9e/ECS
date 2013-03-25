@@ -253,8 +253,21 @@ public  class main extends Application{
 		MyScene.getStylesheets().add(main.class.getResource("style.css").toExternalForm());
 
 		primaryStage.setScene(MyScene);
+		try
+		{
+		AppCore.LoadCuisine();
+		}
+		catch(Exception E)
+		{
+		}
 		
-		AppCore.LoadRestaurant();
+		try{
+			AppCore.LoadRestaurant();	
+		}
+		catch(Exception E)
+		{
+		}
+		
 		
 		primaryStage.show();
 
