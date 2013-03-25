@@ -82,6 +82,4 @@ public class Restaurant {
 		return nom;
 	}
 	
-
-
 }

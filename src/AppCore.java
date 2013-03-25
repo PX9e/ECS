@@ -27,6 +27,7 @@ public class AppCore {
 	
 	public static void SaveRestaurant()
 	{
+		System.out.println("Sauvegarde Restaurant");
 		try {
 			PrintWriter writer = new PrintWriter("restaurant.save");
 			
@@ -45,6 +46,7 @@ public class AppCore {
 	}
 	public static void SaveCuisine()
 	{
+		System.out.println("Sauvegarde Cuisine");
 		try {
 			PrintWriter writer = new PrintWriter("cuisine.save");
 			for(int i = 0 ; i < Cuisines.size(); i++)
@@ -68,6 +70,7 @@ public class AppCore {
 	
 	public static void SaveAppareilElectrique()
 	{
+		System.out.println("Sauvegarde AppareilElectrique");
 		try {
 			PrintWriter writer = new PrintWriter("appareil.save");
 			for(int i = 0 ; i < AppareilsElectriques.size(); i++)
@@ -85,6 +88,7 @@ public class AppCore {
 	
 	public static void LoadAppareilElectrique()
 	{
+		System.out.println("Chargement AppareilElectrique");
 		String myfile = readdatafromtextfile("appareil.save");
 		String[] MyAppareils = myfile.split("NewAppareilEletrique");
 		String[] MyParameters;
@@ -99,13 +103,14 @@ public class AppCore {
 	
 	public static void LoadRestaurant()
 	{
+		System.out.println("Chargement Restaurant");
 		String myfile = readdatafromtextfile("restaurant.save");
 		String[] MyAppareils = myfile.split("NewRestaurant");
 		String[] MyParameters;
 		for(int i=0;i<MyAppareils.length;i++)
 		{
 			try{
-			System.out.println(i + " " + MyAppareils[i]);
+			
 			MyParameters = MyAppareils[i].split("\n");
 			System.out.println(MyParameters[2].substring(8).toString());
 			System.out.println(MyParameters[1].substring(5).toString());
@@ -119,41 +124,25 @@ public class AppCore {
 		}
 	}
 	
-	
-	/*public static void SaveCuisine()
-	{
-		try {
-			PrintWriter writer = new PrintWriter("cuisine.save");
-			for(int i = 0 ; i < Cuisines.size(); i++)
-			{
-				writer.println("NewCuisine");
-				writer.println("Name:"+Cuisines.get(i).getNom());
-				writer.println("MesAppareils");
-				
-				for(int y = 0 ; y < Cuisines.get(i).ObtenirAppareils().size();y++)
-				{
-					writer.println(Cuisines.get(i).ObtenirAppareils().get(y).getNom());
-				}
-			}
-			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}*/
+
 	public static void LoadCuisine()
 	{
+		System.out.println("Chargement Cuisine");
 		String myfile = readdatafromtextfile("cuisine.save");
 		String[] MyAppareils = myfile.split("NewCuisine");
 		String[] MyParameters;
+		System.out.println(MyAppareils.length);
 		for(int i=0;i<MyAppareils.length;i++)
 		{
+			System.out.println(i +" eme cuisine");
+			System.out.println(MyAppareils[i]);
 			try{
-			System.out.println(i + " " + MyAppareils[i]);
 			MyParameters = MyAppareils[i].split("MesAppareils");
-			System.out.println(MyParameters[2].substring(8).toString());
-			System.out.println(MyParameters[1].substring(5).toString());
-			System.out.println(MyParameters[3].substring(8).toString());
-			Restaurants.add(new Restaurant(getCuisineFromName(MyParameters[2].substring(8)), MyParameters[1].substring(5), getForfaitFromName(MyParameters[3].substring(8))));
+			System.out.println(MyParameters[0]);
+			System.out.println(MyParameters[1]);
+			System.out.println(MyParameters[2]);
+			Cuisines.add(new Cuisine(MyParameters[2].substring(8).toString()));
+		
 			}
 			catch(Exception e)
 			{
@@ -183,7 +172,6 @@ public class AppCore {
 	    	} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			
 	    } finally {
 	        try {
 				br.close();
@@ -203,7 +191,9 @@ public class AppCore {
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		
 		Restaurants.add(MonRestaurant);
-		SaveRestaurant();
+		
+		SaveRestaurant();	
+		
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {
@@ -216,6 +206,7 @@ public class AppCore {
 	
 	public static void AjouterCuisineToList(Cuisine MaCuisine) {
 		Cuisines.add(MaCuisine);
+		SaveCuisine();
 	}
 	
 	public static void RetirerCuisineFromList(Cuisine MaCuisine) {
