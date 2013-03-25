@@ -129,20 +129,28 @@ public class AppCore {
 	{
 		System.out.println("Chargement Cuisine");
 		String myfile = readdatafromtextfile("cuisine.save");
-		String[] MyAppareils = myfile.split("NewCuisine");
+		String[] MyCuisines = myfile.split("NewCuisine");
 		String[] MyParameters;
-		System.out.println(MyAppareils.length);
-		for(int i=0;i<MyAppareils.length;i++)
+		String[] MyAppareils;
+		for(int i=0;i<MyCuisines.length;i++)
 		{
 			System.out.println(i +" eme cuisine");
-			System.out.println(MyAppareils[i]);
+			System.out.println(MyCuisines[i]);
 			try{
-			MyParameters = MyAppareils[i].split("MesAppareils");
-			System.out.println(MyParameters[0]);
-			System.out.println(MyParameters[1]);
-			System.out.println(MyParameters[2]);
-			Cuisines.add(new Cuisine(MyParameters[2].substring(8).toString()));
-		
+			MyParameters = MyCuisines[i].split("MesAppareils");
+			System.out.println(MyParameters[0].substring(6).toString());
+			Cuisines.add(new Cuisine(MyParameters[0].substring(6).toString()));
+			Cuisine MyCuisine = getCuisineFromName(MyParameters[0].substring(6).toString());
+			MyAppareils = MyParameters[1].split("\n");
+			for(int y=0;y<MyAppareils.length;y++)
+			{
+				if(MyAppareils[y].toString() !="")
+				{
+					MyCuisine.AjouterAppareil(getAppareilFromName(MyAppareils[y]));
+				}
+			}
+			
+			
 			}
 			catch(Exception e)
 			{
@@ -191,12 +199,7 @@ public class AppCore {
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		
 		Restaurants.add(MonRestaurant);
-<<<<<<< HEAD
-		
 		SaveRestaurant();	
-		
-=======
->>>>>>> 379487cb532e346a34451f555048d9737f94c8f3
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {
