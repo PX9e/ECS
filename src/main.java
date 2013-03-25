@@ -1,5 +1,8 @@
 
+import sun.security.krb5.internal.PAData;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +21,7 @@ import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.chart.*;
 
 import javafx.stage.Stage;
 
@@ -173,6 +177,8 @@ public  class main extends Application{
 		final ListView<Cuisine> listCuisine = new ListView<Cuisine>();
 		ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (AppCore.getListeCuisines());
 		listCuisine.setItems(itemsCuisine);
+		listCuisine.setPrefHeight(300);
+		listCuisine.setPrefWidth(200);
 		grid.add(listCuisine,1 ,1);
 		listCuisine.setVisible(false);
 
@@ -184,6 +190,8 @@ public  class main extends Application{
 		final ListView<AppareilElectrique> listAppareil = new ListView<AppareilElectrique>();
 		ObservableList<AppareilElectrique> itemsAppareil = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
 		listAppareil.setItems(itemsAppareil);
+		listAppareil.setPrefHeight(300);
+		listAppareil.setPrefWidth(200);
 		grid.add(listAppareil,2 ,1);
 		listAppareil.setVisible(false);
 		
@@ -193,6 +201,8 @@ public  class main extends Application{
 		
 		ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
 		listRestaurant.setItems(itemsRestaurant);
+		listRestaurant.setPrefHeight(300);
+		listRestaurant.setPrefWidth(200);
 		grid.add(listRestaurant,0 ,1);
 
 		Button boutonRafraichir = new Button("Rafraîchir");
@@ -238,21 +248,43 @@ public  class main extends Application{
 
 		/*******************Fin Affichage des restaurants et leurs cuisines *********************/
 
+		final NumberAxis xAxis = new NumberAxis(1, 31, 1);
+	    final NumberAxis yAxis = new NumberAxis();
+		final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
+	    
+		ac.setTitle("Consommation electrique en fonction de la puissance en kW");
+	    ac.setPadding(new Insets(30));
+	    GridPane Grille = new GridPane();
+	    GridPane MainGrille = new GridPane();
+	    
+	    Grille.add(ac, 0, 0);
 		final Group root = new Group();  
-		root.getChildren().add(grid);
-		root.getChildren().add(menuBar);
-
+		MainGrille.add(grid, 0, 0);
+		MainGrille.add(Grille, 0, 1);
+		
+		root.getChildren().add(menuBar);	
+		root.getChildren().add(MainGrille);
+		
 		Scene MyScene = new Scene(root, 1000, 600);
-
-
 		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
+		MainGrille.prefWidthProperty().bind(primaryStage.widthProperty());
+		Grille.prefWidthProperty().bind(primaryStage.widthProperty());
+		grid.prefWidthProperty().bind(primaryStage.widthProperty());
+		grid.setAlignment(Pos.BASELINE_LEFT);
+		ac.prefWidthProperty().bind(primaryStage.widthProperty());
+		Grille.setAlignment(Pos.BASELINE_CENTER);
 		MyScene.getStylesheets().add(main.class.getResource("style.css").toExternalForm());
-
+		
+		NumberBinding multiplication = Bindings.divide(primaryStage.heightProperty(),2);
+		Grille.prefHeightProperty().bind(primaryStage.heightProperty());
+		grid.prefHeightProperty().bind(multiplication);
+		ac.prefHeightProperty().bind(multiplication);
+		
 		primaryStage.setScene(MyScene);
 		
-			AppCore.LoadAppareilElectrique();
-			AppCore.LoadCuisine();
-			AppCore.LoadRestaurant();	
+		AppCore.LoadAppareilElectrique();
+		AppCore.LoadCuisine();
+		AppCore.LoadRestaurant();	
 	
 		
 		
