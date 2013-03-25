@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 
 class NewCuisineWindow extends Stage{
@@ -100,12 +102,17 @@ class NewCuisineWindow extends Stage{
 		Button boutonFlecheGauche = new Button("<-");
 		Button boutonFlecheDroite = new Button("->");
 		boutonFlecheDroite.setPrefSize(boutonFlecheDroite.getMaxHeight(), boutonFlecheDroite.getMaxWidth());
-		HBox hbBtnFleches = new HBox(10);
-		hbBtnFleches.setAlignment(Pos.CENTER);
-		hbBtnFleches.getChildren().add(boutonFlecheDroite);
-		hbBtnFleches.getChildren().add(boutonFlecheGauche);
-		hbBtnFleches.getChildren().add(listAppareilsNonAssocies);
-		grid.add(hbBtnFleches, 1, 2);
+		VBox vbBtnFleches = new VBox(10);
+		vbBtnFleches.setAlignment(Pos.CENTER);
+		vbBtnFleches.getChildren().add(boutonFlecheDroite);
+		vbBtnFleches.getChildren().add(boutonFlecheGauche);
+		//hbBtnFleches.getChildren().add(listAppareilsNonAssocies);
+		//grid.add(vbBtnFleches, 1, 2);
+		
+		HBox hbflechelist = new HBox(10);
+		hbflechelist.getChildren().add(vbBtnFleches);
+		hbflechelist.getChildren().add(listAppareilsNonAssocies);
+		grid.add(hbflechelist, 1, 2);
 		
 
 		final Text actiontarget = new Text();
@@ -164,6 +171,40 @@ class NewCuisineWindow extends Stage{
 				itemsAppareilsNonAssocies.remove(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
 			}
 		});
+		
+		boutonFlecheDroite.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e)
+			{
+				itemsAppareilsNonAssocies.add(listAppareilsAssocies.getFocusModel().getFocusedItem());
+				itemsAppareilsAssocies.remove(listAppareilsAssocies.getFocusModel().getFocusedItem());
+			}
+		});
+		
+		listAppareilsAssocies.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent me) {
+				if(me.getClickCount() > 1)
+				{
+					itemsAppareilsNonAssocies.add(listAppareilsAssocies.getFocusModel().getFocusedItem());
+					itemsAppareilsAssocies.remove(listAppareilsAssocies.getFocusModel().getFocusedItem());
+				}
+				
+			}});
+		
+		listAppareilsNonAssocies.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent me) {
+				if(me.getClickCount() > 1)
+				{
+					itemsAppareilsAssocies.add(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+					itemsAppareilsNonAssocies.remove(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+				}
+				
+			}});
+		
 		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -188,6 +229,7 @@ class NewCuisineWindow extends Stage{
 			}
 		});
 
+		nomCuisineTextField.requestFocus();
 		this.setScene(new Scene(grid, 800, 600));
 		this.show();
 

@@ -115,5 +115,6 @@ public class newAppareilWindow extends Stage
 
 		this.setScene(new Scene(grid, 600, 400));
 		this.show();
+		nomAppareilTextField.requestFocus();
 }
 }
