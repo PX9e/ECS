@@ -13,6 +13,7 @@ public class Restaurant {
 		this.cuisine = cuisine;
 	}
 	public Forfait getForfait() {
+		
 		return forfait;
 	}
 	public void setForfait(Forfait forfait) {

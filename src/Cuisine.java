@@ -41,6 +41,7 @@ public class Cuisine {
 	Cuisine(String nom)
 	{
 		Nom = nom;
+		AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	}
 	
 	Cuisine( ArrayList<AppareilElectrique> MesAppareils)

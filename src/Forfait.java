@@ -12,5 +12,11 @@ public class Forfait {
 		Name = name;
 	}
 	
+	Forfait()
+	{
+		Name="";
+		
+	}
+	
 	
 }
