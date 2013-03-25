@@ -248,11 +248,13 @@ public  class main extends Application{
 
 		/*******************Fin Affichage des restaurants et leurs cuisines *********************/
 
-		final NumberAxis xAxis = new NumberAxis(1, 31, 1);
+		final NumberAxis xAxis = new NumberAxis(0, 24, 1);
 	    final NumberAxis yAxis = new NumberAxis();
+	    xAxis.setMinorTickCount(0);
 		final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
 	    
 		ac.setTitle("Consommation electrique en fonction de la puissance en kW");
+		
 	    ac.setPadding(new Insets(30));
 	    GridPane Grille = new GridPane();
 	    GridPane MainGrille = new GridPane();
@@ -262,9 +264,9 @@ public  class main extends Application{
 		MainGrille.add(grid, 0, 0);
 		MainGrille.add(Grille, 0, 1);
 		
-		root.getChildren().add(menuBar);	
-		root.getChildren().add(MainGrille);
 		
+		root.getChildren().add(MainGrille);
+		root.getChildren().add(menuBar);	
 		Scene MyScene = new Scene(root, 1000, 600);
 		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
 		MainGrille.prefWidthProperty().bind(primaryStage.widthProperty());
