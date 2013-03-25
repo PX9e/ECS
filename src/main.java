@@ -1,10 +1,5 @@
 
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
-
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,11 +18,9 @@ import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 import javafx.stage.WindowEvent;
 
 public  class main extends Application{
@@ -123,6 +116,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
+								@SuppressWarnings("unused")
 								NewCuisineWindow maFenetreNouvelleCuisine = new NewCuisineWindow();
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+c")).build());
@@ -136,6 +130,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
+								@SuppressWarnings("unused")
 								modifyRestaurantWindow monModifyRestaurantWindow = new modifyRestaurantWindow();
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+R")).build());
@@ -149,6 +144,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
+								@SuppressWarnings("unused")
 								newAppareilWindow monAppareilWindow = new newAppareilWindow();
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+E")).build());
@@ -240,7 +236,7 @@ public  class main extends Application{
 
 
 
-		/*******************Fin Afficchage des restau et leurs cuisines *********************/
+		/*******************Fin Affichage des restaurants et leurs cuisines *********************/
 
 		final Group root = new Group();  
 		root.getChildren().add(grid);
@@ -253,20 +249,11 @@ public  class main extends Application{
 		MyScene.getStylesheets().add(main.class.getResource("style.css").toExternalForm());
 
 		primaryStage.setScene(MyScene);
-		try
-		{
-		AppCore.LoadCuisine();
-		}
-		catch(Exception E)
-		{
-		}
 		
-		try{
+			AppCore.LoadAppareilElectrique();
+			AppCore.LoadCuisine();
 			AppCore.LoadRestaurant();	
-		}
-		catch(Exception E)
-		{
-		}
+		
 		
 		
 		primaryStage.show();

@@ -35,6 +35,7 @@ public class Cuisine {
 	
 	Cuisine()
 	{
+		Nom = "";
 		AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	}
 	

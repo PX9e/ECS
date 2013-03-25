@@ -107,4 +107,7 @@ public class PlanAllumage {
 
 	}
 
+	public PlanAllumage() {
+		Name="";
+	}
 }
