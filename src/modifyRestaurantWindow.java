@@ -11,20 +11,24 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 
 public class modifyRestaurantWindow extends Stage{
-	
-	public modifyRestaurantWindow()
+
+	public modifyRestaurantWindow(Stage maitre)
 	{
+		this.initModality(Modality.WINDOW_MODAL);
+		this.initOwner(maitre);
 		final Stage stage = this;
 		final Group root = new Group();
 		GridPane grid = new GridPane();
@@ -39,30 +43,32 @@ public class modifyRestaurantWindow extends Stage{
 
 		Label listRestaurantLabel = new Label("Liste des restaurants:");
 		grid.add(listRestaurantLabel, 0, 1);
-		
+
 		final ListView<Restaurant> listRestaurants = new ListView<Restaurant>();
 		final ObservableList<Restaurant> items = FXCollections.observableArrayList (AppCore.getListeRestaurants());
 		listRestaurants.setItems(items);
 		grid.add(listRestaurants, 0, 2);
-		
+
 		Label recapLabelRecap = new Label("Récapitulatif : ");
 		Label recapLabelNom = new Label("Nom : ");
-		TextField nomRestaurantTextField = new TextField();
+		final TextField nomRestaurantTextField = new TextField();
 		nomRestaurantTextField.setPrefSize(200, 120);
 		Label recapLabelCuisine = new Label("Cuisine : ");
-		ComboBox<Cuisine> comboCuisines = new ComboBox<Cuisine>();
+		final ComboBox<Cuisine> comboCuisines = new ComboBox<Cuisine>();
+
+		comboCuisines.setPrefSize(150, 50);
 		Label recapListAppareils = new Label("Liste des appareils associés : ");
 		final ListView<AppareilElectrique> listAppareilsAssocies = new ListView<AppareilElectrique>();
-		
+
 		HBox hbRestaurant = new HBox(10);
 		hbRestaurant.getChildren().add(recapLabelNom);
 		hbRestaurant.getChildren().add(nomRestaurantTextField);
-		
+
 		HBox hbCuisine = new HBox(10);
 		hbCuisine.getChildren().add(recapLabelCuisine);
 		hbCuisine.getChildren().add(comboCuisines);
-		
-		
+
+
 		VBox vbRecap = new VBox(10);
 		vbRecap.getChildren().add(recapLabelRecap);
 		vbRecap.getChildren().add(hbRestaurant);
@@ -70,7 +76,7 @@ public class modifyRestaurantWindow extends Stage{
 		vbRecap.getChildren().add(recapListAppareils);
 		vbRecap.getChildren().add(listAppareilsAssocies);
 		grid.add(vbRecap,1,2);
-		
+
 		Button boutonEnregistrer = new Button("Enregistrer");
 		Button boutonAnnuler = new Button("Annuler");
 		HBox hbBtn = new HBox(10);
@@ -78,7 +84,7 @@ public class modifyRestaurantWindow extends Stage{
 		hbBtn.getChildren().add(boutonAnnuler);
 		hbBtn.getChildren().add(boutonEnregistrer);
 		grid.add(hbBtn, 1, 4);
-		
+
 		Button boutonSupprimer = new Button("Supprimer");
 		Button boutonModifier = new Button("Modifier");
 		HBox hbBtnSupMod = new HBox(10);
@@ -86,30 +92,85 @@ public class modifyRestaurantWindow extends Stage{
 		hbBtnSupMod.getChildren().add(boutonSupprimer);
 		hbBtnSupMod.getChildren().add(boutonModifier);
 		grid.add(hbBtnSupMod, 1, 3);
-		
-		boutonSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent ae) 
-			{ 
-				final DialogBox dialogBox = new DialogBox(stage);
-				
-				dialogBox.setOnHiding(new EventHandler<WindowEvent>() 
+
+		listRestaurants.setOnMouseClicked(new EventHandler<MouseEvent>() 
 				{
 
+			@Override
+			public void handle(MouseEvent me) 
+			{
+				Restaurant selectedRestaurant = listRestaurants.getFocusModel().getFocusedItem(); 
+				nomRestaurantTextField.setText(selectedRestaurant.getNom());
+				final ObservableList<Cuisine> itemsCuisineCombo = FXCollections.observableArrayList (AppCore.getListeCuisines());
+				comboCuisines.setItems(itemsCuisineCombo);
+				comboCuisines.getSelectionModel().select(selectedRestaurant.getCuisine());
+				final ObservableList<AppareilElectrique> itemsAppareilsList = FXCollections.observableArrayList (comboCuisines.getSelectionModel().getSelectedItem().ObtenirAppareils());
+				listAppareilsAssocies.setItems(itemsAppareilsList);
+			}
+				});
+
+		comboCuisines.setOnMouseClicked(new EventHandler<MouseEvent>() 
+				{
+
+			@Override
+			public void handle(MouseEvent me) 
+			{
+				final ObservableList<AppareilElectrique> itemsAppareilsList = FXCollections.observableArrayList (comboCuisines.getSelectionModel().getSelectedItem().ObtenirAppareils());
+				listAppareilsAssocies.setItems(itemsAppareilsList);
+			}
+				});
+
+				boutonSupprimer.setOnAction(new EventHandler<ActionEvent>() {
+
 					@Override
-					public void handle(WindowEvent arg0) 
-					{						
-						if(dialogBox.getAnswer()==true)
-						{
-							AppCore.RetirerRestaurantFromList(listRestaurants.getFocusModel().getFocusedItem());
-							items.remove(listRestaurants.getFocusModel().getFocusedItem());
-						}
+					public void handle(ActionEvent ae) 
+					{ 
+						final DialogBox dialogBox = new DialogBox(stage);
+
+						dialogBox.setOnHiding(new EventHandler<WindowEvent>() 
+								{
+
+							@Override
+							public void handle(WindowEvent arg0) 
+							{						
+								if(dialogBox.getAnswer()==true)
+								{
+									AppCore.RetirerRestaurantFromList(listRestaurants.getFocusModel().getFocusedItem());
+									items.remove(listRestaurants.getFocusModel().getFocusedItem());
+								}
+							}
+
+								});
+					}
+				});
+				
+				boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent ae) 
+					{
+						
+						
+						
+						AppCore.SaveRestaurant();
+						AppCore.SaveCuisine();
+						//AppCore.SaveAppareilElectrique();
+						close();
+					}
+				});
+				
+				boutonAnnuler.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						AppCore.LoadRestaurant();
+						AppCore.LoadCuisine();
+						//AppCore.LoadAppareilElectrique();
+						close();
 					}
 					
 				});
-			}
-		});
 
 		this.setScene(new Scene(grid, 600, 400));
 		this.show();

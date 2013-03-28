@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -49,10 +50,10 @@ class NewRestaurantWindow extends Stage{
 
 
 
-	NewRestaurantWindow(){
-		//Stage Window = new Stage();
-		
-		//Window.setOnCloseRequest(this); 
+	NewRestaurantWindow(Stage primaryStage){
+
+		this.initModality(Modality.WINDOW_MODAL);
+		this.initOwner(primaryStage);
 		
 		final Group root = new Group();
 		GridPane grid = new GridPane();

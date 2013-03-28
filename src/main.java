@@ -96,7 +96,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								NewRestaurantWindow maFenetreNouveauResto = new NewRestaurantWindow();
+								NewRestaurantWindow maFenetreNouveauResto = new NewRestaurantWindow(primaryStage);
 								maFenetreNouveauResto.setOnHiding(new EventHandler<WindowEvent>()
 										{
 											@Override
@@ -123,7 +123,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								NewCuisineWindow maFenetreNouvelleCuisine = new NewCuisineWindow();
+								NewCuisineWindow maFenetreNouvelleCuisine = new NewCuisineWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+c")).build());
 
@@ -136,7 +136,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								modifyRestaurantWindow monModifyRestaurantWindow = new modifyRestaurantWindow();
+								modifyRestaurantWindow monModifyRestaurantWindow = new modifyRestaurantWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+R")).build());
 		menuCuisine.getItems().add(new MenuItem("Modifier/Supprimer"));
@@ -149,7 +149,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								newAppareilWindow monAppareilWindow = new newAppareilWindow();
+								newAppareilWindow monAppareilWindow = new newAppareilWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+E")).build());
 		menuAppareilElectrique.getItems().add(new MenuItem("Modifier/Supprimer"));

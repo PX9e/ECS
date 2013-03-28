@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -38,9 +39,11 @@ class NewCuisineWindow extends Stage{
 		MaCuisine = monCuisine;
 	}
 
-	NewCuisineWindow()
+	NewCuisineWindow(Stage primaryStage)
 	{
 		//Stage Window = new Stage();
+		this.initModality(Modality.WINDOW_MODAL);
+		this.initOwner(primaryStage);
 		final Group root = new Group();
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);

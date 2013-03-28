@@ -10,6 +10,12 @@ public class AppareilElectrique {
 		nom = Nom;
 	}
 	
+	AppareilElectrique(String Nom, float Consommation)
+	{
+		nom = Nom;
+		consommationMax = Consommation;
+	}
+	
 	AppareilElectrique(String pNom,float pconsommationMax,PlanAllumage pplanAllumage)
 	{
 		nom = pNom;
