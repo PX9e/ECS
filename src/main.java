@@ -30,7 +30,7 @@ import javafx.stage.WindowEvent;
 public  class main extends Application{
 
 
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -46,6 +46,7 @@ public  class main extends Application{
 		final Menu menuAppareilElectrique = new Menu("Appareils Electriques");
 		final Menu menuPlanAllumage = new Menu("Plans d'allumage");
 		final Menu menuForfait = new Menu("Forfaits");
+		final Menu menuPhase = new Menu("Phases");
 		final Menu menuAide = new Menu("Aide");
 
 		primaryStage.setOnShowing(new EventHandler<WindowEvent>()
@@ -62,7 +63,8 @@ public  class main extends Application{
 
 				});
 
-
+		menuPhase.getItems().add(MenuItemBuilder.create().text("Nouveau").build());
+		menuPhase.getItems().add(MenuItemBuilder.create().text("Modifier").build());
 		menuFichier.getItems().add(MenuItemBuilder.create()
 				.text("Option")
 				.onAction(
@@ -294,4 +296,5 @@ public  class main extends Application{
 		primaryStage.show();
 
 	}
+	
 }
