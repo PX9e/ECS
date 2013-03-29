@@ -179,7 +179,7 @@ public  class main extends Application{
 		final ListView<Cuisine> listCuisine = new ListView<Cuisine>();
 		ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (AppCore.getListeCuisines());
 		listCuisine.setItems(itemsCuisine);
-		listCuisine.setPrefHeight(300);
+		listCuisine.setPrefHeight(350);
 		listCuisine.setPrefWidth(200);
 		grid.add(listCuisine,1 ,1);
 		listCuisine.setVisible(false);
@@ -192,7 +192,7 @@ public  class main extends Application{
 		final ListView<AppareilElectrique> listAppareil = new ListView<AppareilElectrique>();
 		ObservableList<AppareilElectrique> itemsAppareil = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
 		listAppareil.setItems(itemsAppareil);
-		listAppareil.setPrefHeight(300);
+		listAppareil.setPrefHeight(350);
 		listAppareil.setPrefWidth(200);
 		grid.add(listAppareil,2 ,1);
 		listAppareil.setVisible(false);
@@ -203,7 +203,7 @@ public  class main extends Application{
 		
 		ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
 		listRestaurant.setItems(itemsRestaurant);
-		listRestaurant.setPrefHeight(300);
+		listRestaurant.setPrefHeight(350);
 		listRestaurant.setPrefWidth(200);
 		grid.add(listRestaurant,0 ,1);
 
@@ -286,10 +286,12 @@ public  class main extends Application{
 		
 		primaryStage.setScene(MyScene);
 		
+		
+		
 		AppCore.LoadAppareilElectrique();
 		AppCore.LoadCuisine();
 		AppCore.LoadRestaurant();	
-	
+		
 		
 		
 		

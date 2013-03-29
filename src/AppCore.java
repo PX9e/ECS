@@ -16,6 +16,8 @@ public class AppCore  {
 	private static ArrayList<Cuisine> Cuisines = new ArrayList<Cuisine>();
 	private static ArrayList<AppareilElectrique> AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	private static ArrayList<Forfait> Forfaits = new ArrayList<Forfait>();
+	private static ArrayList<PlanAllumage> PlanAllumages = new ArrayList<PlanAllumage>();
+	
 	
 	
 
