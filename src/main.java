@@ -155,7 +155,33 @@ public  class main extends Application{
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+E")).build());
 		menuAppareilElectrique.getItems().add(new MenuItem("Modifier/Supprimer"));
-		menuPlanAllumage.getItems().add(new MenuItem("Nouveau"));
+		menuPlanAllumage.getItems().add(MenuItemBuilder.create()
+				.text("Nouveau")
+				.onAction(
+						new EventHandler<ActionEvent>()
+						{
+							@Override public void handle(ActionEvent e)
+							{
+								newPlanAllumage maFenetreNouveauResto = new newPlanAllumage();
+								maFenetreNouveauResto.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+												System.out.println("Fenetre Restruant : " + e.getEventType().toString());
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
+													listRestaurant.setItems(itemsRestaurant);
+												}
+											}
+											});
+								
+								
+								
+								}
+						}).accelerator( KeyCombination.keyCombination("ctrl+p")).build());
+
 		menuPlanAllumage.getItems().add(new MenuItem("Modifier/Supprimer"));
 		menuAide.getItems().add(new MenuItem("Guide Utilisateur"));
 
@@ -207,22 +233,9 @@ public  class main extends Application{
 		listRestaurant.setPrefWidth(200);
 		grid.add(listRestaurant,0 ,1);
 
-		Button boutonRafraichir = new Button("Rafraîchir");
-		grid.add(boutonRafraichir, 0,3);
-
-		boutonRafraichir.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
-				listRestaurant.setItems(itemsRestaurant);
-				ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (AppCore.getListeCuisines());
-				listCuisine.setItems(itemsCuisine);
-			}
-		});
+	
 
 		listRestaurant.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent e) {
 				Restaurant restaurantClique = listRestaurant.getFocusModel().getFocusedItem();
@@ -296,7 +309,15 @@ public  class main extends Application{
 		
 		
 		primaryStage.show();
+		ObservableList<Restaurant> itemsRestaurantB = FXCollections.observableArrayList (AppCore.getListeRestaurants());
+		listRestaurant.setItems(itemsRestaurantB);
+		ObservableList<Cuisine> itemsCuisineB = FXCollections.observableArrayList (AppCore.getListeCuisines());
+		listCuisine.setItems(itemsCuisineB);
 
 	}
+	public void setDataInGrap()
+	{
+		
 	
+	}
 }

@@ -19,10 +19,6 @@ public class AppCore  {
 	private static ArrayList<PlanAllumage> PlanAllumages = new ArrayList<PlanAllumage>();
 	
 	
-	
-
-	
-	
 	public static ArrayList<Restaurant> getListeRestaurants() {
 		return Restaurants;
 	}
@@ -250,6 +246,9 @@ public class AppCore  {
 	public static ArrayList<AppareilElectrique> getListeAppareilsElectriques() {
 		return AppareilsElectriques;
 	}
+	public static ArrayList<PlanAllumage> getListePlansAllumages() {
+		return PlanAllumages;
+	}
 	
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
 		
@@ -341,7 +340,7 @@ public class AppCore  {
 		{
 			if(AppareilsElectriques.get(i).getNom().compareTo(Name) == 0)
 				{
-				return AppareilsElectriques.get(i);
+					return AppareilsElectriques.get(i);
 				}
 		}
 		return null;
