@@ -2,7 +2,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -23,7 +22,6 @@ public class DialogBox extends Stage
 	{
 	this.initModality(Modality.WINDOW_MODAL);
 	this.initOwner(maitre);
-	final Group root = new Group();
 	GridPane grid = new GridPane();
 	grid.setAlignment(Pos.CENTER);
 	grid.setHgap(10);

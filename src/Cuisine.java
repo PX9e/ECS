@@ -35,12 +35,14 @@ public class Cuisine {
 	
 	Cuisine()
 	{
+		Nom = "";
 		AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	}
 	
 	Cuisine(String nom)
 	{
 		Nom = nom;
+		AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	}
 	
 	Cuisine( ArrayList<AppareilElectrique> MesAppareils)

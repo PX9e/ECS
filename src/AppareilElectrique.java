@@ -8,6 +8,8 @@ public class AppareilElectrique {
 	AppareilElectrique(String Nom)
 	{
 		nom = Nom;
+		planAllumage = new PlanAllumage();
+		consommationMax = 0;
 	}
 	
 	AppareilElectrique(String Nom, float Consommation)
@@ -19,9 +21,16 @@ public class AppareilElectrique {
 	AppareilElectrique(String pNom,float pconsommationMax,PlanAllumage pplanAllumage)
 	{
 		nom = pNom;
+		
 		consommationMax = pconsommationMax;
-		planAllumage =pplanAllumage;
-	
+		if(pplanAllumage==null)
+		{
+			planAllumage = new PlanAllumage();
+		}
+		else
+		{	
+			planAllumage =pplanAllumage;
+		}
 	}
 	
 	public float getConsommationMax() 
@@ -44,6 +53,7 @@ public class AppareilElectrique {
 	{
 		return planAllumage;
 	}
+	
 	public void setPlanAllumage(PlanAllumage planAllumage) 
 	{
 		this.planAllumage = planAllumage;
@@ -52,8 +62,7 @@ public class AppareilElectrique {
 	//TODO
 	public float consommationPonctuelle(Heure heure)
 	{
-		//for(int i = 0; i<(planAllumage.getPlan
-		return 0;
+			return 0;
 	}
 	
 	@Override

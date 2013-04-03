@@ -1,16 +1,14 @@
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Reader;
 
-public class AppCore {
+import java.io.PrintWriter;
+
+
+public class AppCore  {
 	
 	private AppCore(){}
 	
@@ -18,6 +16,8 @@ public class AppCore {
 	private static ArrayList<Cuisine> Cuisines = new ArrayList<Cuisine>();
 	private static ArrayList<AppareilElectrique> AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	private static ArrayList<Forfait> Forfaits = new ArrayList<Forfait>();
+	private static ArrayList<PlanAllumage> PlanAllumages = new ArrayList<PlanAllumage>();
+	
 	
 	public static ArrayList<Restaurant> getListeRestaurants() {
 		return Restaurants;
@@ -27,150 +27,203 @@ public class AppCore {
 	
 	public static void SaveRestaurant()
 	{
-		System.out.println("Sauvegarde Restaurant");
-		try {
-			PrintWriter writer = new PrintWriter("restaurant.save");
+		//System.out.println("Sauvegarde Restaurant");
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter("restaurant.save");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			for(int i = 0 ; i < Restaurants.size(); i++)
 			{
 				writer.println("NewRestaurant");
-				writer.println("Name:"+Restaurants.get(i).getNom());
-				writer.println("Cuisine:"+Restaurants.get(i).getCuisine().getNom());
-				writer.println("Forfait:"+Restaurants.get(i).getForfait().getNom());
+				writer.println("Name:"+Restaurants.get(i).getNom().trim());
+				writer.println("Cuisine:"+Restaurants.get(i).getCuisine().getNom().trim());
+				writer.println("Forfait:"+Restaurants.get(i).getForfait().getNom().trim());
 			}
 			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			
-		}
+		
 	}
 	public static void SaveCuisine()
 	{
-		System.out.println("Sauvegarde Cuisine");
+		//System.out.println("Sauvegarde Cuisine");
+		PrintWriter writer = null;
 		try {
-			PrintWriter writer = new PrintWriter("cuisine.save");
+			writer = new PrintWriter("cuisine.save");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 			for(int i = 0 ; i < Cuisines.size(); i++)
 			{
 				writer.println("NewCuisine");
-				writer.println("Name:"+Cuisines.get(i).getNom());
+				writer.println("Name:"+Cuisines.get(i).getNom().trim());
 				writer.println("MesAppareils");
-				
 				for(int y = 0 ; y < Cuisines.get(i).ObtenirAppareils().size();y++)
 				{
-					writer.println(Cuisines.get(i).ObtenirAppareils().get(y).getNom());
+					writer.println(Cuisines.get(i).ObtenirAppareils().get(y).getNom().trim());
 				}
 			}
 			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
-	
-	
 	
 	public static void SaveAppareilElectrique()
 	{
-		System.out.println("Sauvegarde AppareilElectrique");
-		try {
-			PrintWriter writer = new PrintWriter("appareil.save");
+		//System.out.println("Sauvegarde AppareilElectrique");
+		PrintWriter writer =null;
+			 try {
+				writer= new PrintWriter("appareil.save");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			for(int i = 0 ; i < AppareilsElectriques.size(); i++)
 			{
 				writer.println("NewAppareilElectrique");
-				writer.println("Name:"+AppareilsElectriques.get(i).getNom());		
-				writer.println("planAllumage:"+AppareilsElectriques.get(i).getPlanAllumage().getName());
+				writer.println("Name:"+AppareilsElectriques.get(i).getNom().trim());		
+				writer.println("planAllumage:"+AppareilsElectriques.get(i).getPlanAllumage().getName().trim());
 				writer.println("consommationMax:"+AppareilsElectriques.get(i).getConsommationMax());
 			}
 			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static void LoadAppareilElectrique()
 	{
-		System.out.println("Chargement AppareilElectrique");
+		//System.out.println("Chargement AppareilElectrique");
 		String myfile = readdatafromtextfile("appareil.save");
-		String[] MyAppareils = myfile.split("NewAppareilEletrique");
+		String[] MyAppareils = myfile.split("NewAppareilElectrique");
 		String[] MyParameters;
+		String Name;
+		float Consommation = 0 ;
+		String NamePlan = " " ;
 		for(int i=0;i<MyAppareils.length;i++)
 		{
+			Name="";
+			System.out.println(MyAppareils[i]);
 			MyParameters = MyAppareils[i].split("\n");
-			AppareilsElectriques.add(new AppareilElectrique(MyParameters[1].substring(5),Float.parseFloat(MyParameters[2].substring(13)),null));
-			
-			
+			for(int z = 0 ; z < MyParameters.length;z++)
+			{
+				if(MyParameters[z].trim().startsWith("Name"))
+				{
+					Name = MyParameters[z].substring(5).toString();
+					System.out.println(Name);
+				}
+				if(MyParameters[z].trim().startsWith("planAllumage:"))
+				{
+					NamePlan = MyParameters[z].substring(13);
+					System.out.println(NamePlan);
+				}
+				if(MyParameters[z].trim().startsWith("consommationMax:"))
+				{
+					Consommation = Float.parseFloat(MyParameters[z].substring(16));
+					System.out.println(Consommation);
+				}
+			}
+			if(Name!="")
+			{
+				AppareilsElectriques.add(new AppareilElectrique(Name,Consommation,null));
+			}
 		}
 	}
 	
 	public static void LoadRestaurant()
 	{
-		System.out.println("Chargement Restaurant");
+		//System.out.println("Chargement Restaurant");
 		String myfile = readdatafromtextfile("restaurant.save");
 		String[] MyAppareils = myfile.split("NewRestaurant");
 		String[] MyParameters;
+		//System.out.println(myfile);
+		String Name ;
+		String CuisineName = "";
+		String ForfaitName= "";
 		for(int i=0;i<MyAppareils.length;i++)
 		{
-			try{
-			
+			Name="";
 			MyParameters = MyAppareils[i].split("\n");
-			System.out.println(MyParameters[2].substring(8).toString());
-			System.out.println(MyParameters[1].substring(5).toString());
-			System.out.println(MyParameters[3].substring(8).toString());
-			Restaurants.add(new Restaurant(getCuisineFromName(MyParameters[2].substring(8)), MyParameters[1].substring(5), getForfaitFromName(MyParameters[3].substring(8))));
-			}
-			catch(Exception e)
+			//System.out.println("start");
+			for(int e=0;e<MyParameters.length;e++)
 			{
-				System.out.println(e.getMessage());
+				if(MyParameters[e].startsWith("Name:"))
+				{
+					Name = MyParameters[e].substring(5).toString();
+				}
+				if(MyParameters[e].startsWith("Cuisine:"))
+				{
+					CuisineName = MyParameters[e].substring(8).toString();
+				}
+				if(MyParameters[e].startsWith("Forfait:"))
+				{
+					ForfaitName = MyParameters[e].substring(8).toString();
+				}		
 			}
+			Name = Name.trim();
+			CuisineName = CuisineName.trim();
+			ForfaitName = ForfaitName.trim();
+			Cuisine MyUberCuisine = getCuisineFromName(CuisineName);
+			if(Name!=""){	
+				Restaurants.add(new Restaurant(MyUberCuisine, Name, getForfaitFromName(ForfaitName)));
+			}		
 		}
 	}
 	
 
 	public static void LoadCuisine()
 	{
-		System.out.println("Chargement Cuisine");
+		//System.out.println("Chargement Cuisine");
 		String myfile = readdatafromtextfile("cuisine.save");
 		String[] MyCuisines = myfile.split("NewCuisine");
 		String[] MyParameters;
 		String[] MyAppareils;
+		String NameCuisine ;
 		for(int i=0;i<MyCuisines.length;i++)
 		{
-			System.out.println(i +" eme cuisine");
-			System.out.println(MyCuisines[i]);
-			try{
-			MyParameters = MyCuisines[i].split("MesAppareils");
-			System.out.println(MyParameters[0].substring(6).toString());
-			Cuisines.add(new Cuisine(MyParameters[0].substring(6).toString()));
-			Cuisine MyCuisine = getCuisineFromName(MyParameters[0].substring(6).toString());
-			MyAppareils = MyParameters[1].split("\n");
-			for(int y=0;y<MyAppareils.length;y++)
+			NameCuisine = "";
+			
+			try
 			{
-				if(MyAppareils[y].toString() !="")
+				MyParameters = MyCuisines[i].split("MesAppareils");
+				for(int z=0;z<MyParameters.length;z++)
 				{
-					MyCuisine.AjouterAppareil(getAppareilFromName(MyAppareils[y]));
+					if(MyParameters[z].trim().startsWith("Name:"))
+					{
+						NameCuisine = MyParameters[z].substring(6).toString();
+						Cuisines.add(new Cuisine(MyParameters[z].substring(6).toString().trim()));
+					}
 				}
+				if(NameCuisine!=""){
+				Cuisine MyCuisine = getCuisineFromName(NameCuisine);
+				MyAppareils = MyParameters[1].split("\n");
+				System.out.println(MyParameters[1]);
+				for(int y=0;y<MyAppareils.length;y++)
+				{
+					System.out.println(AppareilsElectriques);
+					if(MyAppareils[y].toString() !="")
+					{
+						
+						AppareilElectrique MonAppareil = getAppareilFromName(MyAppareils[y]);
+						if(MonAppareil!=null)
+						{
+							MyCuisine.AjouterAppareil(MonAppareil);
+						}
+					}
+				}			
 			}
-			
-			
 			}
 			catch(Exception e)
 			{
-				System.out.println(e.getMessage());
+				//System.out.println(e.getMessage());
 			}
 		}
 	}
-	
-	
 	public static String readdatafromtextfile(String filename)
 	{
 		BufferedReader br = null;
 		String everything = "";
-	    try {
-	    	
+	    try {   	
 			br = new BufferedReader(new FileReader(filename));
-			
 	        StringBuilder sb = new StringBuilder();
 	        String line = br.readLine();
-
 	        while (line != null) {
 	            sb.append(line);
 	            sb.append("\n");
@@ -190,10 +243,11 @@ public class AppCore {
 	    }
 	    return everything;
 	}
-	
-		
 	public static ArrayList<AppareilElectrique> getListeAppareilsElectriques() {
 		return AppareilsElectriques;
+	}
+	public static ArrayList<PlanAllumage> getListePlansAllumages() {
+		return PlanAllumages;
 	}
 	
 	public static void AjouterRestaurantToList(Restaurant MonRestaurant) {
@@ -221,6 +275,7 @@ public class AppCore {
 	
 	public static void AjouterAppareilToList(AppareilElectrique MonAppareil) {
 		AppareilsElectriques.add(MonAppareil);
+		SaveAppareilElectrique();
 	}
 	
 	public static void RetirerAppareilFromList(Cuisine MonAppareil) {
@@ -253,7 +308,7 @@ public class AppCore {
 	{
 		for(int i=0; i < Cuisines.size(); i++)
 		{
-			if(Cuisines.get(i).getNom().compareTo(Name) == 0)
+			if(Cuisines.get(i).getNom().trim().compareTo(Name.trim()) == 0)
 				{
 				return Cuisines.get(i);
 				}
@@ -285,7 +340,7 @@ public class AppCore {
 		{
 			if(AppareilsElectriques.get(i).getNom().compareTo(Name) == 0)
 				{
-				return AppareilsElectriques.get(i);
+					return AppareilsElectriques.get(i);
 				}
 		}
 		return null;

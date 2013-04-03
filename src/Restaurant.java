@@ -9,18 +9,23 @@ public class Restaurant {
 	public Cuisine getCuisine() {
 		return cuisine;
 	}
+	
 	public void setCuisine(Cuisine cuisine) {
 		this.cuisine = cuisine;
 	}
+	
 	public Forfait getForfait() {
 		return forfait;
 	}
+	
 	public void setForfait(Forfait forfait) {
 		this.forfait = forfait;
 	}
+	
 	public String getNom() {
 		return nom;
 	}
+	
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -34,29 +39,63 @@ public class Restaurant {
 	
 	Restaurant(Cuisine cuisine)
 	{
-		this.cuisine = cuisine;
+		if(cuisine!=null)
+		{
+			this.cuisine = cuisine;
+		}
+		else
+		{
+			this.cuisine =new Cuisine();
+		}
 		forfait = new Forfait();
 		nom = "Nouveau restaurant";
 	}
 	
 	Restaurant(String nomRestaurant)
 	{
-		this.cuisine = new Cuisine();
+		if(cuisine!=null)
+		{
+			this.cuisine = cuisine;
+		}
+		else
+		{
+			this.cuisine =new Cuisine();
+		}
 		forfait = new Forfait();
 		nom = nomRestaurant;
 	}
 	
 	Restaurant(Cuisine cuisine, String nomRestaurant)
 	{
-		this.cuisine = cuisine;
+		if(cuisine!=null)
+		{
+			this.cuisine = cuisine;
+		}
+		else
+		{
+			this.cuisine =new Cuisine();
+		}
 		forfait = new Forfait();
 		nom = nomRestaurant;
 	}
 	
 	Restaurant(Cuisine cuisine, String nomRestaurant, Forfait forfait)
 	{
-		this.cuisine = cuisine;
+		if(cuisine!=null)
+		{
+			this.cuisine = cuisine;
+		}
+		else
+		{
+			this.cuisine =new Cuisine();
+		}
+		if(forfait != null){
 		this.forfait = forfait;
+		}
+		else
+		{
+			this.forfait = new Forfait();
+		}
 		nom = nomRestaurant;
 	}
 

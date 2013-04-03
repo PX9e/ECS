@@ -1,10 +1,7 @@
 
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
-
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +10,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -23,17 +21,13 @@ import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 public  class main extends Application{
 
 
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -49,6 +43,7 @@ public  class main extends Application{
 		final Menu menuAppareilElectrique = new Menu("Appareils Electriques");
 		final Menu menuPlanAllumage = new Menu("Plans d'allumage");
 		final Menu menuForfait = new Menu("Forfaits");
+		final Menu menuPhase = new Menu("Phases");
 		final Menu menuAide = new Menu("Aide");
 
 		primaryStage.setOnShowing(new EventHandler<WindowEvent>()
@@ -65,7 +60,8 @@ public  class main extends Application{
 
 				});
 
-
+		menuPhase.getItems().add(MenuItemBuilder.create().text("Nouveau").build());
+		menuPhase.getItems().add(MenuItemBuilder.create().text("Modifier").build());
 		menuFichier.getItems().add(MenuItemBuilder.create()
 				.text("Option")
 				.onAction(
@@ -123,6 +119,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
+								@SuppressWarnings("unused")
 								NewCuisineWindow maFenetreNouvelleCuisine = new NewCuisineWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+c")).build());
@@ -136,6 +133,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
+								@SuppressWarnings("unused")
 								modifyRestaurantWindow monModifyRestaurantWindow = new modifyRestaurantWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+R")).build());
@@ -149,11 +147,38 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
+								@SuppressWarnings("unused")
 								newAppareilWindow monAppareilWindow = new newAppareilWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+E")).build());
 		menuAppareilElectrique.getItems().add(new MenuItem("Modifier/Supprimer"));
-		menuPlanAllumage.getItems().add(new MenuItem("Nouveau"));
+		menuPlanAllumage.getItems().add(MenuItemBuilder.create()
+				.text("Nouveau")
+				.onAction(
+						new EventHandler<ActionEvent>()
+						{
+							@Override public void handle(ActionEvent e)
+							{
+								newPlanAllumage maFenetreNouveauResto = new newPlanAllumage();
+								maFenetreNouveauResto.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+												System.out.println("Fenetre Restruant : " + e.getEventType().toString());
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
+													listRestaurant.setItems(itemsRestaurant);
+												}
+											}
+											});
+								
+								
+								
+								}
+						}).accelerator( KeyCombination.keyCombination("ctrl+p")).build());
+
 		menuPlanAllumage.getItems().add(new MenuItem("Modifier/Supprimer"));
 		menuAide.getItems().add(new MenuItem("Guide Utilisateur"));
 
@@ -177,6 +202,8 @@ public  class main extends Application{
 		final ListView<Cuisine> listCuisine = new ListView<Cuisine>();
 		ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (AppCore.getListeCuisines());
 		listCuisine.setItems(itemsCuisine);
+		listCuisine.setPrefHeight(350);
+		listCuisine.setPrefWidth(200);
 		grid.add(listCuisine,1 ,1);
 		listCuisine.setVisible(false);
 
@@ -188,6 +215,8 @@ public  class main extends Application{
 		final ListView<AppareilElectrique> listAppareil = new ListView<AppareilElectrique>();
 		ObservableList<AppareilElectrique> itemsAppareil = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
 		listAppareil.setItems(itemsAppareil);
+		listAppareil.setPrefHeight(350);
+		listAppareil.setPrefWidth(200);
 		grid.add(listAppareil,2 ,1);
 		listAppareil.setVisible(false);
 		
@@ -197,24 +226,13 @@ public  class main extends Application{
 		
 		ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
 		listRestaurant.setItems(itemsRestaurant);
+		listRestaurant.setPrefHeight(350);
+		listRestaurant.setPrefWidth(200);
 		grid.add(listRestaurant,0 ,1);
 
-		Button boutonRafraichir = new Button("Rafraîchir");
-		grid.add(boutonRafraichir, 0,3);
-
-		boutonRafraichir.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
-				listRestaurant.setItems(itemsRestaurant);
-				ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (AppCore.getListeCuisines());
-				listCuisine.setItems(itemsCuisine);
-			}
-		});
+	
 
 		listRestaurant.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent e) {
 				Restaurant restaurantClique = listRestaurant.getFocusModel().getFocusedItem();
@@ -240,36 +258,63 @@ public  class main extends Application{
 
 
 
-		/*******************Fin Afficchage des restau et leurs cuisines *********************/
+		/*******************Fin Affichage des restaurants et leurs cuisines *********************/
 
-		final Group root = new Group();  
-		root.getChildren().add(grid);
-		root.getChildren().add(menuBar);
-
-		Scene MyScene = new Scene(root, 1000, 600);
-
-
-		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
-		MyScene.getStylesheets().add(main.class.getResource("style.css").toExternalForm());
-
-		primaryStage.setScene(MyScene);
-		try
-		{
-		AppCore.LoadCuisine();
-		}
-		catch(Exception E)
-		{
-		}
+		final NumberAxis xAxis = new NumberAxis(0, 24, 1);
+	    final NumberAxis yAxis = new NumberAxis();
+	    xAxis.setMinorTickCount(0);
+		final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
+	    
+		ac.setTitle("Consommation electrique en fonction de la puissance en kW");
 		
-		try{
-			AppCore.LoadRestaurant();	
-		}
-		catch(Exception E)
-		{
-		}
+	    ac.setPadding(new Insets(30));
+	    GridPane Grille = new GridPane();
+	    GridPane MainGrille = new GridPane();
+	    
+	    Grille.add(ac, 0, 0);
+		final Group root = new Group();  
+		MainGrille.add(grid, 0, 0);
+		MainGrille.add(Grille, 0, 1);
+		
+		
+		root.getChildren().add(MainGrille);
+		root.getChildren().add(menuBar);	
+		Scene MyScene = new Scene(root, 1000, 600);
+		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
+		MainGrille.prefWidthProperty().bind(primaryStage.widthProperty());
+		Grille.prefWidthProperty().bind(primaryStage.widthProperty());
+		grid.prefWidthProperty().bind(primaryStage.widthProperty());
+		grid.setAlignment(Pos.BASELINE_LEFT);
+		ac.prefWidthProperty().bind(primaryStage.widthProperty());
+		Grille.setAlignment(Pos.BASELINE_CENTER);
+		MyScene.getStylesheets().add(main.class.getResource("style.css").toExternalForm());
+		
+		NumberBinding multiplication = Bindings.divide(primaryStage.heightProperty(),2);
+		Grille.prefHeightProperty().bind(primaryStage.heightProperty());
+		grid.prefHeightProperty().bind(multiplication);
+		ac.prefHeightProperty().bind(multiplication);
+		
+		primaryStage.setScene(MyScene);
+		
+		
+		
+		AppCore.LoadAppareilElectrique();
+		AppCore.LoadCuisine();
+		AppCore.LoadRestaurant();	
+		
+		
 		
 		
 		primaryStage.show();
+		ObservableList<Restaurant> itemsRestaurantB = FXCollections.observableArrayList (AppCore.getListeRestaurants());
+		listRestaurant.setItems(itemsRestaurantB);
+		ObservableList<Cuisine> itemsCuisineB = FXCollections.observableArrayList (AppCore.getListeCuisines());
+		listCuisine.setItems(itemsCuisineB);
 
+	}
+	public void setDataInGrap()
+	{
+		
+	
 	}
 }

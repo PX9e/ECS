@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,16 +15,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-
 
 class NewCuisineWindow extends Stage{
 
@@ -41,7 +36,6 @@ class NewCuisineWindow extends Stage{
 
 	NewCuisineWindow(Stage primaryStage)
 	{
-		//Stage Window = new Stage();
 		this.initModality(Modality.WINDOW_MODAL);
 		this.initOwner(primaryStage);
 		final Group root = new Group();
