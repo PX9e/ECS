@@ -23,8 +23,6 @@ public class AppCore  {
 		return Restaurants;
 	}
 	
-	
-	
 	public static void SaveRestaurant()
 	{
 		//System.out.println("Sauvegarde Restaurant");
@@ -32,8 +30,8 @@ public class AppCore  {
 			try {
 				writer = new PrintWriter("restaurant.save");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				
 			}
 			
 			for(int i = 0 ; i < Restaurants.size(); i++)
@@ -75,8 +73,7 @@ public class AppCore  {
 			 try {
 				writer= new PrintWriter("appareil.save");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
 			}
 			for(int i = 0 ; i < AppareilsElectriques.size(); i++)
 			{
@@ -231,13 +228,13 @@ public class AppCore  {
 	        }
 	        everything = sb.toString();
 	    	} catch (IOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 	    } finally {
 	        try {
 				br.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} 
 	    }
@@ -254,6 +251,12 @@ public class AppCore  {
 		
 		Restaurants.add(MonRestaurant);
 		SaveRestaurant();	
+	}
+	
+	public static void AjouterPlanAllumage(PlanAllumage MonPlan) {
+		
+		PlanAllumages.add(MonPlan);
+		//TODO save plan Allumages
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {
@@ -341,6 +344,18 @@ public class AppCore  {
 			if(AppareilsElectriques.get(i).getNom().compareTo(Name) == 0)
 				{
 					return AppareilsElectriques.get(i);
+				}
+		}
+		return null;
+	}
+	
+	public static PlanAllumage getPlanAllumage(String Name)
+	{
+		for(int i=0; i < PlanAllumages.size(); i++)
+		{
+			if(PlanAllumages.get(i).getName().compareTo(Name) == 0)
+				{
+					return PlanAllumages.get(i);
 				}
 		}
 		return null;

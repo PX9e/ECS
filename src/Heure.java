@@ -68,5 +68,9 @@ public class  Heure
 		return Temp;
 	}
 	
+	public String toString()
+	{
+		return String.valueOf(heures)+":"+ String.valueOf(minutes);
+	}
 	
 }

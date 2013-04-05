@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,29 +24,57 @@ import javafx.stage.Stage;
 public class newPlanAllumage extends Stage 
 {
 	
-	public AppareilElectrique MonAppareilElectrique;
+	public PlanAllumage MonPlanAllumage ;
 	
 	newPlanAllumage(){
+		MonPlanAllumage = new PlanAllumage();
 		//Stage Window = new Stage();
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-
+		
 		Text scenetitle = new Text("Ajouter un plan d'allumage");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 		Label nomAppareilLabel = new Label("Nom du plan :");
-		grid.add(nomAppareilLabel, 0, 1);
-
-		final ListView<PlanAllumage> list = new ListView<PlanAllumage>();
+		
+		
+		final ListView<PlageHoraire> list = new ListView<PlageHoraire>();
 		final TextField nomPlanTextField = new TextField();
-		nomPlanTextField.setPrefSize(15, 200);
-		grid.add(nomPlanTextField, 1, 1);
-
-		Button boutonAjouterAppareil = new Button("Ajouter le plan");
-		grid.add(boutonAjouterAppareil,3,1);
+		final Button AddPlage = new Button("Ajouter Plage");
+		final TextField HeureDebut = new TextField();
+		final TextField MinuteDebut = new TextField();
+		final TextField HeureFin = new TextField();
+		final TextField MinuteFin = new TextField();
+		
+		nomPlanTextField.setPrefSize(200, 15);
+		HeureDebut.setPrefSize(30, 15);
+		MinuteDebut.setPrefSize(30, 15);
+		HeureFin.setPrefSize(30, 15);
+		MinuteFin.setPrefSize(30, 15);
+		
+		HBox hbHeure = new HBox(10);
+		
+		Label DemandeDateDebut = new Label("Date de debut :");
+		Label DemandeDateFin = new Label("Date de fin :");
+		Label H1 = new Label("h");
+		Label H2 = new Label("h");
+	
+		hbHeure.getChildren().add(DemandeDateDebut);
+		hbHeure.getChildren().add(HeureDebut);
+		hbHeure.getChildren().add(H1);
+		hbHeure.getChildren().add(MinuteDebut);
+		hbHeure.getChildren().add(DemandeDateFin);
+		hbHeure.getChildren().add(HeureFin);
+		hbHeure.getChildren().add(H2);
+		hbHeure.getChildren().add(MinuteFin);
+		
+		
+		
+		
+	
 
 
 		Button boutonEnregistrer = new Button("Enregistrer");
@@ -53,7 +83,6 @@ public class newPlanAllumage extends Stage
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(boutonAnnuler);
 		hbBtn.getChildren().add(boutonEnregistrer);
-		grid.add(hbBtn, 1, 2);
 		
 		nomPlanTextField.setOnKeyPressed(new EventHandler<KeyEvent>()
 				{
@@ -66,7 +95,7 @@ public class newPlanAllumage extends Stage
 				{
 					if(!nomPlanTextField.getText().isEmpty())
 					{
-						MonAppareilElectrique = new AppareilElectrique(nomPlanTextField.getText());
+					/*	MonAppareilElectrique = new AppareilElectrique(nomPlanTextField.getText());
 						if(MonAppareilElectrique != null)
 						{
 							AppCore.AjouterAppareilToList(MonAppareilElectrique);
@@ -74,7 +103,7 @@ public class newPlanAllumage extends Stage
 							ObservableList<PlanAllumage> items = FXCollections.observableArrayList (AppCore.getListePlansAllumages());
 							list.setItems(items);
 							nomPlanTextField.setText("");
-						}
+						}*/
 					}
 				}
 			}
@@ -82,11 +111,11 @@ public class newPlanAllumage extends Stage
 				});
 
 		final Text actiontarget = new Text();
-		grid.add(actiontarget, 1, 6);
+	
 
-		ObservableList<PlanAllumage> items = FXCollections.observableArrayList (AppCore.getListePlansAllumages());
-		list.setItems(items);
-		grid.add(list,0 ,2);
+		
+		
+		
 
 		if(!AppCore.getListeAppareilsElectriques().isEmpty())
 			System.out.println(AppCore.getListeAppareilsElectriques().get(0));
@@ -96,7 +125,7 @@ public class newPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				//TODO : Faire que ça enregistre 
+				AppCore.AjouterPlanAllumage(MonPlanAllumage); 	
 				close();
 			}
 		});
@@ -108,7 +137,24 @@ public class newPlanAllumage extends Stage
 				close();
 			}
 		});
-
+		
+		AddPlage.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e)
+			{
+				MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
+				ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
+				list.setItems(items);
+			}
+		});
+		hbHeure.getChildren().add(AddPlage);
+		grid.add(nomAppareilLabel, 0, 1);
+		grid.add(nomPlanTextField, 1, 1);
+		grid.add(hbHeure, 0, 2,2,3);
+	
+		grid.add(list,0 ,4);
+		grid.add(hbBtn, 1, 5);
+		grid.add(actiontarget, 1, 6);
 		this.setScene(new Scene(grid, 600, 400));
 		this.show();
 		nomPlanTextField.requestFocus();

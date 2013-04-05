@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class PlanAllumage {
 
 	private String Name;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireLundi;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireMardi;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireMercredi;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireJeudi;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireVendredi;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireSamedi;
-	private ArrayList<ArrayList<PlageHoraire>> PlageHoraireDimanche;
+	private ArrayList<PlageHoraire> PlageHoraireLundi;
+	private ArrayList<PlageHoraire> PlageHoraireMardi;
+	private ArrayList<PlageHoraire> PlageHoraireMercredi;
+	private ArrayList<PlageHoraire> PlageHoraireJeudi;
+	private ArrayList<PlageHoraire> PlageHoraireVendredi;
+	private ArrayList<PlageHoraire> PlageHoraireSamedi;
+	private ArrayList<PlageHoraire> PlageHoraireDimanche;
 
 	
 
@@ -28,25 +28,25 @@ public class PlanAllumage {
 
 		switch (jour) {
 		case "Lundi":
-			PlageHoraireLundi.get(PlageHoraireLundi.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireLundi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Mardi":
-			PlageHoraireMardi.get(PlageHoraireMardi.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireMardi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Mercredi":
-			PlageHoraireMercredi.get(PlageHoraireMercredi.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireMercredi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Jeudi":
-			PlageHoraireJeudi.get(PlageHoraireJeudi.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireJeudi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Vendredi":
-			PlageHoraireVendredi.get(PlageHoraireVendredi.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireVendredi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Samedi":
-			PlageHoraireSamedi.get(PlageHoraireSamedi.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireSamedi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Dimanche":
-			PlageHoraireDimanche.get(PlageHoraireDimanche.size()).add(new PlageHoraire(Debut, Fin));
+			PlageHoraireDimanche.add(new PlageHoraire(Debut, Fin));
 			break;
 		}
 	}
@@ -78,7 +78,7 @@ public class PlanAllumage {
 		}
 	}
 
-	public ArrayList<ArrayList<PlageHoraire>> getPlageHoraire(String jour) {
+	public ArrayList<PlageHoraire> getPlageHoraire(String jour) {
 
 		switch (jour) {
 		case "Lundi":
@@ -102,5 +102,13 @@ public class PlanAllumage {
 
 	public PlanAllumage() {
 		Name="";
+		
+		 PlageHoraireLundi = new ArrayList<PlageHoraire>();
+		 PlageHoraireMardi = new ArrayList<PlageHoraire>();
+		 PlageHoraireMercredi = new ArrayList<PlageHoraire>();
+		 PlageHoraireJeudi = new ArrayList<PlageHoraire>();
+		 PlageHoraireVendredi = new ArrayList<PlageHoraire>();
+		 PlageHoraireSamedi = new ArrayList<PlageHoraire>();
+		 PlageHoraireDimanche = new ArrayList<PlageHoraire>();
 	}
 }
