@@ -276,8 +276,8 @@ public  class main extends Application{
 		MainGrille.add(grid, 0, 0);
 		MainGrille.add(Grille, 0, 1);
 		
-		grid.setStyle(" -fx-background-image: url(\"file:///C:/Users/Rieaden/Documents/GitHub/JungleTimer/background.jpg\"); ");
-		Grille.setStyle(" -fx-background-image: url(\"file:///C:/Users/Rieaden/Documents/GitHub/JungleTimer/background.jpg\"); ");
+		grid.setStyle(" -fx-background-image: url(\"background_image.jpg\"); ");
+		Grille.setStyle(" -fx-background-image: url(\"background_image.jpg\"); ");
 		
 		
 		root.getChildren().add(MainGrille);
