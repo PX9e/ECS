@@ -1,10 +1,21 @@
 
-public class Heure 
+public class  Heure
 {
 
 	private int heures;
 	private int minutes;
 	
+	Heure()
+	{
+		heures = 0;
+		minutes = 0;
+	}
+	
+	public Heure(int pHeure,int pMinute)
+	{
+		heures = pHeure;
+		minutes = pMinute;
+	}
 	
 	public int getHeures() {
 		return heures;
@@ -19,7 +30,7 @@ public class Heure
 		this.minutes = minutes;
 	}
 	
-	public void add(Heure MonHeure)
+	/*public void add( Heure MonHeure)
 	{
 		minutes = minutes + MonHeure.minutes;
 		
@@ -28,11 +39,33 @@ public class Heure
 			minutes = minutes - 60; 
 		    heures = heures + 1;
 		}
+		heures = heures + MonHeure.heures;
 		if(heures>23)
 		{
 			heures = 0 ;
 			
 		}
+	}*/
+	
+	public Heure substract( Heure MonHeure)
+	{
+		Heure Temp = new Heure();
+		Temp.setHeures( heures - MonHeure.heures);
+		Temp.setMinutes( minutes - MonHeure.minutes);
+		
+		if(Temp.minutes<0)
+		{
+			Temp.minutes = Temp.minutes + 60; 
+			
+			Temp.heures = Temp.heures -1 ;
+		}
+		
+		if(Temp.heures<0)
+		{
+			Temp.heures = 0 ;
+			
+		}
+		return Temp;
 	}
 	
 	
