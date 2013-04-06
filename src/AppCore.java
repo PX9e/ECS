@@ -105,7 +105,6 @@ public class AppCore  {
 		String[] MyAppareils = myfile.split("NewAppareilElectrique");
 		String[] MyParameters;
 		String Name;
-		String NamePlan = " " ;
 		String State = "";
 		Mode MyMode=null;
 		AppareilElectrique MonAppareil = new AppareilElectrique("");

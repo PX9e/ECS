@@ -5,14 +5,15 @@ public class AppareilElectrique {
 
 
 	private String nom;
-	private PlanAllumage planAllumage;
+	private ArrayList<PlanAllumage> planAllumage;
 	private ArrayList<Mode> Modes;
+	private ArrayList<Integer> Couples;
 	
 	AppareilElectrique(String Nom)
 	{
 		nom = Nom;
-		planAllumage = new PlanAllumage();
-		
+		planAllumage = new ArrayList<PlanAllumage>();
+		Modes = new ArrayList<Mode>();
 	}
 	
 	public ArrayList<Mode> getModes() {
@@ -43,21 +44,21 @@ public class AppareilElectrique {
 	AppareilElectrique(String Nom, float Consommation)
 	{
 		nom = Nom;
-		
+		Modes = new ArrayList<Mode>();
 	}
 	
 	AppareilElectrique(String pNom,float pconsommationMax,PlanAllumage pplanAllumage)
 	{
 		nom = pNom;
-		
+		Modes = new ArrayList<Mode>();
 		
 		if(pplanAllumage==null)
 		{
-			planAllumage = new PlanAllumage();
+			planAllumage = new ArrayList<PlanAllumage>();
 		}
 		else
 		{	
-			planAllumage =pplanAllumage;
+			planAllumage.add(pplanAllumage);
 		}
 	}
 	
@@ -70,12 +71,12 @@ public class AppareilElectrique {
 	{
 		this.nom = nom;
 	}
-	public PlanAllumage getPlanAllumage() 
+	public ArrayList<PlanAllumage> getPlanAllumage() 
 	{
 		return planAllumage;
 	}
 	
-	public void setPlanAllumage(PlanAllumage planAllumage) 
+	public void setPlanAllumage(ArrayList<PlanAllumage> planAllumage) 
 	{
 		this.planAllumage = planAllumage;
 	}

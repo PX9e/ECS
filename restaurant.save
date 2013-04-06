@@ -1,6 +1,22 @@
 NewRestaurant
-Name:Cui
+Name:Tarte
 Cuisine:Cuisine B
+Forfait:
+NewRestaurant
+Name:Calogero
+Cuisine:Cuisine A
+Forfait:
+NewRestaurant
+Name:MacDo Blois D
+Cuisine:Cuisine D
+Forfait:
+NewRestaurant
+Name:ta
+Cuisine:Cuisine C
+Forfait:
+NewRestaurant
+Name:trodua
+Cuisine:tordu
 Forfait:
 NewRestaurant
 Name:Tarte
@@ -19,14 +35,6 @@ Name:ta
 Cuisine:Cuisine C
 Forfait:
 NewRestaurant
-Name:store
-Cuisine:BestCuisine
-Forfait:
-NewRestaurant
 Name:trodua
 Cuisine:tordu
-Forfait:
-NewRestaurant
-Name:fdghjk
-Cuisine:fghjk
 Forfait:

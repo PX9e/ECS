@@ -133,6 +133,32 @@ public class newAppareilWindow extends Stage
 		if(!AppCore.getListeAppareilsElectriques().isEmpty())
 			System.out.println(AppCore.getListeAppareilsElectriques().get(0));
 		
+		AjouterMode.setOnAction(new EventHandler<ActionEvent>() 
+		{
+			@Override
+			public void handle(ActionEvent e) 
+			{
+				if((nomModeTextField.getText()!="")&&(consoModeTextField.getText()!=""))
+				{
+					Mode MonNouveauMode = new Mode(nomModeTextField.getText(),null,null);
+					String ConsoChaine = consoModeTextField.getText();
+					String[] UpAndDown = ConsoChaine.split(";");
+					String[] Ups = UpAndDown[0].split(":");
+					String[] Downs = UpAndDown[1].split(":");
+					for(int i = 0 ; i<Ups.length;i++)
+					{
+						MonNouveauMode.AddUp(Double.parseDouble(Ups[i]));
+					}
+					for(int i = 0 ; i<Downs.length;i++)
+					{
+						MonNouveauMode.AddDown(Double.parseDouble(Downs[i]));
+					}
+					MonAppareilElectrique.AddModes(MonNouveauMode);
+				}
+				
+			}
+		});
+		
 		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() 
 		{
 			@Override
