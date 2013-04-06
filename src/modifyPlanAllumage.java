@@ -201,9 +201,31 @@ public class modifyPlanAllumage extends Stage
 			public void handle(ActionEvent e)
 			{
 				
-				MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
-				ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
-				list.setItems(items);
+				if(((Integer.parseInt(HeureDebut.getText())<24)&&(Integer.parseInt(MinuteDebut.getText())<60))&&((Integer.parseInt(HeureFin.getText())<24)&&(Integer.parseInt(MinuteFin.getText())<60)))
+				{
+					MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
+					ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
+					list.setItems(items);
+				}
+				else 
+				{
+					if(Integer.parseInt(HeureDebut.getText())>23)
+					{
+							HeureDebut.setText("23");
+					}
+					if(Integer.parseInt(MinuteDebut.getText())>59)
+					{
+							MinuteDebut.setText("59");
+					}
+					if(Integer.parseInt(HeureFin.getText())>23)
+					{
+							HeureFin.setText("23");
+					}
+					if(Integer.parseInt(MinuteFin.getText())>59)
+					{
+							MinuteFin.setText("59");
+					}
+				}
 			}
 		});
 		

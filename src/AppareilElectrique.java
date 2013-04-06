@@ -1,28 +1,56 @@
+import java.util.ArrayList;
+
 
 public class AppareilElectrique {
 
-	private float consommationMax;
+
 	private String nom;
 	private PlanAllumage planAllumage;
+	private ArrayList<Mode> Modes;
 	
 	AppareilElectrique(String Nom)
 	{
 		nom = Nom;
 		planAllumage = new PlanAllumage();
-		consommationMax = 0;
+		
 	}
 	
+	public ArrayList<Mode> getModes() {
+		return Modes;
+	}
+	
+	public void AddModes(Mode pMode)
+	{
+		Modes.add(pMode);
+	}
+	
+	public void remModes(String Name)
+	{
+		for(int i = 0 ;i < Modes.size(); i ++ )
+		{
+			if(Modes.get(i).getName()==Name)
+			{
+				Modes.remove(i);
+				break;
+			}
+		}
+	}
+	
+	public void setModes(ArrayList<Mode> modes) {
+		Modes = modes;
+	}
+
 	AppareilElectrique(String Nom, float Consommation)
 	{
 		nom = Nom;
-		consommationMax = Consommation;
+		
 	}
 	
 	AppareilElectrique(String pNom,float pconsommationMax,PlanAllumage pplanAllumage)
 	{
 		nom = pNom;
 		
-		consommationMax = pconsommationMax;
+		
 		if(pplanAllumage==null)
 		{
 			planAllumage = new PlanAllumage();
@@ -33,14 +61,7 @@ public class AppareilElectrique {
 		}
 	}
 	
-	public float getConsommationMax() 
-	{
-		return consommationMax;
-	}
-	public void setConsommationMax(float consommationMax) 
-	{
-		this.consommationMax = consommationMax;
-	}
+
 	public String getNom()
 	{
 		return nom;

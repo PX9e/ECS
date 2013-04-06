@@ -41,8 +41,7 @@ public class AppCore  {
 				writer.println("Cuisine:"+Restaurants.get(i).getCuisine().getNom().trim());
 				writer.println("Forfait:"+Restaurants.get(i).getForfait().getNom().trim());
 			}
-			writer.close();
-		
+			writer.close();	
 	}
 	public static void SaveCuisine()
 	{
@@ -80,7 +79,21 @@ public class AppCore  {
 				writer.println("NewAppareilElectrique");
 				writer.println("Name:"+AppareilsElectriques.get(i).getNom().trim());		
 				writer.println("planAllumage:"+AppareilsElectriques.get(i).getPlanAllumage().getName().trim());
-				writer.println("consommationMax:"+AppareilsElectriques.get(i).getConsommationMax());
+				for(int z = 0 ; z < AppareilsElectriques.get(i).getModes().size();z++)
+				{
+					writer.println("Mode:"+AppareilsElectriques.get(i).getModes().get(z).getName());
+
+					writer.println("Up");
+					for(int u=0;u<AppareilsElectriques.get(i).getModes().get(z).getUp().size();u++)
+					{
+						writer.println(AppareilsElectriques.get(i).getModes().get(z).getUp().get(u).toString());
+					}
+					writer.println("Down");
+					for(int u=0;u<AppareilsElectriques.get(i).getModes().get(z).getDown().size();u++)
+					{
+						writer.println(AppareilsElectriques.get(i).getModes().get(z).getDown().get(u).toString());
+					}
+				}
 			}
 			writer.close();
 	}
@@ -92,8 +105,10 @@ public class AppCore  {
 		String[] MyAppareils = myfile.split("NewAppareilElectrique");
 		String[] MyParameters;
 		String Name;
-		float Consommation = 0 ;
 		String NamePlan = " " ;
+		String State = "";
+		Mode MyMode=null;
+		AppareilElectrique MonAppareil = new AppareilElectrique("");
 		for(int i=0;i<MyAppareils.length;i++)
 		{
 			Name="";
@@ -101,25 +116,54 @@ public class AppCore  {
 			MyParameters = MyAppareils[i].split("\n");
 			for(int z = 0 ; z < MyParameters.length;z++)
 			{
-				if(MyParameters[z].trim().startsWith("Name"))
+				if(MyParameters[z].trim().startsWith("Name;"))
 				{
-					Name = MyParameters[z].substring(5).toString();
-					System.out.println(Name);
+					MonAppareil.setNom(MyParameters[z].substring(5).toString().trim());
+					
 				}
-				if(MyParameters[z].trim().startsWith("planAllumage:"))
+				else if(MyParameters[z].trim().startsWith("planAllumage:"))
 				{
-					NamePlan = MyParameters[z].substring(13);
-					System.out.println(NamePlan);
+					MonAppareil.setNom(MyParameters[z].substring(13).toString().trim());
 				}
-				if(MyParameters[z].trim().startsWith("consommationMax:"))
+				else if(MyParameters[z].trim().startsWith("Mode:"))
 				{
-					Consommation = Float.parseFloat(MyParameters[z].substring(16));
-					System.out.println(Consommation);
+					if(MyMode!=null)
+					{
+						MonAppareil.AddModes(MyMode);
+					}
+					MyMode = new Mode(MyParameters[z].substring(4).toString(), null, null);
 				}
+				else if(MyParameters[z].trim().startsWith("Down"))
+				{
+					State="Down";
+				}
+				else if(MyParameters[z].trim().startsWith("Up"))
+				{
+					State="Up";
+				}
+				else
+				{
+					if(State=="Up")
+					{
+						MyMode.AddUp(Double.parseDouble(MyParameters[z].trim()));
+				
+					}
+					if(State=="Down")
+					{
+						MyMode.AddDown(Double.parseDouble(MyParameters[z].trim()));
+						
+					}
+				}
+				
 			}
+			if(MyMode!=null)
+			{
+				MonAppareil.AddModes(MyMode);
+			}
+			
 			if(Name!="")
 			{
-				AppareilsElectriques.add(new AppareilElectrique(Name,Consommation,null));
+				AppareilsElectriques.add(MonAppareil);
 			}
 		}
 	}
