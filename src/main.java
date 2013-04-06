@@ -179,7 +179,29 @@ public  class main extends Application{
 								}
 						}).accelerator( KeyCombination.keyCombination("ctrl+p")).build());
 
-		menuPlanAllumage.getItems().add(new MenuItem("Modifier/Supprimer"));
+		menuPlanAllumage.getItems().add(MenuItemBuilder.create()
+				.text("Modifier/Supprimer")
+				.onAction(
+						new EventHandler<ActionEvent>()
+						{
+							@Override public void handle(ActionEvent e)
+							{
+								modifyPlanAllumage maFenetreNouveauResto = new modifyPlanAllumage();
+								maFenetreNouveauResto.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+												System.out.println("Fenetre Restruant : " + e.getEventType().toString());
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													ObservableList<Restaurant> itemsRestaurant = FXCollections.observableArrayList (AppCore.getListeRestaurants());
+													listRestaurant.setItems(itemsRestaurant);
+												}
+											}
+											});
+								}
+						}).accelerator( KeyCombination.keyCombination("ctrl+shift+p")).build());
 		menuAide.getItems().add(new MenuItem("Guide Utilisateur"));
 
 		MenuBar menuBar = new MenuBar();
@@ -300,7 +322,7 @@ public  class main extends Application{
 		primaryStage.setScene(MyScene);
 		
 		
-		
+		AppCore.LoadPlanAllumage();
 		AppCore.LoadAppareilElectrique();
 		AppCore.LoadCuisine();
 		AppCore.LoadRestaurant();	

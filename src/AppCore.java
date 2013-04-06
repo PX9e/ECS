@@ -256,11 +256,18 @@ public class AppCore  {
 	public static void AjouterPlanAllumage(PlanAllumage MonPlan) {
 		
 		PlanAllumages.add(MonPlan);
-		//TODO save plan Allumages
+		SavePlanAllumage();
+	}
+	
+	public static void RetirerPlanAllumage(PlanAllumage MonPlan) {
+		
+		PlanAllumages.remove(MonPlan);
+		SavePlanAllumage();
 	}
 	
 	public static void RetirerRestaurantFromList(Restaurant MonRestaurant) {
 		Restaurants.remove(MonRestaurant);
+		SaveRestaurant();	
 	}
 	
 	public static ArrayList<Cuisine> getListeCuisines() {
@@ -274,6 +281,7 @@ public class AppCore  {
 	
 	public static void RetirerCuisineFromList(Cuisine MaCuisine) {
 		Cuisines.remove(MaCuisine);
+		SaveCuisine();
 	}
 	
 	public static void AjouterAppareilToList(AppareilElectrique MonAppareil) {
@@ -283,6 +291,7 @@ public class AppCore  {
 	
 	public static void RetirerAppareilFromList(Cuisine MonAppareil) {
 		AppareilsElectriques.remove(MonAppareil);
+		SaveAppareilElectrique();
 	}
 
 	/**
@@ -360,5 +369,140 @@ public class AppCore  {
 		}
 		return null;
 	}
+	public static void SavePlanAllumage()
+	{
+		//System.out.println("Sauvegarde AppareilElectrique");
+		PrintWriter writer =null;
+			 try {
+				writer= new PrintWriter("planallumages.save");
+			} catch (FileNotFoundException e) {
+			
+			}
+			for(int i = 0 ; i < PlanAllumages.size(); i++)
+			{
+				writer.println("NewPlanAllumage");
+				writer.println("Name:"+PlanAllumages.get(i).getName().trim());		
+				writer.println("Lundi");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Lundi").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Lundi").get(a).toString());
+				}
+				writer.println("Mardi");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Mardi").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Mardi").get(a).toString());
+				}
+				writer.println("Mercredi");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Mercredi").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Mercredi").get(a).toString());
+				}
+				writer.println("Jeudi");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Jeudi").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Jeudi").get(a).toString());
+				}
+				writer.println("Vendredi");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Vendredi").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Vendredi").get(a).toString());
+				}
+				writer.println("Samedi");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Samedi").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Samedi").get(a).toString());
+				}
+				writer.println("Dimanche");
+				for(int a=0 ; a<PlanAllumages.get(i).getPlageHoraire("Dimanche").size();a++)
+				{
+					writer.println(PlanAllumages.get(i).getPlageHoraire("Dimanche").get(a).toString());
+				}
+			}
+			writer.close();
+	}
+
+
+
+public static void LoadPlanAllumage()
+{
+	//System.out.println("Chargement Restaurant");
+	String myfile = readdatafromtextfile("planallumages.save");
+	String[] MyPlanAllumages = myfile.split("NewPlanAllumage");
+	String[] MyParameters;
+	String Jour="Lundi";
+	for(int i=0;i<MyPlanAllumages.length;i++)
+	{
+		PlanAllumage Temp = new PlanAllumage();
+		MyParameters = MyPlanAllumages[i].split("\n");
+		//System.out.println("start");
+		for(int e=0;e<MyParameters.length;e++)
+		{
+			System.out.println(MyParameters[e]);
+			if(MyParameters[e].startsWith("Name:"))
+			{
+				Temp.setName( MyParameters[e].trim().substring(5).toString());
+			}
+			if(MyParameters[e].startsWith("Lundi"))
+			{
+			
+				Jour="Lundi";
+			}
+			if(MyParameters[e].startsWith("Mardi"))
+			{
+				Jour="Madi";
+			}
+			if(MyParameters[e].startsWith("Mercredi"))
+			{
+				Jour="Mercredi";
+			}
+			if(MyParameters[e].startsWith("Jeudi"))
+			{
+				Jour="Jeudi";
+			}
+			if(MyParameters[e].startsWith("Vendredi"))
+			{
+				Jour="Vendredi";
+			}
+			if(MyParameters[e].startsWith("Samedi"))
+			{
+				Jour="Samedi";
+			}
+			if(MyParameters[e].startsWith("Dimanche"))
+			{
+				Jour="Dimanche";
+			}
+			if(MyParameters[e].contains("-"))
+			{
+				int HeureDebut;
+				int HeureFin;
+				int MinuteDebut;
+				int MinuteFin;
+				String temp;
+				String[] times;
+				String[] times2;
+ 				temp = MyParameters[e].trim();
+				times = temp.split("-");
+				times2 = times[0].split(":");
+				HeureDebut = Integer.parseInt(times2[0].trim());
+				MinuteDebut = Integer.parseInt(times2[1].trim());
+				times2 = times[1].split(":");
+				HeureFin = Integer.parseInt(times2[0].trim());
+				MinuteFin = Integer.parseInt(times2[1].trim());
+				System.out.println(HeureDebut);
+				System.out.println(MinuteDebut);
+				System.out.println(HeureFin);
+				System.out.println(MinuteFin);
+
+				Temp.addPlageHoraire(Jour, new Heure(HeureDebut,MinuteDebut), new Heure(HeureFin,MinuteFin));
+				System.out.println(Temp.getPlageHoraire("Lundi").size());
+			}
+			
+			
+		}
 	
+		if(Temp.getName()!=""){	
+			PlanAllumages.add(Temp);
+		}		
+}
+}
 }

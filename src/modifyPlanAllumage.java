@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -15,19 +16,20 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class newPlanAllumage extends Stage 
+public class modifyPlanAllumage extends Stage 
 {
 	
 	public PlanAllumage MonPlanAllumage ;
 	
-	newPlanAllumage(){
-		MonPlanAllumage = new PlanAllumage();
+	modifyPlanAllumage(){
+		
 		//Stage Window = new Stage();
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -43,8 +45,11 @@ public class newPlanAllumage extends Stage
 		
 		final ListView<PlageHoraire> list = new ListView<PlageHoraire>();
 		final TextField nomPlanTextField = new TextField();
+		final ComboBox<PlanAllumage> comboPlans = new ComboBox<PlanAllumage>();
 		final Button AddPlage = new Button("Ajouter Plage");
 		final Button DeletePlage = new Button("Supprimer Plage");
+		final Button Delete = new Button("Supprimer");
+		final Button ModifierNom = new Button("Modifier Nom");
 		final TextField HeureDebut = new TextField();
 		final TextField MinuteDebut = new TextField();
 		final TextField HeureFin = new TextField();
@@ -115,12 +120,61 @@ public class newPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				MonPlanAllumage.setName(nomPlanTextField.getText());
-				AppCore.AjouterPlanAllumage(MonPlanAllumage); 	
+				for(int i = 0; i<AppCore.getListePlansAllumages().size();i++)
+				{
+					if(AppCore.getListePlansAllumages().get(i).getName() == MonPlanAllumage.getName())
+					{
+						AppCore.getListePlansAllumages().remove(i);
+						AppCore.AjouterPlanAllumage(MonPlanAllumage);
+						break;
+					}
+					
+				}
 				close();
 			}
 		});
-		
+		ModifierNom.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) 
+			{
+				for(int i = 0; i<AppCore.getListePlansAllumages().size();i++)
+				{
+					if(AppCore.getListePlansAllumages().get(i).getName() == MonPlanAllumage.getName())
+					{
+						AppCore.getListePlansAllumages().remove(i);
+						MonPlanAllumage.setName(nomPlanTextField.getText());
+						AppCore.AjouterPlanAllumage(MonPlanAllumage);
+						
+						comboPlans.setItems(FXCollections.observableArrayList(AppCore.getListePlansAllumages()));
+						break;
+					}
+					
+				}
+
+			}
+		});
+		Delete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) 
+			{
+				for(int i = 0; i<AppCore.getListePlansAllumages().size();i++)
+				{
+					if(AppCore.getListePlansAllumages().get(i).getName() == MonPlanAllumage.getName())
+					{
+						AppCore.getListePlansAllumages().remove(i);
+						AppCore.SavePlanAllumage();
+						list.getItems().clear();
+						nomPlanTextField.clear();
+						comboPlans.setItems(FXCollections.observableArrayList(AppCore.getListePlansAllumages()));
+						break;
+					}
+					
+				}
+
+			}
+		});
 		boutonAnnuler.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e)
@@ -152,14 +206,41 @@ public class newPlanAllumage extends Stage
 				list.setItems(items);
 			}
 		});
+		
+		
+		
+		comboPlans.setItems(FXCollections.observableArrayList(AppCore.getListePlansAllumages()));
+		comboPlans.valueProperty().addListener(new ChangeListener<PlanAllumage>() {
+		        @Override public void changed(ObservableValue ov, PlanAllumage t, PlanAllumage t1) {
+		          if(t1!=null)
+		          {
+		          MonPlanAllumage = t1;
+		          nomPlanTextField.setText(MonPlanAllumage.getName());
+		          ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
+				  list.setItems(items);
+		        }
+		        }    
+		    });
+		VBox Options = new VBox(10);
 		hbHeure.getChildren().add(AddPlage);
-		grid.add(nomAppareilLabel, 0, 1);
-		grid.add(nomPlanTextField, 1, 1);
+		HBox Deletedbox = new HBox(40);
+		Deletedbox.getChildren().add(nomAppareilLabel);
+		Deletedbox.getChildren().add(comboPlans);
+		Deletedbox.getChildren().add(Delete);
+	
+		grid.add(Deletedbox, 0, 1);
+		Options.getChildren().add(new Label("  "));
+		Options.getChildren().add(DeletePlage);
+		Options.getChildren().add(new Label("  "));
+		Options.getChildren().add(new Label("Nom :"));
+		Options.getChildren().add(nomPlanTextField);
+		Options.getChildren().add(ModifierNom);
 		grid.add(hbHeure, 0, 2,2,3);
-		grid.add(DeletePlage,1,4);
+
 		grid.add(list,0 ,4);
 		grid.add(hbBtn, 1, 5);
 		grid.add(actiontarget, 1, 6);
+		grid.add(Options, 1, 4);
 		this.setScene(new Scene(grid, 600, 400));
 		this.show();
 		nomPlanTextField.requestFocus();

@@ -25,9 +25,12 @@ public class PlanAllumage {
 	}
 
 	public void addPlageHoraire(String jour, Heure Debut, Heure Fin) {
-
+		System.out.println("jour "+ jour);
 		switch (jour) {
 		case "Lundi":
+			System.out.println("p" + Debut.toString());
+
+			System.out.println("p" + Fin.toString());
 			PlageHoraireLundi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Mardi":
@@ -76,7 +79,85 @@ public class PlanAllumage {
 			PlageHoraireDimanche.remove(i);
 			break;
 		}
+		
+	}public void remPlageHoraire(String jour, Heure pDebut,Heure pFin) {
+
+		switch (jour) {
+		case "Lundi":
+			for(int i= 0;i<PlageHoraireLundi.size();i++)
+			{
+				if((PlageHoraireLundi.get(i).getDebut()==pDebut)&&(PlageHoraireLundi.get(i).getFin()==pFin))
+				{
+					PlageHoraireLundi.remove(i);
+					break;
+				}
+			}
+			
+			break;
+		case "Mardi":
+			for(int i= 0;i<PlageHoraireMardi.size();i++)
+			{
+				if((PlageHoraireMardi.get(i).getDebut()==pDebut)&&(PlageHoraireMardi.get(i).getFin()==pFin))
+				{
+					PlageHoraireMardi.remove(i);
+					break;
+				}
+			}
+		case "Mercredi":
+			for(int i= 0;i<PlageHoraireMercredi.size();i++)
+			{
+				if((PlageHoraireMercredi.get(i).getDebut()==pDebut)&&(PlageHoraireMercredi.get(i).getFin()==pFin))
+				{
+					PlageHoraireMercredi.remove(i);
+					break;
+				}
+			}
+		case "Jeudi":
+			for(int i= 0;i<PlageHoraireJeudi.size();i++)
+			{
+				if((PlageHoraireJeudi.get(i).getDebut()==pDebut)&&(PlageHoraireJeudi.get(i).getFin()==pFin))
+				{
+					PlageHoraireJeudi.remove(i);
+					break;
+				}
+			}
+			break;
+		case "Vendredi":
+			for(int i= 0;i<PlageHoraireVendredi.size();i++)
+			{
+				if((PlageHoraireVendredi.get(i).getDebut()==pDebut)&&(PlageHoraireVendredi.get(i).getFin()==pFin))
+				{
+					PlageHoraireVendredi.remove(i);
+					break;
+				}
+			}
+			break;
+		case "Samedi":
+			for(int i= 0;i<PlageHoraireSamedi.size();i++)
+			{
+				if((PlageHoraireSamedi.get(i).getDebut()==pDebut)&&(PlageHoraireSamedi.get(i).getFin()==pFin))
+				{
+					PlageHoraireSamedi.remove(i);
+					break;
+				}
+			}
+			break;
+		case "Dimanche":
+			for(int i= 0;i<PlageHoraireDimanche.size();i++)
+			{
+				if((PlageHoraireDimanche.get(i).getDebut()==pDebut)&&(PlageHoraireDimanche.get(i).getFin()==pFin))
+				{
+					PlageHoraireDimanche.remove(i);
+					break;
+				}
+			}
+		}
 	}
+	public String toString()
+	{
+		return Name;
+	}
+	
 
 	public ArrayList<PlageHoraire> getPlageHoraire(String jour) {
 
