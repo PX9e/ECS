@@ -1,7 +1,7 @@
 NewPlanAllumage
 Name:Midi
 Lundi
-12:0 - 14:0
+11:30 - 14:0
 Mardi
 Mercredi
 Jeudi
@@ -11,17 +11,7 @@ Dimanche
 NewPlanAllumage
 Name:Soir
 Lundi
-18:30 - 23:0
-Mardi
-Mercredi
-Jeudi
-Vendredi
-Samedi
-Dimanche
-NewPlanAllumage
-Name:Nettoyage
-Lundi
-14:0 - 14:30
+18:30 - 22:30
 Mardi
 Mercredi
 Jeudi
@@ -32,6 +22,17 @@ NewPlanAllumage
 Name:Permanent
 Lundi
 0:0 - 23:59
+Mardi
+Mercredi
+Jeudi
+Vendredi
+Samedi
+Dimanche
+NewPlanAllumage
+Name:Nettoyage
+Lundi
+8:0 - 10:0
+16:0 - 18:0
 Mardi
 Mercredi
 Jeudi

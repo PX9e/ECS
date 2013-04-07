@@ -79,16 +79,11 @@ public class AppCore  {
 			{
 				writer.println("NewAppareilElectrique");
 				writer.println("Name:"+AppareilsElectriques.get(i).getNom().trim());		
-				writer.println("PlanAllumages:");
 				
-				for(int z = 0 ; z < AppareilsElectriques.get(i).getPlanAllumage().size();z++)
-				{
-					writer.println(AppareilsElectriques.get(i).getPlanAllumage().get(z).getName());
-				}
 				
 				for(int z = 0 ; z < AppareilsElectriques.get(i).getModes().size();z++)
 				{
-					writer.println(AppareilsElectriques.get(i).getModes().get(z).getName());
+					writer.println("Mode:"+AppareilsElectriques.get(i).getModes().get(z).getName());
 				
 					writer.println("Up");
 					for(int u=0;u<AppareilsElectriques.get(i).getModes().get(z).getUp().size();u++)
@@ -104,7 +99,7 @@ public class AppCore  {
 				writer.println("Coup:");
 				for(int z = 0 ; z < AppareilsElectriques.get(i).getCouples().size();z++)
 				{
-					writer.println("Mode:"+AppareilsElectriques.get(i).getCouples().get(z).toString());
+					writer.println(AppareilsElectriques.get(i).getCouples().get(z).toString());
 
 				}
 			}
@@ -142,7 +137,7 @@ public class AppCore  {
 					{
 						MonAppareil.AddModes(MyMode);
 					}
-					MyMode = new Mode(MyParameters[z].substring(4).toString());
+					MyMode = new Mode(MyParameters[z].substring(5).toString());
 					StateA = "Mode";
 				}
 				else if(MyParameters[z].trim().startsWith("Down"))
@@ -152,10 +147,6 @@ public class AppCore  {
 				else if(MyParameters[z].trim().startsWith("Up"))
 				{
 					State="Up";
-				}
-				else if(MyParameters[z].trim().startsWith("PlanAllumages:"))
-				{
-					StateA = "Plan";
 				}
 				else if(MyParameters[z].trim().startsWith("Coup:"))
 				{
@@ -199,7 +190,7 @@ public class AppCore  {
 							try
 							{
 								System.out.println("Start");
-								MonAppareil.getCouples().add(Integer.parseInt(MyParameters[z].trim()));
+								MonAppareil.getCouples().add(MyParameters[z].trim());
 
 								System.out.println("End");
 							}

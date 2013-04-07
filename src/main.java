@@ -284,14 +284,16 @@ public  class main extends Application{
 					for(int o = 0 ; o<AppareilsAAnalyser.getCouples().size();o=o+2)
 					{
 				
-						Mode MyMode = AppareilsAAnalyser.getModes().get(AppareilsAAnalyser.getCouples().get(o));
-						PlanAllumage MyPlan = AppCore.getListePlansAllumages().get(AppareilsAAnalyser.getCouples().get(o+1));
+						Mode MyMode = AppareilsAAnalyser.getModesByName(AppareilsAAnalyser.getCouples().get(o));
+						PlanAllumage MyPlan = AppCore.getPlanAllumage(AppareilsAAnalyser.getCouples().get(o+1));
 					
 						
 						ArrayList<PlageHoraire> MesHoraires = MyPlan.getPlageHoraire("Lundi");
 					
 						for(int u=0;u<MesHoraires.size();u++)
 						{
+							
+							
 							int start = MesHoraires.get(u).getDebut().getHeures() * 60 + MesHoraires.get(u).getDebut().getMinutes();
 							System.out.println(MesHoraires.get(u).getDebut().getHeures() + " *60+ "+MesHoraires.get(u).getDebut().getMinutes()+" =" +  start);
 							int fin = MesHoraires.get(u).getFin().getHeures() * 60 + MesHoraires.get(u).getFin().getMinutes();
@@ -304,19 +306,19 @@ public  class main extends Application{
 								
 								for(int p = start ; p<start+MyMode.getUp().size();p++)
 								{
-									Data.set(p, Data.get(p)+MyMode.getUp().get(start-p));
-									System.out.println(Data.get(p));
+									Data.set(p, Data.get(p)+MyMode.getUp().get(p-start));
+									
 								}
 								
 								for(int p = start+MyMode.getUp().size();p<fin-MyMode.getDown().size();p++)
 								{
 									Data.set(p, Data.get(p)+MyMode.getUp().get(MyMode.getUp().size()-1));
-									System.out.println(Data.get(p));
+					
 								}
 								for(int p = fin-MyMode.getDown().size();p<fin;p++)
 								{
 									Data.set(p, Data.get(p)+MyMode.getDown().get(fin-MyMode.getDown().size()-p));
-									System.out.println(Data.get(p));
+					
 								}
 							}
 							
@@ -356,15 +358,15 @@ public  class main extends Application{
 				}
 				
 				ArrayList<AppareilElectrique> AppareilsAAnalyser = restaurantClique.getCuisine().ObtenirAppareils();
-				System.out.println(AppareilsAAnalyser.size());
+				
 				for(int t=0 ; t<AppareilsAAnalyser.size();t++)
 				{
 					
 					for(int o = 0 ; o<AppareilsAAnalyser.get(t).getCouples().size();o=o+2)
 					{
-				
-						Mode MyMode = AppareilsAAnalyser.get(t).getModes().get(AppareilsAAnalyser.get(t).getCouples().get(o));
-						PlanAllumage MyPlan = AppCore.getListePlansAllumages().get(AppareilsAAnalyser.get(t).getCouples().get(o+1));
+						System.out.println(AppareilsAAnalyser.get(t).getCouples().get(o));
+						Mode MyMode = AppareilsAAnalyser.get(t).getModesByName(AppareilsAAnalyser.get(t).getCouples().get(o));
+						PlanAllumage MyPlan = AppCore.getPlanAllumage(AppareilsAAnalyser.get(t).getCouples().get(o+1));
 					
 						
 						ArrayList<PlageHoraire> MesHoraires = MyPlan.getPlageHoraire("Lundi");
@@ -377,13 +379,13 @@ public  class main extends Application{
 							System.out.println(MesHoraires.get(u).getFin().getHeures() + " *60+ "+ MesHoraires.get(u).getFin().getMinutes()+" =" +  fin);
 							
 							
-							System.out.println();
+							System.out.println(MyMode.getName());
 							if((fin-start)>(MyMode.getDown().size() + MyMode.getUp().size()))
 							{
 								
 								for(int p = start ; p<start+MyMode.getUp().size();p++)
 								{
-									Data.set(p, Data.get(p)+MyMode.getUp().get(start-p));
+									Data.set(p, Data.get(p)+MyMode.getUp().get(p-start));
 									System.out.println(Data.get(p));
 								}
 								
@@ -394,7 +396,7 @@ public  class main extends Application{
 								}
 								for(int p = fin-MyMode.getDown().size();p<fin;p++)
 								{
-									Data.set(p, Data.get(p)+MyMode.getDown().get(fin-MyMode.getDown().size()-p));
+									Data.set(p, Data.get(p)+MyMode.getDown().get(p-fin-MyMode.getDown().size()+2));
 									System.out.println(Data.get(p));
 								}
 							}
@@ -404,6 +406,7 @@ public  class main extends Application{
 					}	
 				}
 				ac.getData().remove(getCuisineChart());
+				
 				getCuisineChart().getData().clear();
 				getCuisineChart().getData().add(new XYChart.Data((0), Data.get(0)));
 				for(int i = 1 ; i<Data.size()-1;i++)

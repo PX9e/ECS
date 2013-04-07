@@ -7,13 +7,13 @@ public class AppareilElectrique {
 	private String nom;
 	private ArrayList<PlanAllumage> planAllumage;
 	private ArrayList<Mode> Modes;
-	private ArrayList<Integer> Couples;
+	private ArrayList<String> Couples;
 	
-	public ArrayList<Integer> getCouples() {
+	public ArrayList<String> getCouples() {
 		return Couples;
 	}
 
-	public void setCouples(ArrayList<Integer> couples) {
+	public void setCouples(ArrayList<String> couples) {
 		Couples = couples;
 	}
 
@@ -24,18 +24,32 @@ public class AppareilElectrique {
 		nom ="";
 		planAllumage = new ArrayList<PlanAllumage>();
 		Modes = new ArrayList<Mode>();
-		Couples = new ArrayList<Integer>();
+		Couples = new ArrayList<String>();
 	}
 	
 	public ArrayList<Mode> getModes() {
 		return Modes;
 	}
 	
+	public Mode getModesByName(String pName) {
+		System.out.println(Modes.size());
+		for(int i =0;i<Modes.size();i++)
+		{
+			System.out.println(Modes.get(i).getName()+ " "+pName);
+			if(Modes.get(i).getName().trim().compareTo(pName.trim())==0)
+			{
+				System.out.println("ok");
+				return Modes.get(i);
+			}
+		}
+		return null;
+	}
+	
 	public void AddModes(Mode pMode)
 	{
 		Modes.add(pMode);
 	}
-	public void AddCouple(int a,int b)
+	public void AddCouple(String a,String b)
 	{
 		Couples.add(a);
 		Couples.add(b);
@@ -62,7 +76,7 @@ public class AppareilElectrique {
 		nom = Nom;
 		planAllumage = new ArrayList<PlanAllumage>();
 		Modes = new ArrayList<Mode>();
-		Couples = new ArrayList<Integer>();
+		Couples = new ArrayList<String>();
 	}
 	
 	

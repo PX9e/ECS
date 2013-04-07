@@ -142,7 +142,7 @@ public class newAppareilWindow extends Stage
 						{
 							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
 							{
-								coupleint Temp = new coupleint(list.getItems().get(MonAppareilElectrique.getCouples().get(k)).toString(),listB.getItems().get(MonAppareilElectrique.getCouples().get(k+1)).toString());
+								coupleint Temp = new coupleint(MonAppareilElectrique.getCouples().get(k),MonAppareilElectrique.getCouples().get(k+1));
 								System.out.println(listC.getSelectionModel().getSelectedItem().toString());
 								System.out.println(Temp.toString());
 								if(Temp.getA().trim() == listC.getSelectionModel().getSelectedItem().getA().trim())
@@ -160,7 +160,7 @@ public class newAppareilWindow extends Stage
 							Couples.clear();
 							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
 							{
-								Couples.add(new coupleint(list.getItems().get(MonAppareilElectrique.getCouples().get(k)).toString(),listB.getItems().get(MonAppareilElectrique.getCouples().get(k+1)).toString()));
+								Couples.add(new coupleint(MonAppareilElectrique.getCouples().get(k),MonAppareilElectrique.getCouples().get(k+1)));
 							}
 							ObservableList<coupleint> itemsC = FXCollections.observableArrayList (Couples);
 							listC.setItems(itemsC);
@@ -177,11 +177,11 @@ public class newAppareilWindow extends Stage
 						{
 							System.out.println(AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
 							System.out.println(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()));
-							MonAppareilElectrique.AddCouple(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()), AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
+							MonAppareilElectrique.AddCouple(list.getSelectionModel().getSelectedItem().getName(), listB.getSelectionModel().getSelectedItem().getName());
 							Couples.clear();
 							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
 							{
-								Couples.add(new coupleint(list.getItems().get(MonAppareilElectrique.getCouples().get(k)).toString(),listB.getItems().get(MonAppareilElectrique.getCouples().get(k+1)).toString()));
+								Couples.add(new coupleint(MonAppareilElectrique.getCouples().get(k),MonAppareilElectrique.getCouples().get(k+1)));
 							}
 							ObservableList<coupleint> itemsC = FXCollections.observableArrayList (Couples);
 							listC.setItems(itemsC);
