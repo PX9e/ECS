@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
@@ -12,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -27,7 +30,9 @@ import javafx.stage.WindowEvent;
 public  class main extends Application{
 
 
-	
+	private XYChart.Series<Number,Number> CuisineChart= new XYChart.Series<Number,Number>();
+	private XYChart.Series<Number,Number> AppareilChart= new XYChart.Series<Number,Number>();
+   
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -35,6 +40,13 @@ public  class main extends Application{
 
 	@Override
 	public void start(final Stage primaryStage) {
+		
+		final NumberAxis xAxis = new NumberAxis(0, 24, 1);
+		
+	    final NumberAxis yAxis = new NumberAxis();
+		final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
+		
+		ac.setTitle("Consommation electrique en fonction de la puissance en kW");
 		primaryStage.setTitle("ECS");  		
 		new KeyCombination() {};
 		final Menu menuFichier = new Menu("Fichier");
@@ -253,15 +265,157 @@ public  class main extends Application{
 		grid.add(listRestaurant,0 ,1);
 
 	
-
+		listAppareil.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent e) {
+				AppareilChart.setName(listAppareil.getSelectionModel().getSelectedItem().getNom());
+				
+			
+				ArrayList<Double> Data = new ArrayList<Double>(1440);
+				
+				for(int i=0;i<1440;i++)
+				{
+					Data.add(0.0);
+				}
+				
+				AppareilElectrique AppareilsAAnalyser = AppCore.getAppareilFromName(listAppareil.getSelectionModel().getSelectedItem().getNom());
+				
+			
+					for(int o = 0 ; o<AppareilsAAnalyser.getCouples().size();o=o+2)
+					{
+				
+						Mode MyMode = AppareilsAAnalyser.getModes().get(AppareilsAAnalyser.getCouples().get(o));
+						PlanAllumage MyPlan = AppCore.getListePlansAllumages().get(AppareilsAAnalyser.getCouples().get(o+1));
+					
+						
+						ArrayList<PlageHoraire> MesHoraires = MyPlan.getPlageHoraire("Lundi");
+					
+						for(int u=0;u<MesHoraires.size();u++)
+						{
+							int start = MesHoraires.get(u).getDebut().getHeures() * 60 + MesHoraires.get(u).getDebut().getMinutes();
+							System.out.println(MesHoraires.get(u).getDebut().getHeures() + " *60+ "+MesHoraires.get(u).getDebut().getMinutes()+" =" +  start);
+							int fin = MesHoraires.get(u).getFin().getHeures() * 60 + MesHoraires.get(u).getFin().getMinutes();
+							System.out.println(MesHoraires.get(u).getFin().getHeures() + " *60+ "+ MesHoraires.get(u).getFin().getMinutes()+" =" +  fin);
+							
+							
+							System.out.println();
+							if((fin-start)>(MyMode.getDown().size() + MyMode.getUp().size()))
+							{
+								
+								for(int p = start ; p<start+MyMode.getUp().size();p++)
+								{
+									Data.set(p, Data.get(p)+MyMode.getUp().get(start-p));
+									System.out.println(Data.get(p));
+								}
+								
+								for(int p = start+MyMode.getUp().size();p<fin-MyMode.getDown().size();p++)
+								{
+									Data.set(p, Data.get(p)+MyMode.getUp().get(MyMode.getUp().size()-1));
+									System.out.println(Data.get(p));
+								}
+								for(int p = fin-MyMode.getDown().size();p<fin;p++)
+								{
+									Data.set(p, Data.get(p)+MyMode.getDown().get(fin-MyMode.getDown().size()-p));
+									System.out.println(Data.get(p));
+								}
+							}
+							
+						}
+						
+					}	
+				
+				ac.getData().remove(AppareilChart);
+				AppareilChart.getData().clear();
+				AppareilChart.getData().add(new XYChart.Data((0), Data.get(0)));
+				for(int i = 1 ; i<Data.size()-1;i++)
+				{
+					if((Data.get(i)-Data.get(i-1)!=0)||(Data.get(i)-Data.get(i+1)!=0))
+					{
+						AppareilChart.getData().add(new XYChart.Data((double)(i/60.0), Data.get(i)));
+					}
+				}
+				AppareilChart.getData().add(new XYChart.Data(24, Data.get(1439)));
+				ac.getData().addAll(AppareilChart);
+				 
+			}
+		}); 
 		listRestaurant.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
+				getCuisineChart().setName("Consommation Cuisine");
 				Restaurant restaurantClique = listRestaurant.getFocusModel().getFocusedItem();
 				ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (restaurantClique.getCuisine());
 				listCuisine.setItems(itemsCuisine);
 				listCuisine.setVisible(true);
 				CuisineTitleLabel.setVisible(true);
+				ArrayList<Double> Data = new ArrayList<Double>(1440);
+				
+				for(int i=0;i<1440;i++)
+				{
+					Data.add(0.0);
+				}
+				
+				ArrayList<AppareilElectrique> AppareilsAAnalyser = restaurantClique.getCuisine().ObtenirAppareils();
+				System.out.println(AppareilsAAnalyser.size());
+				for(int t=0 ; t<AppareilsAAnalyser.size();t++)
+				{
+					
+					for(int o = 0 ; o<AppareilsAAnalyser.get(t).getCouples().size();o=o+2)
+					{
+				
+						Mode MyMode = AppareilsAAnalyser.get(t).getModes().get(AppareilsAAnalyser.get(t).getCouples().get(o));
+						PlanAllumage MyPlan = AppCore.getListePlansAllumages().get(AppareilsAAnalyser.get(t).getCouples().get(o+1));
+					
+						
+						ArrayList<PlageHoraire> MesHoraires = MyPlan.getPlageHoraire("Lundi");
+					
+						for(int u=0;u<MesHoraires.size();u++)
+						{
+							int start = MesHoraires.get(u).getDebut().getHeures() * 60 + MesHoraires.get(u).getDebut().getMinutes();
+							System.out.println(MesHoraires.get(u).getDebut().getHeures() + " *60+ "+MesHoraires.get(u).getDebut().getMinutes()+" =" +  start);
+							int fin = MesHoraires.get(u).getFin().getHeures() * 60 + MesHoraires.get(u).getFin().getMinutes();
+							System.out.println(MesHoraires.get(u).getFin().getHeures() + " *60+ "+ MesHoraires.get(u).getFin().getMinutes()+" =" +  fin);
+							
+							
+							System.out.println();
+							if((fin-start)>(MyMode.getDown().size() + MyMode.getUp().size()))
+							{
+								
+								for(int p = start ; p<start+MyMode.getUp().size();p++)
+								{
+									Data.set(p, Data.get(p)+MyMode.getUp().get(start-p));
+									System.out.println(Data.get(p));
+								}
+								
+								for(int p = start+MyMode.getUp().size();p<fin-MyMode.getDown().size();p++)
+								{
+									Data.set(p, Data.get(p)+MyMode.getUp().get(MyMode.getUp().size()-1));
+									System.out.println(Data.get(p));
+								}
+								for(int p = fin-MyMode.getDown().size();p<fin;p++)
+								{
+									Data.set(p, Data.get(p)+MyMode.getDown().get(fin-MyMode.getDown().size()-p));
+									System.out.println(Data.get(p));
+								}
+							}
+							
+						}
+						
+					}	
+				}
+				ac.getData().remove(getCuisineChart());
+				getCuisineChart().getData().clear();
+				getCuisineChart().getData().add(new XYChart.Data((0), Data.get(0)));
+				for(int i = 1 ; i<Data.size()-1;i++)
+				{
+					if((Data.get(i)-Data.get(i-1)!=0)||(Data.get(i)-Data.get(i+1)!=0))
+					{
+						getCuisineChart().getData().add(new XYChart.Data((double)(i/60.0), Data.get(i)));
+					}
+				}
+				getCuisineChart().getData().add(new XYChart.Data(24, Data.get(1439)));
+				ac.getData().addAll(getCuisineChart());
+				 
 			}
 		}); 
 		
@@ -282,12 +436,9 @@ public  class main extends Application{
 
 		/*******************Fin Affichage des restaurants et leurs cuisines *********************/
 
-		final NumberAxis xAxis = new NumberAxis(0, 24, 1);
-	    final NumberAxis yAxis = new NumberAxis();
+		
 	    xAxis.setMinorTickCount(0);
-		final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
-	    
-		ac.setTitle("Consommation electrique en fonction de la puissance en kW");
+		
 		
 	    ac.setPadding(new Insets(30));
 	    GridPane Grille = new GridPane();
@@ -321,15 +472,11 @@ public  class main extends Application{
 		
 		primaryStage.setScene(MyScene);
 		
-		
 		AppCore.LoadPlanAllumage();
 		AppCore.LoadAppareilElectrique();
 		AppCore.LoadCuisine();
 		AppCore.LoadRestaurant();	
-		
-		
-		
-		
+				
 		primaryStage.show();
 		ObservableList<Restaurant> itemsRestaurantB = FXCollections.observableArrayList (AppCore.getListeRestaurants());
 		listRestaurant.setItems(itemsRestaurantB);
@@ -337,9 +484,15 @@ public  class main extends Application{
 		listCuisine.setItems(itemsCuisineB);
 
 	}
-	public void setDataInGrap()
-	{
-		
-	
+
+
+	public XYChart.Series getCuisineChart() {
+		return CuisineChart;
 	}
+
+
+	public void setCuisineChart(XYChart.Series cuisineChart) {
+		CuisineChart = cuisineChart;
+	}
+	
 }

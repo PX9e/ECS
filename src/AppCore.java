@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -78,11 +79,17 @@ public class AppCore  {
 			{
 				writer.println("NewAppareilElectrique");
 				writer.println("Name:"+AppareilsElectriques.get(i).getNom().trim());		
-				writer.println("planAllumage:"+AppareilsElectriques.get(i).getPlanAllumage().getName().trim());
+				writer.println("PlanAllumages:");
+				
+				for(int z = 0 ; z < AppareilsElectriques.get(i).getPlanAllumage().size();z++)
+				{
+					writer.println(AppareilsElectriques.get(i).getPlanAllumage().get(z).getName());
+				}
+				
 				for(int z = 0 ; z < AppareilsElectriques.get(i).getModes().size();z++)
 				{
-					writer.println("Mode:"+AppareilsElectriques.get(i).getModes().get(z).getName());
-
+					writer.println(AppareilsElectriques.get(i).getModes().get(z).getName());
+				
 					writer.println("Up");
 					for(int u=0;u<AppareilsElectriques.get(i).getModes().get(z).getUp().size();u++)
 					{
@@ -94,6 +101,12 @@ public class AppCore  {
 						writer.println(AppareilsElectriques.get(i).getModes().get(z).getDown().get(u).toString());
 					}
 				}
+				writer.println("Coup:");
+				for(int z = 0 ; z < AppareilsElectriques.get(i).getCouples().size();z++)
+				{
+					writer.println("Mode:"+AppareilsElectriques.get(i).getCouples().get(z).toString());
+
+				}
 			}
 			writer.close();
 	}
@@ -104,25 +117,24 @@ public class AppCore  {
 		String myfile = readdatafromtextfile("appareil.save");
 		String[] MyAppareils = myfile.split("NewAppareilElectrique");
 		String[] MyParameters;
-		String Name;
+	
+		String StateA ="";
 		String State = "";
 		Mode MyMode=null;
-		AppareilElectrique MonAppareil = new AppareilElectrique("");
+		AppareilElectrique MonAppareil=null;
 		for(int i=0;i<MyAppareils.length;i++)
 		{
-			Name="";
+			StateA="";
+			State="";
+			MonAppareil = new AppareilElectrique("");
 			System.out.println(MyAppareils[i]);
 			MyParameters = MyAppareils[i].split("\n");
 			for(int z = 0 ; z < MyParameters.length;z++)
 			{
-				if(MyParameters[z].trim().startsWith("Name;"))
+				if(MyParameters[z].trim().startsWith("Name:"))
 				{
-					MonAppareil.setNom(MyParameters[z].substring(5).toString().trim());
+					MonAppareil.setNom(MyParameters[z].substring(5));
 					
-				}
-				else if(MyParameters[z].trim().startsWith("planAllumage:"))
-				{
-					MonAppareil.setNom(MyParameters[z].substring(13).toString().trim());
 				}
 				else if(MyParameters[z].trim().startsWith("Mode:"))
 				{
@@ -130,7 +142,8 @@ public class AppCore  {
 					{
 						MonAppareil.AddModes(MyMode);
 					}
-					MyMode = new Mode(MyParameters[z].substring(4).toString(), null, null);
+					MyMode = new Mode(MyParameters[z].substring(4).toString());
+					StateA = "Mode";
 				}
 				else if(MyParameters[z].trim().startsWith("Down"))
 				{
@@ -140,30 +153,80 @@ public class AppCore  {
 				{
 					State="Up";
 				}
+				else if(MyParameters[z].trim().startsWith("PlanAllumages:"))
+				{
+					StateA = "Plan";
+				}
+				else if(MyParameters[z].trim().startsWith("Coup:"))
+				{
+					StateA = "Coup";
+				}
 				else
 				{
-					if(State=="Up")
-					{
-						MyMode.AddUp(Double.parseDouble(MyParameters[z].trim()));
-				
+					if(StateA=="Mode"){
+						if(State=="Up")
+						{
+							try
+							{
+							MyMode.AddUp(Double.parseDouble(MyParameters[z].trim()));
+							}
+							catch(Exception E)
+							{
+								
+							}
+						}
+						if(State=="Down")
+						{
+							System.out.println("d" + MyParameters[z].trim());
+							try
+							{
+							MyMode.AddDown(Double.parseDouble(MyParameters[z].trim()));
+							}
+							catch(Exception E)
+							{
+								
+							}
+						}
 					}
-					if(State=="Down")
+					if(StateA=="Plan")
 					{
-						MyMode.AddDown(Double.parseDouble(MyParameters[z].trim()));
-						
+						MonAppareil.getPlanAllumage().add(AppCore.getPlanAllumage(MyParameters[z].trim()));
+					}
+					if(StateA=="Coup")
+					{
+						if(MyParameters[z]!="")
+						{
+							try
+							{
+								System.out.println("Start");
+								MonAppareil.getCouples().add(Integer.parseInt(MyParameters[z].trim()));
+
+								System.out.println("End");
+							}
+							catch(Exception E)
+							{
+								
+							}
+							
+						}
 					}
 				}
-				
 			}
 			if(MyMode!=null)
 			{
 				MonAppareil.AddModes(MyMode);
 			}
 			
-			if(Name!="")
+			if(MonAppareil.getNom()!="")
 			{
 				AppareilsElectriques.add(MonAppareil);
 			}
+		
+		}
+		
+		for(int u = 0; u < AppareilsElectriques.size();u++)
+		{
+			System.out.println(AppareilsElectriques.get(u).getNom());
 		}
 	}
 	
@@ -261,6 +324,7 @@ public class AppCore  {
 		BufferedReader br = null;
 		String everything = "";
 	    try {   	
+	    	
 			br = new BufferedReader(new FileReader(filename));
 	        StringBuilder sb = new StringBuilder();
 	        String line = br.readLine();
@@ -270,16 +334,12 @@ public class AppCore  {
 	            line = br.readLine();
 	        }
 	        everything = sb.toString();
+	    	br.close();
 	    	} catch (IOException e) {
 			
 				e.printStackTrace();
 	    } finally {
-	        try {
-				br.close();
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			} 
+	     
 	    }
 	    return everything;
 	}

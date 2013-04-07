@@ -9,11 +9,22 @@ public class AppareilElectrique {
 	private ArrayList<Mode> Modes;
 	private ArrayList<Integer> Couples;
 	
-	AppareilElectrique(String Nom)
+	public ArrayList<Integer> getCouples() {
+		return Couples;
+	}
+
+	public void setCouples(ArrayList<Integer> couples) {
+		Couples = couples;
+	}
+
+	
+	
+	AppareilElectrique()
 	{
-		nom = Nom;
+		nom ="";
 		planAllumage = new ArrayList<PlanAllumage>();
 		Modes = new ArrayList<Mode>();
+		Couples = new ArrayList<Integer>();
 	}
 	
 	public ArrayList<Mode> getModes() {
@@ -23,6 +34,11 @@ public class AppareilElectrique {
 	public void AddModes(Mode pMode)
 	{
 		Modes.add(pMode);
+	}
+	public void AddCouple(int a,int b)
+	{
+		Couples.add(a);
+		Couples.add(b);
 	}
 	
 	public void remModes(String Name)
@@ -41,28 +57,16 @@ public class AppareilElectrique {
 		Modes = modes;
 	}
 
-	AppareilElectrique(String Nom, float Consommation)
+	AppareilElectrique(String Nom)
 	{
 		nom = Nom;
+		planAllumage = new ArrayList<PlanAllumage>();
 		Modes = new ArrayList<Mode>();
+		Couples = new ArrayList<Integer>();
 	}
 	
-	AppareilElectrique(String pNom,float pconsommationMax,PlanAllumage pplanAllumage)
-	{
-		nom = pNom;
-		Modes = new ArrayList<Mode>();
-		
-		if(pplanAllumage==null)
-		{
-			planAllumage = new ArrayList<PlanAllumage>();
-		}
-		else
-		{	
-			planAllumage.add(pplanAllumage);
-		}
-	}
 	
-
+	
 	public String getNom()
 	{
 		return nom;

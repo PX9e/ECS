@@ -8,28 +8,29 @@ public class Mode {
 	ArrayList<Double> Up;
 	ArrayList<Double> Down;
 	
-	Mode(String pName, ArrayList<Double> pUp, ArrayList<Double> pDown)
+
+	Mode()
+	{
+		Name = "";
+		Up=new ArrayList<Double>();
+		Down=new ArrayList<Double>();
+	}
+	Mode(String pName)
 	{
 		Name = pName;
-		Up = pUp;
-		Down = pDown;
+		Up=new ArrayList<Double>();
+		Down=new ArrayList<Double>();
 	}
 
 	public void AddUp(double i)
 	{
-		if(Up==null)
-		{
-			Up=new ArrayList<Double>();
-		}
+	
 		Up.add(i);
 	}
 	
 	public void AddDown(double i)
 	{
-		if(Down==null)
-		{
-			Down=new ArrayList<Double>();
-		}
+	
 		Down.add(i);
 	}
 	public String toString()

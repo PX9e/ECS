@@ -1,7 +1,7 @@
 NewPlanAllumage
-Name:fghjk
+Name:Midi
 Lundi
-410:10 - 10:10
+12:0 - 14:0
 Mardi
 Mercredi
 Jeudi
@@ -9,11 +9,29 @@ Vendredi
 Samedi
 Dimanche
 NewPlanAllumage
-Name:tata
+Name:Soir
 Lundi
-10:10 - 10:10
-12:12 - 12:12
-13:13 - 13:13
+18:30 - 23:0
+Mardi
+Mercredi
+Jeudi
+Vendredi
+Samedi
+Dimanche
+NewPlanAllumage
+Name:Nettoyage
+Lundi
+14:0 - 14:30
+Mardi
+Mercredi
+Jeudi
+Vendredi
+Samedi
+Dimanche
+NewPlanAllumage
+Name:Permanent
+Lundi
+0:0 - 23:59
 Mardi
 Mercredi
 Jeudi

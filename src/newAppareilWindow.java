@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,8 +30,10 @@ public class newAppareilWindow extends Stage
 {
 	
 	public AppareilElectrique MonAppareilElectrique;
+	public ArrayList<coupleint> Couples;
 	
 	newAppareilWindow(Stage primaryStage){
+		Couples = new ArrayList<coupleint>();
 		MonAppareilElectrique = new AppareilElectrique("");
 		this.initModality(Modality.WINDOW_MODAL);
 		this.initOwner(primaryStage);
@@ -46,12 +50,30 @@ public class newAppareilWindow extends Stage
 		Label nomAppareilLabel = new Label("Nom de l'appareil :");
 		nomAppareilLabel.setAlignment(Pos.TOP_RIGHT);
 		NameHbox.getChildren().add(nomAppareilLabel);
-		
-		final ListView<AppareilElectrique> list = new ListView<AppareilElectrique>();
+		HBox ListBox = new HBox(10);
+		VBox ButtonBoxB = new VBox(10);
+		final ListView<Mode> list = new ListView<Mode>();
+		final ListView<PlanAllumage> listB = new ListView<PlanAllumage>();
+		final ListView<coupleint> listC = new ListView<coupleint>();
 		final TextField nomAppareilTextField = new TextField();
+		final Button Combiner = new Button("->");
+		final Button SupprimerBut = new Button("Sup mode");
+		final Button SupprimerDuo = new Button("Sup duo");
 		
+	
+		ListBox.getChildren().add(list);
+		ListBox.getChildren().add(listB);
+		ButtonBoxB.getChildren().add(Combiner);
+		ButtonBoxB.getChildren().add(SupprimerBut);
+		ButtonBoxB.getChildren().add(SupprimerDuo);
+		ListBox.getChildren().add(ButtonBoxB);
+		ListBox.getChildren().add(listC);
 		NameHbox.getChildren().add(nomAppareilTextField);
 		grid.add(NameHbox, 0, 1);
+		ObservableList<PlanAllumage> itemsB = FXCollections.observableArrayList (AppCore.getListePlansAllumages());
+		listB.setItems(itemsB);
+		
+		
 		
 		final Label consoModeLabel = new Label("Consommation mode : ");
 		final Label nomModeLabel = new Label("Nom mode : ");
@@ -88,7 +110,85 @@ public class newAppareilWindow extends Stage
 			}
 			
 		});
-
+		/*final Button SupprimerBut = new Button("Sup mode");
+		final Button SupprimerDuo = new Button("Sup duo");*/
+		SupprimerBut.setOnAction(new EventHandler<ActionEvent>() 
+				{
+					@Override
+					public void handle(ActionEvent e) 
+					{
+						if((list.getSelectionModel().getSelectedItem()!=null))
+						{
+							for(int k=0;k<MonAppareilElectrique.getModes().size();k++)
+							{
+								if(MonAppareilElectrique.getModes().get(k).getName() == list.getSelectionModel().getSelectedItem().getName())
+								{
+									MonAppareilElectrique.getModes().remove(k);
+									break;
+								}
+							}
+							ObservableList<Mode> items = FXCollections.observableArrayList (MonAppareilElectrique.getModes());
+							list.setItems(items);
+						
+						}
+					}
+				});
+		SupprimerDuo.setOnAction(new EventHandler<ActionEvent>() 
+				{
+					@Override
+					public void handle(ActionEvent e) 
+					{
+						if((listC.getSelectionModel().getSelectedItem()!=null))
+						{
+							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
+							{
+								coupleint Temp = new coupleint(list.getItems().get(MonAppareilElectrique.getCouples().get(k)).toString(),listB.getItems().get(MonAppareilElectrique.getCouples().get(k+1)).toString());
+								System.out.println(listC.getSelectionModel().getSelectedItem().toString());
+								System.out.println(Temp.toString());
+								if(Temp.getA().trim() == listC.getSelectionModel().getSelectedItem().getA().trim())
+								{
+									if(Temp.getB().trim() == listC.getSelectionModel().getSelectedItem().getB().trim())
+									{
+									System.out.println("yeap");
+									MonAppareilElectrique.getCouples().remove(k+1);
+									MonAppareilElectrique.getCouples().remove(k);
+								
+									break;
+									}
+								}
+							}
+							Couples.clear();
+							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
+							{
+								Couples.add(new coupleint(list.getItems().get(MonAppareilElectrique.getCouples().get(k)).toString(),listB.getItems().get(MonAppareilElectrique.getCouples().get(k+1)).toString()));
+							}
+							ObservableList<coupleint> itemsC = FXCollections.observableArrayList (Couples);
+							listC.setItems(itemsC);
+						
+						}
+					}
+				});
+		Combiner.setOnAction(new EventHandler<ActionEvent>() 
+				{
+					@Override
+					public void handle(ActionEvent e) 
+					{
+						if((listB.getSelectionModel().getSelectedItem()!=null)&&(list.getSelectionModel().getSelectedItem()!=null))
+						{
+							System.out.println(AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
+							System.out.println(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()));
+							MonAppareilElectrique.AddCouple(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()), AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
+							Couples.clear();
+							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
+							{
+								Couples.add(new coupleint(list.getItems().get(MonAppareilElectrique.getCouples().get(k)).toString(),listB.getItems().get(MonAppareilElectrique.getCouples().get(k+1)).toString()));
+							}
+							ObservableList<coupleint> itemsC = FXCollections.observableArrayList (Couples);
+							listC.setItems(itemsC);
+						
+						}
+					}
+				});
 	
 		Button boutonEnregistrer = new Button("Enregistrer");
 		Button boutonAnnuler = new Button("Annuler");
@@ -98,37 +198,13 @@ public class newAppareilWindow extends Stage
 		hbBtn.getChildren().add(boutonEnregistrer);
 		grid.add(hbBtn, 0, 5);
 		
-		nomAppareilTextField.setOnKeyPressed(new EventHandler<KeyEvent>()
-		{
-			@Override
-			public void handle(KeyEvent pressedKey) 
-			{
-				System.out.println(pressedKey.getCode());
-				if(pressedKey.getCode() == KeyCode.ENTER)
-				{
-					if(!nomAppareilTextField.getText().isEmpty())
-					{
-					
-						if(MonAppareilElectrique != null)
-						{
-							
-							//Rafraichissement affichage liste
-							ObservableList<AppareilElectrique> items = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
-							list.setItems(items);
-							nomAppareilTextField.setText("");
-						}
-					}
-				}
-			}
-
-				});
+	
 
 		final Text actiontarget = new Text();
 		grid.add(actiontarget, 0, 6);
 
-		ObservableList<AppareilElectrique> items = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
-		list.setItems(items);
-		grid.add(list,0 ,3);
+	
+		grid.add(ListBox,0 ,3);
 
 		if(!AppCore.getListeAppareilsElectriques().isEmpty())
 			System.out.println(AppCore.getListeAppareilsElectriques().get(0));
@@ -140,11 +216,17 @@ public class newAppareilWindow extends Stage
 			{
 				if((nomModeTextField.getText()!="")&&(consoModeTextField.getText()!=""))
 				{
-					Mode MonNouveauMode = new Mode(nomModeTextField.getText(),null,null);
+					Mode MonNouveauMode = new Mode(nomModeTextField.getText());
 					String ConsoChaine = consoModeTextField.getText();
+					System.out.println(ConsoChaine);
+					
 					String[] UpAndDown = ConsoChaine.split(";");
+					System.out.println(UpAndDown[0]);
+					System.out.println(UpAndDown[1]);
 					String[] Ups = UpAndDown[0].split(":");
 					String[] Downs = UpAndDown[1].split(":");
+				System.out.println(Ups);
+					System.out.println(Downs);
 					for(int i = 0 ; i<Ups.length;i++)
 					{
 						MonNouveauMode.AddUp(Double.parseDouble(Ups[i]));
@@ -154,6 +236,11 @@ public class newAppareilWindow extends Stage
 						MonNouveauMode.AddDown(Double.parseDouble(Downs[i]));
 					}
 					MonAppareilElectrique.AddModes(MonNouveauMode);
+					
+					ObservableList<Mode> items = FXCollections.observableArrayList (MonAppareilElectrique.getModes());
+					list.setItems(items);
+					nomModeTextField.setText("");
+					consoModeTextField.setText("");
 				}
 				
 			}
@@ -167,7 +254,7 @@ public class newAppareilWindow extends Stage
 				if(nomAppareilTextField.getText()!="")
 				{
 					if(consoModeTextField.getText()!=""){
-						MonAppareilElectrique = new AppareilElectrique(nomAppareilTextField.getText());
+						MonAppareilElectrique.setNom(nomAppareilTextField.getText());
 						AppCore.AjouterAppareilToList(MonAppareilElectrique);
 						close();
 					}
@@ -184,7 +271,7 @@ public class newAppareilWindow extends Stage
 			}
 		});
 
-		this.setScene(new Scene(grid, 650, 400));
+		this.setScene(new Scene(grid, 900, 400));
 		this.show();
 		nomAppareilTextField.requestFocus();
 }
