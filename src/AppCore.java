@@ -8,6 +8,10 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 
+import javafx.scene.layout.VBoxBuilder;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 
 public class AppCore  {
 	
@@ -26,7 +30,7 @@ public class AppCore  {
 	
 	public static void SaveRestaurant()
 	{
-		//System.out.println("Sauvegarde Restaurant");
+		////System.out.println("Sauvegarde Restaurant");
 			PrintWriter writer = null;
 			try {
 				writer = new PrintWriter("restaurant.save");
@@ -46,7 +50,7 @@ public class AppCore  {
 	}
 	public static void SaveCuisine()
 	{
-		//System.out.println("Sauvegarde Cuisine");
+		////System.out.println("Sauvegarde Cuisine");
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("cuisine.save");
@@ -68,7 +72,7 @@ public class AppCore  {
 	
 	public static void SaveAppareilElectrique()
 	{
-		//System.out.println("Sauvegarde AppareilElectrique");
+		////System.out.println("Sauvegarde AppareilElectrique");
 		PrintWriter writer =null;
 			 try {
 				writer= new PrintWriter("appareil.save");
@@ -108,7 +112,7 @@ public class AppCore  {
 	
 	public static void LoadAppareilElectrique()
 	{
-		//System.out.println("Chargement AppareilElectrique");
+		////System.out.println("Chargement AppareilElectrique");
 		String myfile = readdatafromtextfile("appareil.save");
 		String[] MyAppareils = myfile.split("NewAppareilElectrique");
 		String[] MyParameters;
@@ -122,7 +126,7 @@ public class AppCore  {
 			StateA="";
 			State="";
 			MonAppareil = new AppareilElectrique("");
-			System.out.println(MyAppareils[i]);
+			//System.out.println(MyAppareils[i]);
 			MyParameters = MyAppareils[i].split("\n");
 			for(int z = 0 ; z < MyParameters.length;z++)
 			{
@@ -168,7 +172,7 @@ public class AppCore  {
 						}
 						if(State=="Down")
 						{
-							System.out.println("d" + MyParameters[z].trim());
+							//System.out.println("d" + MyParameters[z].trim());
 							try
 							{
 							MyMode.AddDown(Double.parseDouble(MyParameters[z].trim()));
@@ -189,10 +193,10 @@ public class AppCore  {
 						{
 							try
 							{
-								System.out.println("Start");
+								//System.out.println("Start");
 								MonAppareil.getCouples().add(MyParameters[z].trim());
 
-								System.out.println("End");
+								//System.out.println("End");
 							}
 							catch(Exception E)
 							{
@@ -217,17 +221,17 @@ public class AppCore  {
 		
 		for(int u = 0; u < AppareilsElectriques.size();u++)
 		{
-			System.out.println(AppareilsElectriques.get(u).getNom());
+			//System.out.println(AppareilsElectriques.get(u).getNom());
 		}
 	}
 	
 	public static void LoadRestaurant()
 	{
-		//System.out.println("Chargement Restaurant");
+		////System.out.println("Chargement Restaurant");
 		String myfile = readdatafromtextfile("restaurant.save");
 		String[] MyAppareils = myfile.split("NewRestaurant");
 		String[] MyParameters;
-		//System.out.println(myfile);
+		////System.out.println(myfile);
 		String Name ;
 		String CuisineName = "";
 		String ForfaitName= "";
@@ -235,7 +239,7 @@ public class AppCore  {
 		{
 			Name="";
 			MyParameters = MyAppareils[i].split("\n");
-			//System.out.println("start");
+			////System.out.println("start");
 			for(int e=0;e<MyParameters.length;e++)
 			{
 				if(MyParameters[e].startsWith("Name:"))
@@ -264,7 +268,7 @@ public class AppCore  {
 
 	public static void LoadCuisine()
 	{
-		//System.out.println("Chargement Cuisine");
+		////System.out.println("Chargement Cuisine");
 		String myfile = readdatafromtextfile("cuisine.save");
 		String[] MyCuisines = myfile.split("NewCuisine");
 		String[] MyParameters;
@@ -288,10 +292,10 @@ public class AppCore  {
 				if(NameCuisine!=""){
 				Cuisine MyCuisine = getCuisineFromName(NameCuisine);
 				MyAppareils = MyParameters[1].split("\n");
-				System.out.println(MyParameters[1]);
+				//System.out.println(MyParameters[1]);
 				for(int y=0;y<MyAppareils.length;y++)
 				{
-					System.out.println(AppareilsElectriques);
+					//System.out.println(AppareilsElectriques);
 					if(MyAppareils[y].toString() !="")
 					{
 						
@@ -306,7 +310,7 @@ public class AppCore  {
 			}
 			catch(Exception e)
 			{
-				//System.out.println(e.getMessage());
+				////System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -465,7 +469,7 @@ public class AppCore  {
 	}
 	public static void SavePlanAllumage()
 	{
-		//System.out.println("Sauvegarde AppareilElectrique");
+		////System.out.println("Sauvegarde AppareilElectrique");
 		PrintWriter writer =null;
 			 try {
 				writer= new PrintWriter("planallumages.save");
@@ -519,7 +523,7 @@ public class AppCore  {
 
 public static void LoadPlanAllumage()
 {
-	//System.out.println("Chargement Restaurant");
+	////System.out.println("Chargement Restaurant");
 	String myfile = readdatafromtextfile("planallumages.save");
 	String[] MyPlanAllumages = myfile.split("NewPlanAllumage");
 	String[] MyParameters;
@@ -528,10 +532,10 @@ public static void LoadPlanAllumage()
 	{
 		PlanAllumage Temp = new PlanAllumage();
 		MyParameters = MyPlanAllumages[i].split("\n");
-		//System.out.println("start");
+		////System.out.println("start");
 		for(int e=0;e<MyParameters.length;e++)
 		{
-			System.out.println(MyParameters[e]);
+			//System.out.println(MyParameters[e]);
 			if(MyParameters[e].startsWith("Name:"))
 			{
 				Temp.setName( MyParameters[e].trim().substring(5).toString());
@@ -582,13 +586,13 @@ public static void LoadPlanAllumage()
 				times2 = times[1].split(":");
 				HeureFin = Integer.parseInt(times2[0].trim());
 				MinuteFin = Integer.parseInt(times2[1].trim());
-				System.out.println(HeureDebut);
-				System.out.println(MinuteDebut);
-				System.out.println(HeureFin);
-				System.out.println(MinuteFin);
+				//System.out.println(HeureDebut);
+				//System.out.println(MinuteDebut);
+				//System.out.println(HeureFin);
+				//System.out.println(MinuteFin);
 
 				Temp.addPlageHoraire(Jour, new Heure(HeureDebut,MinuteDebut), new Heure(HeureFin,MinuteFin));
-				System.out.println(Temp.getPlageHoraire("Lundi").size());
+				//System.out.println(Temp.getPlageHoraire("Lundi").size());
 			}
 			
 			
@@ -599,4 +603,6 @@ public static void LoadPlanAllumage()
 		}		
 }
 }
+
+
 }

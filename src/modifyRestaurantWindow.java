@@ -123,7 +123,7 @@ public class modifyRestaurantWindow extends Stage{
 					@Override
 					public void handle(ActionEvent ae) 
 					{ 
-						final DialogBox dialogBox = new DialogBox(stage);
+						final DialogBox dialogBox = new DialogBox(stage,"Etes vous sur de faire cela ?",2);
 
 						dialogBox.setOnHiding(new EventHandler<WindowEvent>() 
 								{

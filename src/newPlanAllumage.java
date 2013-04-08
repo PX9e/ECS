@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -26,9 +27,12 @@ public class newPlanAllumage extends Stage
 	
 	public PlanAllumage MonPlanAllumage ;
 	
-	newPlanAllumage(){
+	newPlanAllumage(Stage primaryStage){
+	
 		MonPlanAllumage = new PlanAllumage();
-		//Stage Window = new Stage();
+		final Stage stage = this;
+		//Window.initModality(Modality.WINDOW_MODAL);
+		//Window.initOwner(primaryStage);
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -80,44 +84,47 @@ public class newPlanAllumage extends Stage
 		hbBtn.getChildren().add(boutonAnnuler);
 		hbBtn.getChildren().add(boutonEnregistrer);
 		
-		nomPlanTextField.setOnKeyPressed(new EventHandler<KeyEvent>()
-				{
-
-			@Override
-			public void handle(KeyEvent pressedKey) 
-			{
-				System.out.println(pressedKey.getCode());
-				if(pressedKey.getCode() == KeyCode.ENTER)
-				{
-					if(!nomPlanTextField.getText().isEmpty())
-					{
-					/*	MonAppareilElectrique = new AppareilElectrique(nomPlanTextField.getText());
-						if(MonAppareilElectrique != null)
-						{
-							AppCore.AjouterAppareilToList(MonAppareilElectrique);
-							//Rafraichissement affichage liste
-							ObservableList<PlanAllumage> items = FXCollections.observableArrayList (AppCore.getListePlansAllumages());
-							list.setItems(items);
-							nomPlanTextField.setText("");
-						}*/
-					}
-				}
-			}
-		});
+	
 		final Text actiontarget = new Text();
 	
 
 		if(!AppCore.getListeAppareilsElectriques().isEmpty())
-			System.out.println(AppCore.getListeAppareilsElectriques().get(0));
+			//System.out.println(AppCore.getListeAppareilsElectriques().get(0));
 		
 		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				MonPlanAllumage.setName(nomPlanTextField.getText());
-				AppCore.AjouterPlanAllumage(MonPlanAllumage); 	
-				close();
+				if(!nomPlanTextField.getText().isEmpty())
+				{
+					
+
+					if(AppCore.getPlanAllumage(nomPlanTextField.getText())==null)
+					{
+						
+
+						if(MonPlanAllumage.getPlageHoraire("Lundi").size()>0)
+						{
+							MonPlanAllumage.setName(nomPlanTextField.getText());
+							AppCore.AjouterPlanAllumage(MonPlanAllumage); 	
+							close();
+						}
+						else
+						{
+							final DialogBox dialogBox = new DialogBox(stage,"Vous devez specifier au moins une plage horaire",1);
+						}
+					}
+					else
+					{
+						final DialogBox dialogBox = new DialogBox(stage,"Nom déjà existant",1);
+					}
+				}
+				else
+				{
+					final DialogBox dialogBox = new DialogBox(stage,"Nom vide",1);
+				}
+					
 			}
 		});
 		
@@ -125,6 +132,7 @@ public class newPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e)
 			{
+				System.out.println("coucou");
 				close();
 			}
 		});
@@ -146,30 +154,39 @@ public class newPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e)
 			{
-				System.out.println("Armed");
-				if(((Integer.parseInt(HeureDebut.getText())<24)&&(Integer.parseInt(MinuteDebut.getText())<60))&&((Integer.parseInt(HeureFin.getText())<24)&&(Integer.parseInt(MinuteFin.getText())<60)))
+				//System.out.println("Armed");
+				if(((!HeureDebut.getText().isEmpty())&&(!MinuteDebut.getText().isEmpty()))&&((!HeureFin.getText().isEmpty())&&(!MinuteFin.getText().isEmpty())))
 				{
-					MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
-					ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
-					list.setItems(items);
-				}
-				else 
-				{
-					if(Integer.parseInt(HeureDebut.getText())>23)
+					try{
+					if(((Integer.parseInt(HeureDebut.getText())<24)&&(Integer.parseInt(MinuteDebut.getText())<60))&&((Integer.parseInt(HeureFin.getText())<24)&&(Integer.parseInt(MinuteFin.getText())<60)))
 					{
-							HeureDebut.setText("23");
+						MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
+						ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
+						list.setItems(items);
 					}
-					if(Integer.parseInt(MinuteDebut.getText())>59)
+					else 
 					{
-							MinuteDebut.setText("59");
+						if(Integer.parseInt(HeureDebut.getText())>23)
+						{
+								HeureDebut.setText("23");
+						}
+						if(Integer.parseInt(MinuteDebut.getText())>59)
+						{
+								MinuteDebut.setText("59");
+						}
+						if(Integer.parseInt(HeureFin.getText())>23)
+						{
+								HeureFin.setText("23");
+						}
+						if(Integer.parseInt(MinuteFin.getText())>59)
+						{
+								MinuteFin.setText("59");
+						}
 					}
-					if(Integer.parseInt(HeureFin.getText())>23)
-					{
-							HeureFin.setText("23");
 					}
-					if(Integer.parseInt(MinuteFin.getText())>59)
+					catch(Exception E)
 					{
-							MinuteFin.setText("59");
+					
 					}
 				}
 			}

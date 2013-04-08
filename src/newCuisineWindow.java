@@ -64,7 +64,7 @@ class NewCuisineWindow extends Stage{
 			@Override
 			public void handle(KeyEvent pressedKey) 
 			{
-				System.out.println(pressedKey.getCode());
+				//System.out.println(pressedKey.getCode());
 				if(pressedKey.getCode() == KeyCode.ENTER)
 				{
 					if(!nomCuisineTextField.getText().isEmpty())
@@ -124,7 +124,7 @@ class NewCuisineWindow extends Stage{
 		//grid.add(listAppareilsNonAssocies, 2, 2);
 
 		if(!AppCore.getListeCuisines().isEmpty())
-			System.out.println(AppCore.getListeCuisines().get(0));
+			//System.out.println(AppCore.getListeCuisines().get(0));
 		
 		/*
 		boutonAjouterCuisine.setOnAction(new EventHandler<ActionEvent>() {

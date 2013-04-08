@@ -24,9 +24,9 @@ public class PlageHoraire {
 	PlageHoraire(Heure pDebut, Heure pFin)
 	{
 		
-		System.out.println("f" + pDebut.toString());
+		//System.out.println("f" + pDebut.toString());
 
-		System.out.println("f" + pFin.toString());
+		//System.out.println("f" + pFin.toString());
 		Debut = pDebut;
 		Fin = pFin;
 		

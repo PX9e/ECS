@@ -25,12 +25,12 @@ public class PlanAllumage {
 	}
 
 	public void addPlageHoraire(String jour, Heure Debut, Heure Fin) {
-		System.out.println("jour "+ jour);
+		//System.out.println("jour "+ jour);
 		switch (jour) {
 		case "Lundi":
-			System.out.println("p" + Debut.toString());
+			//System.out.println("p" + Debut.toString());
 
-			System.out.println("p" + Fin.toString());
+			//System.out.println("p" + Fin.toString());
 			PlageHoraireLundi.add(new PlageHoraire(Debut, Fin));
 			break;
 		case "Mardi":

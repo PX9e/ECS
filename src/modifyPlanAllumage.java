@@ -91,7 +91,7 @@ public class modifyPlanAllumage extends Stage
 			@Override
 			public void handle(KeyEvent pressedKey) 
 			{
-				System.out.println(pressedKey.getCode());
+				//System.out.println(pressedKey.getCode());
 				if(pressedKey.getCode() == KeyCode.ENTER)
 				{
 					if(!nomPlanTextField.getText().isEmpty())
@@ -113,7 +113,7 @@ public class modifyPlanAllumage extends Stage
 	
 
 		if(!AppCore.getListeAppareilsElectriques().isEmpty())
-			System.out.println(AppCore.getListeAppareilsElectriques().get(0));
+			//System.out.println(AppCore.getListeAppareilsElectriques().get(0));
 		
 		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -200,7 +200,9 @@ public class modifyPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e)
 			{
-				
+				if(((!HeureDebut.getText().isEmpty())&&(!MinuteDebut.getText().isEmpty()))&&((!HeureFin.getText().isEmpty())&&(!MinuteFin.getText().isEmpty())))
+				{
+				try{
 				if(((Integer.parseInt(HeureDebut.getText())<24)&&(Integer.parseInt(MinuteDebut.getText())<60))&&((Integer.parseInt(HeureFin.getText())<24)&&(Integer.parseInt(MinuteFin.getText())<60)))
 				{
 					MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
@@ -226,8 +228,13 @@ public class modifyPlanAllumage extends Stage
 							MinuteFin.setText("59");
 					}
 				}
+				}
+				catch(Exception E)
+				{
+					
+				}
 			}
-		});
+		}});
 		
 		
 		

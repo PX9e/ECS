@@ -32,13 +32,13 @@ public class AppareilElectrique {
 	}
 	
 	public Mode getModesByName(String pName) {
-		System.out.println(Modes.size());
+		//System.out.println(Modes.size());
 		for(int i =0;i<Modes.size();i++)
 		{
-			System.out.println(Modes.get(i).getName()+ " "+pName);
+			//System.out.println(Modes.get(i).getName()+ " "+pName);
 			if(Modes.get(i).getName().trim().compareTo(pName.trim())==0)
 			{
-				System.out.println("ok");
+				//System.out.println("ok");
 				return Modes.get(i);
 			}
 		}

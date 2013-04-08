@@ -99,7 +99,7 @@ public class newAppareilWindow extends Stage
 					Number oldValue, Number newValue) {
 				 if(newValue.intValue() > oldValue.intValue()){
 						char ch = consoModeTextField.getText().charAt(oldValue.intValue());
-						System.out.println("Length:"+ oldValue+"  "+ newValue +" "+ch);                   
+						//System.out.println("Length:"+ oldValue+"  "+ newValue +" "+ch);                   
 			 
 						//Check if the new character is the number or other's
 						if(!(ch >= '0' && ch <= '9' )&&(ch!=';')&&(ch!=':')&&(ch!=',')){       
@@ -143,13 +143,13 @@ public class newAppareilWindow extends Stage
 							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
 							{
 								coupleint Temp = new coupleint(MonAppareilElectrique.getCouples().get(k),MonAppareilElectrique.getCouples().get(k+1));
-								System.out.println(listC.getSelectionModel().getSelectedItem().toString());
-								System.out.println(Temp.toString());
+								//System.out.println(listC.getSelectionModel().getSelectedItem().toString());
+								//System.out.println(Temp.toString());
 								if(Temp.getA().trim() == listC.getSelectionModel().getSelectedItem().getA().trim())
 								{
 									if(Temp.getB().trim() == listC.getSelectionModel().getSelectedItem().getB().trim())
 									{
-									System.out.println("yeap");
+									//System.out.println("yeap");
 									MonAppareilElectrique.getCouples().remove(k+1);
 									MonAppareilElectrique.getCouples().remove(k);
 								
@@ -175,8 +175,8 @@ public class newAppareilWindow extends Stage
 					{
 						if((listB.getSelectionModel().getSelectedItem()!=null)&&(list.getSelectionModel().getSelectedItem()!=null))
 						{
-							System.out.println(AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
-							System.out.println(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()));
+							//System.out.println(AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
+							//System.out.println(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()));
 							MonAppareilElectrique.AddCouple(list.getSelectionModel().getSelectedItem().getName(), listB.getSelectionModel().getSelectedItem().getName());
 							Couples.clear();
 							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
@@ -207,7 +207,7 @@ public class newAppareilWindow extends Stage
 		grid.add(ListBox,0 ,3);
 
 		if(!AppCore.getListeAppareilsElectriques().isEmpty())
-			System.out.println(AppCore.getListeAppareilsElectriques().get(0));
+			//System.out.println(AppCore.getListeAppareilsElectriques().get(0));
 		
 		AjouterMode.setOnAction(new EventHandler<ActionEvent>() 
 		{
@@ -218,15 +218,15 @@ public class newAppareilWindow extends Stage
 				{
 					Mode MonNouveauMode = new Mode(nomModeTextField.getText());
 					String ConsoChaine = consoModeTextField.getText();
-					System.out.println(ConsoChaine);
+					//System.out.println(ConsoChaine);
 					
 					String[] UpAndDown = ConsoChaine.split(";");
-					System.out.println(UpAndDown[0]);
-					System.out.println(UpAndDown[1]);
+					//System.out.println(UpAndDown[0]);
+					//System.out.println(UpAndDown[1]);
 					String[] Ups = UpAndDown[0].split(":");
 					String[] Downs = UpAndDown[1].split(":");
-				System.out.println(Ups);
-					System.out.println(Downs);
+				//System.out.println(Ups);
+					//System.out.println(Downs);
 					for(int i = 0 ; i<Ups.length;i++)
 					{
 						MonNouveauMode.AddUp(Double.parseDouble(Ups[i]));
