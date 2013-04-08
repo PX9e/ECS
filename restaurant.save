@@ -2,3 +2,7 @@ NewRestaurant
 Name:MonRestaurant
 Cuisine:Cuisine
 Forfait:
+NewRestaurant
+Name:Restau2
+Cuisine:Cuisine 2
+Forfait:

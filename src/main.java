@@ -281,13 +281,14 @@ public  class main extends Application{
 		listAppareil.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
+				
 				DrawGraphA();
 			}
 		}); 
 		listRestaurant.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				
+				listAppareil.getItems().clear();
 				refreshListB();
 				listCuisine.setVisible(true);
 				CuisineTitleLabel.setVisible(true);
@@ -299,7 +300,8 @@ public  class main extends Application{
 
 			@Override
 			public void handle(MouseEvent e) {
-				refreshListB();
+				
+				refreshListC();
 				listAppareil.setVisible(true);
 				AppareilTitleLabel.setVisible(true);
 			}
@@ -370,14 +372,21 @@ public  class main extends Application{
 	}
 	private void refreshListB()
 	{
-		ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (AppCore.getListeCuisines());
+		if(listRestaurant.getSelectionModel().getSelectedItem()!=null)
+		{
+		ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (listRestaurant.getSelectionModel().getSelectedItem().getCuisine());
 		listCuisine.setItems(itemsCuisine);
-	}
+		}
+		}
 	
 	private void refreshListC()
 	{
-		ObservableList<AppareilElectrique> itemsAppareil = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
+		System.out.println(listCuisine.getSelectionModel().getSelectedItem());
+		if(listCuisine.getSelectionModel().getSelectedItem()!=null)
+		{
+		ObservableList<AppareilElectrique> itemsAppareil = FXCollections.observableArrayList (listCuisine.getSelectionModel().getSelectedItem().ObtenirAppareils());
 		listAppareil.setItems(itemsAppareil);
+		}
 	}
 	private void DrawGraphA()
 	{
