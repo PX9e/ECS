@@ -325,7 +325,7 @@ public  class main extends Application{
 						}
 						
 					}	
-				
+					
 				ac.getData().remove(AppareilChart);
 				AppareilChart.getData().clear();
 				AppareilChart.getData().add(new XYChart.Data((0), Data.get(0)));
@@ -417,7 +417,19 @@ public  class main extends Application{
 					}
 				}
 				getCuisineChart().getData().add(new XYChart.Data(24, Data.get(1439)));
-				ac.getData().addAll(getCuisineChart());
+				
+				ac.getData().remove(AppareilChart);
+				AppareilChart.getData().clear();
+				AppareilChart.getData().add(new XYChart.Data((0), Data.get(0)));
+				for(int i = 1 ; i<Data.size()-1;i++)
+				{
+					if((Data.get(i)-Data.get(i-1)!=0)||(Data.get(i)-Data.get(i+1)!=0))
+					{
+						AppareilChart.getData().add(new XYChart.Data((double)(i/60.0), Data.get(i)));
+					}
+				}
+				AppareilChart.getData().add(new XYChart.Data(24, Data.get(1439)));
+				ac.getData().addAll(getCuisineChart(),AppareilChart);
 				 
 			}
 		}); 
