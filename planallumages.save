@@ -19,10 +19,9 @@ Vendredi
 Samedi
 Dimanche
 NewPlanAllumage
-Name:Nettoyage
+Name:Midi
 Lundi
-8:0 - 10:0
-15:0 - 16:0
+11:30 - 14:0
 Mardi
 Mercredi
 Jeudi
@@ -30,9 +29,11 @@ Vendredi
 Samedi
 Dimanche
 NewPlanAllumage
-Name:Midi
+Name:Nettoyage
 Lundi
-11:30 - 14:0
+8:0 - 10:0
+15:0 - 16:0
+15:30 - 16:30
 Mardi
 Mercredi
 Jeudi
