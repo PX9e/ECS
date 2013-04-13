@@ -8,14 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,6 +34,7 @@ public class newAppareilWindow extends Stage
 		MonAppareilElectrique = new AppareilElectrique("");
 		this.initModality(Modality.WINDOW_MODAL);
 		this.initOwner(primaryStage);
+		final Stage stage = this;
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -175,8 +173,12 @@ public class newAppareilWindow extends Stage
 					{
 						if((listB.getSelectionModel().getSelectedItem()!=null)&&(list.getSelectionModel().getSelectedItem()!=null))
 						{
-							//System.out.println(AppCore.getListePlansAllumages().indexOf(listB.getSelectionModel().getSelectedItem()));
-							//System.out.println(MonAppareilElectrique.getModes().indexOf(list.getSelectionModel().getSelectedItem()));
+							
+							
+							
+							
+							
+							
 							MonAppareilElectrique.AddCouple(list.getSelectionModel().getSelectedItem().getName(), listB.getSelectionModel().getSelectedItem().getName());
 							Couples.clear();
 							for(int k=0;k<MonAppareilElectrique.getCouples().size();k=k+2)
@@ -218,15 +220,12 @@ public class newAppareilWindow extends Stage
 				{
 					Mode MonNouveauMode = new Mode(nomModeTextField.getText());
 					String ConsoChaine = consoModeTextField.getText();
-					//System.out.println(ConsoChaine);
 					
 					String[] UpAndDown = ConsoChaine.split(";");
-					//System.out.println(UpAndDown[0]);
-					//System.out.println(UpAndDown[1]);
+					
 					String[] Ups = UpAndDown[0].split(":");
 					String[] Downs = UpAndDown[1].split(":");
-				//System.out.println(Ups);
-					//System.out.println(Downs);
+			
 					for(int i = 0 ; i<Ups.length;i++)
 					{
 						MonNouveauMode.AddUp(Double.parseDouble(Ups[i]));
@@ -251,13 +250,34 @@ public class newAppareilWindow extends Stage
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				if(nomAppareilTextField.getText()!="")
+				if(!nomAppareilTextField.getText().isEmpty())
 				{
-					if(consoModeTextField.getText()!=""){
+					
+				if(AppCore.getAppareilFromName(nomAppareilTextField.getText())==null)
+				{
+					
+					if(MonAppareilElectrique.getCouples().size()>0)
+					{
 						MonAppareilElectrique.setNom(nomAppareilTextField.getText());
 						AppCore.AjouterAppareilToList(MonAppareilElectrique);
 						close();
 					}
+					else
+					{
+						@SuppressWarnings("unused")
+						final DialogBox dialogBox = new DialogBox(stage,"Vous devez configurer des couples",1);
+					}
+				}
+				else
+				{
+					@SuppressWarnings("unused")
+					final DialogBox dialogBox = new DialogBox(stage,"Vous devez specifier un nom qui n'est pas déjà attribué",1);
+				}
+				}
+				else
+				{
+					@SuppressWarnings("unused")
+					final DialogBox dialogBox = new DialogBox(stage,"Vous devez specifier un nom",1);
 				}
 			}
 		});

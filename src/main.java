@@ -39,6 +39,8 @@ public  class main extends Application{
 	
     final NumberAxis yAxis = new NumberAxis();
 	final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
+	
+	@SuppressWarnings(value = { "all" })
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -202,7 +204,7 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								modifyPlanAllumage maFenetreNouveauResto = new modifyPlanAllumage();
+								modifyPlanAllumage maFenetreNouveauResto = new modifyPlanAllumage(primaryStage);
 								maFenetreNouveauResto.setOnHiding(new EventHandler<WindowEvent>()
 										{
 											@Override
@@ -388,6 +390,7 @@ public  class main extends Application{
 		listAppareil.setItems(itemsAppareil);
 		}
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void DrawGraphA()
 	{
 		
@@ -463,6 +466,7 @@ public  class main extends Application{
 		}
 		 
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void DrawGrapB()
 	{
 		//ac.setAnimated(false);
@@ -551,12 +555,14 @@ public  class main extends Application{
 		ac.getData().addAll(CuisineChart,AppareilChart);
 		}
 	}
+	@SuppressWarnings("rawtypes")
 	public XYChart.Series getCuisineChart() {
 		return CuisineChart;
 	}
 
 
-	public void setCuisineChart(XYChart.Series cuisineChart) {
+	@SuppressWarnings("unchecked")
+	public void setCuisineChart(@SuppressWarnings("rawtypes") XYChart.Series cuisineChart) {
 		CuisineChart = cuisineChart;
 	}
 	

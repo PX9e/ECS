@@ -192,4 +192,6 @@ public class PlanAllumage {
 		 PlageHoraireSamedi = new ArrayList<PlageHoraire>();
 		 PlageHoraireDimanche = new ArrayList<PlageHoraire>();
 	}
+
+	
 }

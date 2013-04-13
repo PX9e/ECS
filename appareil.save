@@ -7,9 +7,19 @@ Down
 0.0
 Coup:
 Full
-Permanent
+Continu
 NewAppareilElectrique
 Name:Four
+Mode:Full
+Up
+200.0
+Down
+0.0
+Mode:Full
+Up
+200.0
+Down
+0.0
 Mode:Eco
 Up
 100.0
@@ -29,6 +39,16 @@ Full
 Midi
 NewAppareilElectrique
 Name:Bass Cannon
+Mode:Full
+Up
+2000.0
+Down
+0.0
+Mode:Full
+Up
+2000.0
+Down
+0.0
 Mode:Power
 Up
 10.0

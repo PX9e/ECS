@@ -53,11 +53,7 @@ public class Restaurant {
 	
 	Restaurant(String nomRestaurant)
 	{
-		if(cuisine!=null)
-		{
-			this.cuisine = cuisine;
-		}
-		else
+		if(cuisine==null)
 		{
 			this.cuisine =new Cuisine();
 		}

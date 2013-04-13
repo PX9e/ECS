@@ -11,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -31,8 +29,8 @@ public class newPlanAllumage extends Stage
 	
 		MonPlanAllumage = new PlanAllumage();
 		final Stage stage = this;
-		//Window.initModality(Modality.WINDOW_MODAL);
-		//Window.initOwner(primaryStage);
+		this.initModality(Modality.WINDOW_MODAL);
+		this.initOwner(primaryStage);
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -88,9 +86,8 @@ public class newPlanAllumage extends Stage
 		final Text actiontarget = new Text();
 	
 
-		if(!AppCore.getListeAppareilsElectriques().isEmpty())
-			//System.out.println(AppCore.getListeAppareilsElectriques().get(0));
 		
+			
 		boutonEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -98,12 +95,8 @@ public class newPlanAllumage extends Stage
 			{
 				if(!nomPlanTextField.getText().isEmpty())
 				{
-					
-
 					if(AppCore.getPlanAllumage(nomPlanTextField.getText())==null)
-					{
-						
-
+					{	
 						if(MonPlanAllumage.getPlageHoraire("Lundi").size()>0)
 						{
 							MonPlanAllumage.setName(nomPlanTextField.getText());
@@ -112,16 +105,19 @@ public class newPlanAllumage extends Stage
 						}
 						else
 						{
+							@SuppressWarnings("unused")
 							final DialogBox dialogBox = new DialogBox(stage,"Vous devez specifier au moins une plage horaire",1);
 						}
 					}
 					else
 					{
+						@SuppressWarnings("unused")
 						final DialogBox dialogBox = new DialogBox(stage,"Nom déjà existant",1);
 					}
 				}
 				else
 				{
+					@SuppressWarnings("unused")
 					final DialogBox dialogBox = new DialogBox(stage,"Nom vide",1);
 				}
 					
@@ -154,17 +150,49 @@ public class newPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e)
 			{
-				//System.out.println("Armed");
 				if(((!HeureDebut.getText().isEmpty())&&(!MinuteDebut.getText().isEmpty()))&&((!HeureFin.getText().isEmpty())&&(!MinuteFin.getText().isEmpty())))
 				{
 					try{
 					if(((Integer.parseInt(HeureDebut.getText())<24)&&(Integer.parseInt(MinuteDebut.getText())<60))&&((Integer.parseInt(HeureFin.getText())<24)&&(Integer.parseInt(MinuteFin.getText())<60)))
 					{
-						MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
-						ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
-						list.setItems(items);
+						ArrayList<PlageHoraire> MyHoraires = MonPlanAllumage.getPlageHoraire("Lundi");
+						int testingdata = Integer.parseInt(HeureDebut.getText()) * 60 + Integer.parseInt(MinuteDebut.getText());
+						int testingdataB = Integer.parseInt(HeureFin.getText()) * 60 + Integer.parseInt(MinuteFin.getText());
+						boolean flag = false;
+						int reference;
+						int referenceB;
+						
+						for(int z=0;z<MyHoraires.size();z++)
+						{
+							reference = MyHoraires.get(z).getDebut().getHeures() * 60 +MyHoraires.get(z).getDebut().getMinutes();
+							referenceB = MyHoraires.get(z).getFin().getHeures() * 60 + MyHoraires.get(z).getFin().getMinutes();
+							
+							if((testingdata>reference)&&(testingdata<referenceB))
+							{
+								flag=true;
+								break;	
+							}
+							if((testingdataB>reference)&&(testingdataB<referenceB))
+							{
+								flag=true;
+								break;
+							}
+						}
+						
+						
+						if(flag ==false)
+						{
+							MonPlanAllumage.addPlageHoraire("Lundi", new Heure(Integer.parseInt(HeureDebut.getText()),Integer.parseInt(MinuteDebut.getText())), new Heure(Integer.parseInt(HeureFin.getText()),Integer.parseInt(MinuteFin.getText())));
+							ObservableList<PlageHoraire> items = FXCollections.observableArrayList (MonPlanAllumage.getPlageHoraire("Lundi"));
+							list.setItems(items);
+						}
+						else
+						{
+							@SuppressWarnings("unused")
+							final DialogBox Mydialog= new DialogBox(stage, "Chevauchement des horaires", 1);
+						}
 					}
-					else 
+					else
 					{
 						if(Integer.parseInt(HeureDebut.getText())>23)
 						{
