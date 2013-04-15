@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -24,41 +23,98 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 class NewModifierCuisineWindow extends Stage{
 
 	public Cuisine MaCuisine;
 
-	public Cuisine getMaCuisine() {
-		return MaCuisine;
-	}
-
-	public void setMaCuisine(Cuisine monCuisine) {
-		MaCuisine = monCuisine;
-	}
-
 	NewModifierCuisineWindow(Stage primaryStage)
 	{
 		this.initModality(Modality.WINDOW_MODAL);
 		this.initOwner(primaryStage);
+		final Stage stage = this;
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Ajouter une cuisine");
+		Text scenetitle = new Text("Modifier une cuisine");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label nomCuisineLabel = new Label("Nom de la cuisine:");
-		grid.add(nomCuisineLabel, 0, 1);
+		HBox ChoixSup = new HBox(20);
+		ChoixSup.getChildren().add(nomCuisineLabel);
 
 		final ListView<AppareilElectrique> listAppareilsAssocies= new ListView<AppareilElectrique>();
 		final ListView<AppareilElectrique> listAppareilsNonAssocies = new ListView<AppareilElectrique>();
 		final ComboBox<Cuisine> nomCuisineTextField = new ComboBox<Cuisine>();
-		nomCuisineTextField.setPrefSize(15, 20);
-		grid.add(nomCuisineTextField, 1, 1);
+		Button boutonAjouterCuisine = new Button("Supprimer Cuisine");
+		
+
+		ChoixSup.getChildren().add(nomCuisineTextField);
+		ChoixSup.getChildren().add(boutonAjouterCuisine);
+		
+		boutonAjouterCuisine.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				if ((nomCuisineTextField.getSelectionModel().getSelectedItem() != null)) {
+					
+					boolean Conflit = false;
+					
+					for(int i = 0 ; i<AppCore.getListeRestaurants().size();i++)
+					{
+						if(AppCore.getListeRestaurants().get(i).getCuisine().getNom() == nomCuisineTextField.getSelectionModel().getSelectedItem().getNom())
+						{
+							Conflit = true;
+									break;
+						}
+					}
+					
+					
+					if(Conflit ==false)
+					{
+						final DialogBox dialogBox = new DialogBox(
+								stage,
+								"Attention, ceci est un choix definitif etes-vous sûr ? ",
+								2);
+
+						System.out.println(dialogBox.getAnswer());
+						dialogBox.setOnHiding(new EventHandler<WindowEvent>() {
+
+							@Override
+							public void handle(WindowEvent arg0) {
+								if (dialogBox.getAnswer() == true) {
+									System.out.println("go");
+									AppCore.RetirerCuisineFromList(nomCuisineTextField.getSelectionModel().getSelectedItem().getNom());
+									nomCuisineTextField.getItems().clear();
+									nomCuisineTextField.setItems(FXCollections.observableArrayList(AppCore
+											.getListeCuisines()));
+									listAppareilsAssocies.getItems().clear();
+									listAppareilsNonAssocies.getItems().clear();
+									
+								}
+							}
+
+						});
+					
+
+					}
+					else
+					{
+						@SuppressWarnings("unused")
+						final DialogBox dialogBox = new DialogBox(
+								stage,
+								"Attention cette cuisine est toujours utilisée  !",
+								1);
+					}
+				}
+			}
+		});
+		grid.add(ChoixSup, 0
+				, 1);
 		nomCuisineTextField.getItems().clear();
 		nomCuisineTextField.setItems(FXCollections.observableArrayList(AppCore
 				.getListeCuisines()));
@@ -74,18 +130,16 @@ class NewModifierCuisineWindow extends Stage{
 							ObservableList<AppareilElectrique> items = FXCollections
 									.observableArrayList(MaCuisine
 											.ObtenirAppareils());
-								
 							listAppareilsAssocies.setItems(items);
 							ArrayList<AppareilElectrique> NonAssoci = new ArrayList<AppareilElectrique>();
 							for(int i = 0;i<AppCore.getListeAppareilsElectriques().size();i++)
 							{
-								if(items.indexOf(AppCore.getListeAppareilsElectriques().get(i))==-1)
+								if(listAppareilsAssocies.getItems().indexOf(AppCore.getListeAppareilsElectriques().get(i))==-1)
 								{
 									NonAssoci.add(AppCore.getListeAppareilsElectriques().get(i));
-							
 								}
 							}
-								ObservableList<AppareilElectrique> itemsA = FXCollections
+							ObservableList<AppareilElectrique> itemsA = FXCollections
 									.observableArrayList(NonAssoci);
 							listAppareilsNonAssocies.setItems(itemsA);
 
@@ -93,9 +147,7 @@ class NewModifierCuisineWindow extends Stage{
 					}
 				});
 
-		Button boutonAjouterCuisine = new Button("Ajouter Cuisine");
-		grid.add(boutonAjouterCuisine,3,1);
-
+	
 
 		Button boutonEnregistrer = new Button("Enregistrer");
 		Button boutonAnnuler = new Button("Annuler");
@@ -123,18 +175,14 @@ class NewModifierCuisineWindow extends Stage{
 		final Text actiontarget = new Text();
 		grid.add(actiontarget, 1, 6);
 
-		final ObservableList<AppareilElectrique> itemsAppareilsAssocies= FXCollections.observableArrayList ();
 		
 		grid.add(listAppareilsAssocies,0 ,2);
-		
-		final ObservableList<AppareilElectrique> itemsAppareilsNonAssocies = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
-			
 		boutonFlecheGauche.setOnAction(new EventHandler<ActionEvent>() {
+			
 			@Override
 			public void handle(ActionEvent e)
 			{
-				System.out.println("go");
-				System.out.println(listAppareilsNonAssocies.getSelectionModel().getSelectedItem());
+				
 				if(listAppareilsNonAssocies.getSelectionModel().getSelectedItem() != null)
 				{
 					
@@ -149,27 +197,27 @@ class NewModifierCuisineWindow extends Stage{
 			@Override
 			public void handle(ActionEvent e)
 			{
-				if(listAppareilsAssocies.getFocusModel().getFocusedItem() != null)
+				if(listAppareilsAssocies.getSelectionModel().getSelectedItem() != null)
 				{
-					listAppareilsAssocies.getItems().add(listAppareilsNonAssocies.getSelectionModel().getSelectedItem());
-					listAppareilsNonAssocies.getItems().remove(listAppareilsNonAssocies.getSelectionModel().getSelectedItem());
+					
+					listAppareilsNonAssocies.getItems().add(listAppareilsAssocies.getSelectionModel().getSelectedItem());
+					listAppareilsAssocies.getItems().remove(listAppareilsAssocies.getSelectionModel().getSelectedItem());
 				}
 			}
 		});
 		
 		listAppareilsAssocies.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
 			@Override
 			public void handle(MouseEvent me) {
 				if(me.getClickCount() > 1)
 				{
-					if(listAppareilsAssocies.getFocusModel().getFocusedItem() != null)
+					if(listAppareilsAssocies.getSelectionModel().getSelectedItem() != null)
 					{
-					itemsAppareilsNonAssocies.add(listAppareilsAssocies.getFocusModel().getFocusedItem());
-					itemsAppareilsAssocies.remove(listAppareilsAssocies.getFocusModel().getFocusedItem());
+						
+						listAppareilsNonAssocies.getItems().add(listAppareilsAssocies.getSelectionModel().getSelectedItem());
+						listAppareilsAssocies.getItems().remove(listAppareilsAssocies.getSelectionModel().getSelectedItem());
 					}
 				}
-				
 			}});
 		
 		listAppareilsNonAssocies.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -178,10 +226,12 @@ class NewModifierCuisineWindow extends Stage{
 			public void handle(MouseEvent me) {
 				if(me.getClickCount() > 1)
 				{
-					if(listAppareilsNonAssocies.getFocusModel().getFocusedItem() != null)
+					if(listAppareilsNonAssocies.getSelectionModel().getSelectedItem() != null)
 					{
-					itemsAppareilsAssocies.add(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
-					itemsAppareilsNonAssocies.remove(listAppareilsNonAssocies.getFocusModel().getFocusedItem());
+						
+					listAppareilsAssocies.getItems().add(listAppareilsNonAssocies.getSelectionModel().getSelectedItem());
+					listAppareilsNonAssocies.getItems().remove(listAppareilsNonAssocies.getSelectionModel().getSelectedItem());
+					
 					}
 				}
 				
@@ -195,17 +245,27 @@ class NewModifierCuisineWindow extends Stage{
 				
 				ArrayList<AppareilElectrique> tempArraylist = new ArrayList<AppareilElectrique>();
 				tempArraylist.clear();
-				for(int i = 0; i < itemsAppareilsAssocies.size() ; i++ )
-				{
-					tempArraylist.add(itemsAppareilsAssocies.get(i));
-				}
 				
+				for(int i = 0; i < listAppareilsAssocies.getItems().size() ; i++ )
+				{
+					System.out.println(listAppareilsAssocies.getItems().get(i).getNom());
+					tempArraylist.add(listAppareilsAssocies.getItems().get(i));
+				}
+				if(nomCuisineTextField.getSelectionModel().getSelectedItem()!=null)
+						{
 				Cuisine cuisineCreee = new Cuisine (nomCuisineTextField.getValue().getNom(),tempArraylist);
 				
-				AppCore.RetirerCuisineFromList(MaCuisine);
+				AppCore.RetirerCuisineFromList(MaCuisine.getNom());
 				AppCore.AjouterCuisineToList(cuisineCreee);
+				AppCore.SaveCuisine();
+				AppCore.LoadCuisine();
 				close();
-			}
+						}
+				else
+				{
+				close();
+				}
+				}
 		});
 		
 		boutonAnnuler.setOnAction(new EventHandler<ActionEvent>() {

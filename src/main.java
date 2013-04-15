@@ -68,16 +68,7 @@ public  class main extends Application{
 
 		menuPhase.getItems().add(MenuItemBuilder.create().text("Nouveau").build());
 		menuPhase.getItems().add(MenuItemBuilder.create().text("Modifier").build());
-		menuFichier.getItems().add(MenuItemBuilder.create()
-				.text("Option")
-				.onAction(
-						new EventHandler<ActionEvent>()
-						{
-							@Override public void handle(ActionEvent e)
-							{
-							}
-						}).accelerator( KeyCombination.keyCombination("ctrl+o")).build());
-
+	
 		menuFichier.getItems().add(MenuItemBuilder.create()
 				.text("Quitter")
 				.onAction(
@@ -107,7 +98,10 @@ public  class main extends Application{
 											
 												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
 												{
-													refreshListA();
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
 												}
 											}
 											});
@@ -121,8 +115,24 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								@SuppressWarnings("unused")
+								
 								NewCuisineWindow maFenetreNouvelleCuisine = new NewCuisineWindow(primaryStage);
+								maFenetreNouvelleCuisine.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+											
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
+												}
+											}
+											});
+								
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+c")).build());
 		menuCuisine.getItems().add(MenuItemBuilder.create()
@@ -132,8 +142,24 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								@SuppressWarnings("unused")
+								
 								NewModifierCuisineWindow maFenetreNouvelleCuisine = new NewModifierCuisineWindow(primaryStage);
+								maFenetreNouvelleCuisine.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+											
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
+												}
+											}
+											});
+								
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+C")).build());
 		menuRestaurant.getItems().add(MenuItemBuilder.create()
@@ -143,8 +169,23 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								@SuppressWarnings("unused")
+								
 								modifyRestaurantWindow monModifyRestaurantWindow = new modifyRestaurantWindow(primaryStage);
+								monModifyRestaurantWindow.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+											
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
+												}
+											}
+											});
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+R")).build());
 		menuForfait.getItems().add(new MenuItem("Nouveau"));
@@ -156,8 +197,22 @@ public  class main extends Application{
 						{
 							@Override public void handle(ActionEvent e)
 							{
-								@SuppressWarnings("unused")
 								newAppareilWindow monAppareilWindow = new newAppareilWindow(primaryStage);
+								monAppareilWindow.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+											
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
+												}
+											}
+											});
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+E")).build());
 		menuAppareilElectrique.getItems().add(MenuItemBuilder.create()
@@ -166,9 +221,23 @@ public  class main extends Application{
 						new EventHandler<ActionEvent>()
 						{
 							@Override public void handle(ActionEvent e)
-							{
-								@SuppressWarnings("unused")
+							{	
 								newModifierAppareilWindow monAppareilWindow = new newModifierAppareilWindow(primaryStage);
+								monAppareilWindow.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+											
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
+												}
+											}
+											});
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+E")).build());
 		menuPlanAllumage.getItems().add(MenuItemBuilder.create()
@@ -364,11 +433,7 @@ public  class main extends Application{
 		
 		primaryStage.setScene(MyScene);
 		
-		AppCore.LoadPlanAllumage();
-		AppCore.LoadAppareilElectrique();
-		AppCore.LoadCuisine();
-		AppCore.LoadRestaurant();	
-				
+		
 		primaryStage.show();
 		refreshListAll();
 
@@ -377,6 +442,10 @@ public  class main extends Application{
 
 	private void refreshListAll()
 	{
+		AppCore.LoadPlanAllumage();
+		AppCore.LoadAppareilElectrique();
+		AppCore.LoadCuisine();
+		AppCore.LoadRestaurant();
 		refreshListA();
 		refreshListB();
 		refreshListC();
@@ -390,6 +459,7 @@ public  class main extends Application{
 	{
 		if(listRestaurant.getSelectionModel().getSelectedItem()!=null)
 		{
+		
 		ObservableList<Cuisine> itemsCuisine = FXCollections.observableArrayList (listRestaurant.getSelectionModel().getSelectedItem().getCuisine());
 		listCuisine.setItems(itemsCuisine);
 		}
@@ -397,7 +467,6 @@ public  class main extends Application{
 	
 	private void refreshListC()
 	{
-		System.out.println(listCuisine.getSelectionModel().getSelectedItem());
 		if(listCuisine.getSelectionModel().getSelectedItem()!=null)
 		{
 		ObservableList<AppareilElectrique> itemsAppareil = FXCollections.observableArrayList (listCuisine.getSelectionModel().getSelectedItem().ObtenirAppareils());

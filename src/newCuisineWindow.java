@@ -57,35 +57,6 @@ class NewCuisineWindow extends Stage{
 		nomCuisineTextField.setPrefSize(15, 20);
 		grid.add(nomCuisineTextField, 1, 1);
 
-		/*nomCuisineTextField.setOnKeyPressed(new EventHandler<KeyEvent>()
-				{
-
-			@Override
-			public void handle(KeyEvent pressedKey) 
-			{
-				//System.out.println(pressedKey.getCode());
-				if(pressedKey.getCode() == KeyCode.ENTER)
-				{
-					if(!nomCuisineTextField.getText().isEmpty())
-					{
-						MaCuisine = new Cuisine(nomCuisineTextField.getText());
-						if(MaCuisine != null)
-						{
-							AppCore.AjouterCuisineToList(MaCuisine);
-							//Rafraichissement affichage liste
-							ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
-							listCuisine.setItems(items);
-							nomCuisineTextField.setText("");
-						}
-					}
-				}
-			}
-
-				});*/
-
-		Button boutonAjouterCuisine = new Button("Ajouter Cuisine");
-		grid.add(boutonAjouterCuisine,3,1);
-
 
 		Button boutonEnregistrer = new Button("Enregistrer");
 		Button boutonAnnuler = new Button("Annuler");
@@ -237,7 +208,7 @@ class NewCuisineWindow extends Stage{
 			}
 		});
 
-		this.setScene(new Scene(grid, 800, 600));
+		this.setScene(new Scene(grid, 600, 600));
 		this.show();
 		nomCuisineTextField.requestFocus();
 

@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -48,9 +47,7 @@ public class modifyRestaurantWindow extends Stage{
 		grid.add(listRestaurants, 0, 2);
 
 		Label recapLabelRecap = new Label("Récapitulatif : ");
-		Label recapLabelNom = new Label("Nom : ");
-		final TextField nomRestaurantTextField = new TextField();
-		nomRestaurantTextField.setPrefSize(200, 120);
+	
 		Label recapLabelCuisine = new Label("Cuisine : ");
 		final ComboBox<Cuisine> comboCuisines = new ComboBox<Cuisine>();
 
@@ -59,8 +56,7 @@ public class modifyRestaurantWindow extends Stage{
 		final ListView<AppareilElectrique> listAppareilsAssocies = new ListView<AppareilElectrique>();
 
 		HBox hbRestaurant = new HBox(10);
-		hbRestaurant.getChildren().add(recapLabelNom);
-		hbRestaurant.getChildren().add(nomRestaurantTextField);
+	
 
 		HBox hbCuisine = new HBox(10);
 		hbCuisine.getChildren().add(recapLabelCuisine);
@@ -84,11 +80,9 @@ public class modifyRestaurantWindow extends Stage{
 		grid.add(hbBtn, 1, 4);
 
 		Button boutonSupprimer = new Button("Supprimer");
-		Button boutonModifier = new Button("Modifier");
 		HBox hbBtnSupMod = new HBox(10);
 		hbBtnSupMod.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtnSupMod.getChildren().add(boutonSupprimer);
-		hbBtnSupMod.getChildren().add(boutonModifier);
 		grid.add(hbBtnSupMod, 1, 3);
 
 		listRestaurants.setOnMouseClicked(new EventHandler<MouseEvent>() 
@@ -98,7 +92,6 @@ public class modifyRestaurantWindow extends Stage{
 			public void handle(MouseEvent me) 
 			{
 				Restaurant selectedRestaurant = listRestaurants.getFocusModel().getFocusedItem(); 
-				nomRestaurantTextField.setText(selectedRestaurant.getNom());
 				final ObservableList<Cuisine> itemsCuisineCombo = FXCollections.observableArrayList (AppCore.getListeCuisines());
 				comboCuisines.setItems(itemsCuisineCombo);
 				comboCuisines.getSelectionModel().select(selectedRestaurant.getCuisine());
@@ -148,8 +141,9 @@ public class modifyRestaurantWindow extends Stage{
 					public void handle(ActionEvent ae) 
 					{
 						
-						
-						
+						Restaurant Temp = new Restaurant(comboCuisines.getSelectionModel().getSelectedItem(),listRestaurants.getSelectionModel().getSelectedItem().getNom());
+						AppCore.RetirerRestaurantFromList(listRestaurants.getSelectionModel().getSelectedItem().getNom());
+						AppCore.AjouterRestaurantToList(Temp);
 						AppCore.SaveRestaurant();
 						AppCore.SaveCuisine();
 						//AppCore.SaveAppareilElectrique();

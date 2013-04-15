@@ -400,6 +400,28 @@ public class AppCore  {
 		}
 		SaveAppareilElectrique();
 	}
+	public static void RetirerCuisineFromList(String Name) {
+		for(int i=0;i<Cuisines.size();i++)
+		{
+			if(Cuisines.get(i).getNom()==Name)
+			{
+				Cuisines.remove(i);
+				break;
+			}
+		}
+		SaveCuisine();
+	}
+	public static void RetirerRestaurantFromList(String Name) {
+		for(int i=0;i<Restaurants.size();i++)
+		{
+			if(Restaurants.get(i).getNom()==Name)
+			{
+				Restaurants.remove(i);
+				break;
+			}
+		}
+		SaveCuisine();
+	}
 
 	/**
 	 * Penser a gérer les exceptions (si return null)
@@ -479,6 +501,7 @@ public class AppCore  {
 	public static void SavePlanAllumage()
 	{
 		////System.out.println("Sauvegarde AppareilElectrique");
+		
 		PrintWriter writer =null;
 			 try {
 				writer= new PrintWriter("planallumages.save");
