@@ -106,6 +106,7 @@ public class AppCore  {
 	
 	public static void LoadAppareilElectrique()
 	{
+		AppareilsElectriques.clear();
 		////System.out.println("Chargement AppareilElectrique");
 		String myfile = readdatafromtextfile("appareil.save");
 		String[] MyAppareils = myfile.split("NewAppareilElectrique");
@@ -122,12 +123,12 @@ public class AppCore  {
 			MonAppareil = new AppareilElectrique("");
 			//System.out.println(MyAppareils[i]);
 			MyParameters = MyAppareils[i].split("\n");
+			MyMode = null;
 			for(int z = 0 ; z < MyParameters.length;z++)
 			{
 				if(MyParameters[z].trim().startsWith("Name:"))
 				{
 					MonAppareil.setNom(MyParameters[z].substring(5));
-					
 				}
 				else if(MyParameters[z].trim().startsWith("Mode:"))
 				{
@@ -221,6 +222,7 @@ public class AppCore  {
 	
 	public static void LoadRestaurant()
 	{
+		Restaurants.clear();
 		////System.out.println("Chargement Restaurant");
 		String myfile = readdatafromtextfile("restaurant.save");
 		String[] MyAppareils = myfile.split("NewRestaurant");
@@ -262,6 +264,7 @@ public class AppCore  {
 
 	public static void LoadCuisine()
 	{
+		Cuisines.clear();
 		////System.out.println("Chargement Cuisine");
 		String myfile = readdatafromtextfile("cuisine.save");
 		String[] MyCuisines = myfile.split("NewCuisine");
@@ -381,8 +384,20 @@ public class AppCore  {
 		SaveAppareilElectrique();
 	}
 	
-	public static void RetirerAppareilFromList(Cuisine MonAppareil) {
+	public static void RetirerAppareilFromList(AppareilElectrique MonAppareil) {
 		AppareilsElectriques.remove(MonAppareil);
+		SaveAppareilElectrique();
+	}
+	
+	public static void RetirerAppareilFromList(String Name) {
+		for(int i=0;i<AppareilsElectriques.size();i++)
+		{
+			if(AppareilsElectriques.get(i).getNom()==Name)
+			{
+				AppareilsElectriques.remove(i);
+				break;
+			}
+		}
 		SaveAppareilElectrique();
 	}
 
@@ -517,6 +532,7 @@ public class AppCore  {
 
 public static void LoadPlanAllumage()
 {
+	PlanAllumages.clear();
 	////System.out.println("Chargement Restaurant");
 	String myfile = readdatafromtextfile("planallumages.save");
 	String[] MyPlanAllumages = myfile.split("NewPlanAllumage");

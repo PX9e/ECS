@@ -72,5 +72,7 @@ public class  Heure
 	{
 		return String.valueOf(heures)+":"+ String.valueOf(minutes);
 	}
-	
+	public int toInt(){
+		return heures*60+minutes;
+	}
 }

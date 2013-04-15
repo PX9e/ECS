@@ -108,29 +108,52 @@ public class newAppareilWindow extends Stage
 			}
 			
 		});
-		/*final Button SupprimerBut = new Button("Sup mode");
-		final Button SupprimerDuo = new Button("Sup duo");*/
-		SupprimerBut.setOnAction(new EventHandler<ActionEvent>() 
-				{
-					@Override
-					public void handle(ActionEvent e) 
+		
+		SupprimerBut.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				if ((list.getSelectionModel().getSelectedItem() != null)) {
+					
+					boolean Conflit = false;
+					
+					for(int i =  0 ; i <MonAppareilElectrique.getCouples().size();i=i+2)
 					{
-						if((list.getSelectionModel().getSelectedItem()!=null))
+						System.out.println(list.getSelectionModel().getSelectedItem().getName().trim()+" " +MonAppareilElectrique.getCouples().get(i) );
+						System.out.println(list.getSelectionModel().getSelectedItem().getName().compareTo(MonAppareilElectrique.getCouples().get(i)));
+						if(list.getSelectionModel().getSelectedItem().getName().compareTo(MonAppareilElectrique.getCouples().get(i))==0)
 						{
-							for(int k=0;k<MonAppareilElectrique.getModes().size();k++)
-							{
-								if(MonAppareilElectrique.getModes().get(k).getName() == list.getSelectionModel().getSelectedItem().getName())
-								{
-									MonAppareilElectrique.getModes().remove(k);
-									break;
-								}
-							}
-							ObservableList<Mode> items = FXCollections.observableArrayList (MonAppareilElectrique.getModes());
-							list.setItems(items);
-						
+							Conflit = true;
+							break;
 						}
 					}
-				});
+					
+					
+					if(Conflit ==false)
+					{
+					for (int k = 0; k < MonAppareilElectrique.getModes().size(); k++) {
+						if (MonAppareilElectrique.getModes().get(k).getName() == list
+								.getSelectionModel().getSelectedItem()
+								.getName()) {
+							MonAppareilElectrique.getModes().remove(k);
+							break;
+						}
+					}
+					ObservableList<Mode> items = FXCollections
+							.observableArrayList(MonAppareilElectrique
+									.getModes());
+					list.setItems(items);
+					}
+					else
+					{
+						@SuppressWarnings("unused")
+						final DialogBox dialogBox = new DialogBox(
+								stage,
+								"Attention ce mode est toujours utilisé  !",
+								1);
+					}
+				}
+			}
+		});
 		SupprimerDuo.setOnAction(new EventHandler<ActionEvent>() 
 				{
 					@Override
@@ -216,30 +239,44 @@ public class newAppareilWindow extends Stage
 			@Override
 			public void handle(ActionEvent e) 
 			{
-				if((nomModeTextField.getText()!="")&&(consoModeTextField.getText()!=""))
+				
+				if((!nomModeTextField.getText().isEmpty())&&(!consoModeTextField.getText().isEmpty()))
 				{
-					Mode MonNouveauMode = new Mode(nomModeTextField.getText());
-					String ConsoChaine = consoModeTextField.getText();
-					
-					String[] UpAndDown = ConsoChaine.split(";");
-					
-					String[] Ups = UpAndDown[0].split(":");
-					String[] Downs = UpAndDown[1].split(":");
-			
-					for(int i = 0 ; i<Ups.length;i++)
+					if(MonAppareilElectrique.getModesByName(nomModeTextField.getText())==null)
 					{
-						MonNouveauMode.AddUp(Double.parseDouble(Ups[i]));
+						Mode MonNouveauMode = new Mode(nomModeTextField.getText());
+						String ConsoChaine = consoModeTextField.getText();
+						
+						String[] UpAndDown = ConsoChaine.split(";");
+						
+						String[] Ups = UpAndDown[0].split(":");
+						String[] Downs = UpAndDown[1].split(":");
+				
+						for(int i = 0 ; i<Ups.length;i++)
+						{
+							MonNouveauMode.AddUp(Double.parseDouble(Ups[i]));
+						}
+						for(int i = 0 ; i<Downs.length;i++)
+						{
+							MonNouveauMode.AddDown(Double.parseDouble(Downs[i]));
+						}
+						MonAppareilElectrique.AddModes(MonNouveauMode);
+						
+						ObservableList<Mode> items = FXCollections.observableArrayList (MonAppareilElectrique.getModes());
+						list.setItems(items);
+						nomModeTextField.setText("");
+						consoModeTextField.setText("");
 					}
-					for(int i = 0 ; i<Downs.length;i++)
+					else
 					{
-						MonNouveauMode.AddDown(Double.parseDouble(Downs[i]));
+						@SuppressWarnings("unused")
+						final DialogBox dialogBox = new DialogBox(stage,"Vous devez specifier un nom qui n'est pas déjà attribué",1);
 					}
-					MonAppareilElectrique.AddModes(MonNouveauMode);
-					
-					ObservableList<Mode> items = FXCollections.observableArrayList (MonAppareilElectrique.getModes());
-					list.setItems(items);
-					nomModeTextField.setText("");
-					consoModeTextField.setText("");
+				}
+				else
+				{
+					@SuppressWarnings("unused")
+					final DialogBox dialogBox = new DialogBox(stage,"Vous devez specifier un nom et une consommation !",1);
 				}
 				
 			}
@@ -250,6 +287,7 @@ public class newAppareilWindow extends Stage
 			@Override
 			public void handle(ActionEvent e) 
 			{
+				boolean Conflict = false;
 				if(!nomAppareilTextField.getText().isEmpty())
 				{
 					
@@ -258,15 +296,51 @@ public class newAppareilWindow extends Stage
 					
 					if(MonAppareilElectrique.getCouples().size()>0)
 					{
-						MonAppareilElectrique.setNom(nomAppareilTextField.getText());
-						AppCore.AjouterAppareilToList(MonAppareilElectrique);
-						close();
+						
+						
+						for(int VerifA = 0;VerifA <MonAppareilElectrique.getCouples().size();VerifA=VerifA+2)
+						{
+							for(int VerifB = 0;VerifB <MonAppareilElectrique.getCouples().size();VerifB=VerifB+2)
+							{
+								
+									System.out.println(MonAppareilElectrique.getCouples().get(VerifA+1));
+									System.out.println(MonAppareilElectrique.getCouples().get(VerifB+1));
+									ArrayList<PlageHoraire> PA = AppCore.getPlanAllumage(MonAppareilElectrique.getCouples().get(VerifA+1)).getPlageHoraire("Lundi");
+									ArrayList<PlageHoraire> PB =  AppCore.getPlanAllumage(MonAppareilElectrique.getCouples().get(VerifB+1)).getPlageHoraire("Lundi");
+									
+									for(int VerifC=0;VerifC< PA.size();VerifC++)
+									{
+										for(int VerifD=0;VerifD< PB.size();VerifD++)
+										{
+											if(((PA.get(VerifC).getDebut().toInt()<PB.get(VerifD).getFin().toInt())&&(PA.get(VerifC).getDebut().toInt()>PB.get(VerifD).getDebut().toInt()))||(PA.get(VerifC).getFin().toInt()<PB.get(VerifD).getFin().toInt())&&(PA.get(VerifC).getFin().toInt()>PB.get(VerifD).getDebut().toInt()))
+											{
+												Conflict = true;
+												break;
+											}
+											
+										}
+									}
+								
+							}
+						}
+						if(Conflict==false)
+						{
+							MonAppareilElectrique.setNom(nomAppareilTextField.getText());
+							AppCore.AjouterAppareilToList(MonAppareilElectrique);
+							close();
+						}
+						else
+						{
+							@SuppressWarnings("unused")
+							final DialogBox dialogBox = new DialogBox(stage,"Conflit de plages horaires !",1);
+						}
 					}
 					else
 					{
 						@SuppressWarnings("unused")
 						final DialogBox dialogBox = new DialogBox(stage,"Vous devez configurer des couples",1);
 					}
+					
 				}
 				else
 				{

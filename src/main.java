@@ -111,9 +111,6 @@ public  class main extends Application{
 												}
 											}
 											});
-								
-								
-								
 								}
 						}).accelerator( KeyCombination.keyCombination("ctrl+r")).build());
 
@@ -128,9 +125,17 @@ public  class main extends Application{
 								NewCuisineWindow maFenetreNouvelleCuisine = new NewCuisineWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+c")).build());
-
-		
-		
+		menuCuisine.getItems().add(MenuItemBuilder.create()
+				.text("Modifier/Supprimer")
+				.onAction(
+						new EventHandler<ActionEvent>()
+						{
+							@Override public void handle(ActionEvent e)
+							{
+								@SuppressWarnings("unused")
+								NewModifierCuisineWindow maFenetreNouvelleCuisine = new NewModifierCuisineWindow(primaryStage);
+							}
+						}).accelerator( KeyCombination.keyCombination("ctrl+shift+C")).build());
 		menuRestaurant.getItems().add(MenuItemBuilder.create()
 				.text("Modifier/Supprimer")
 				.onAction(
@@ -142,7 +147,6 @@ public  class main extends Application{
 								modifyRestaurantWindow monModifyRestaurantWindow = new modifyRestaurantWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+R")).build());
-		menuCuisine.getItems().add(new MenuItem("Modifier/Supprimer"));
 		menuForfait.getItems().add(new MenuItem("Nouveau"));
 		menuForfait.getItems().add(new MenuItem("Modifier/Supprimer"));
 		menuAppareilElectrique.getItems().add(MenuItemBuilder.create()
@@ -156,7 +160,17 @@ public  class main extends Application{
 								newAppareilWindow monAppareilWindow = new newAppareilWindow(primaryStage);
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+E")).build());
-		menuAppareilElectrique.getItems().add(new MenuItem("Modifier/Supprimer"));
+		menuAppareilElectrique.getItems().add(MenuItemBuilder.create()
+				.text("Modifier/Supprimer")
+				.onAction(
+						new EventHandler<ActionEvent>()
+						{
+							@Override public void handle(ActionEvent e)
+							{
+								@SuppressWarnings("unused")
+								newModifierAppareilWindow monAppareilWindow = new newModifierAppareilWindow(primaryStage);
+							}
+						}).accelerator( KeyCombination.keyCombination("ctrl+shift+E")).build());
 		menuPlanAllumage.getItems().add(MenuItemBuilder.create()
 				.text("Nouveau")
 				.onAction(

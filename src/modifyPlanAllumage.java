@@ -207,6 +207,22 @@ public class modifyPlanAllumage extends Stage
 			@Override
 			public void handle(ActionEvent e) 
 			{
+				
+				boolean Conflit = false;
+				
+				for(int y = 0 ; y < AppCore.getListeAppareilsElectriques().size();y++)
+				{
+				for(int i =  0 ; i <AppCore.getListeAppareilsElectriques().get(y).getCouples().size();i=i+2)
+				{
+					if(comboPlans.getSelectionModel().getSelectedItem().getName().compareTo(AppCore.getListeAppareilsElectriques().get(y).getCouples().get(i+1))==0)
+					{
+						Conflit = true;
+						break;
+					}
+				}
+				}
+				if(Conflit == false)
+				{
 				for(int i = 0; i<AppCore.getListePlansAllumages().size();i++)
 				{
 					if(AppCore.getListePlansAllumages().get(i).getName() == MonPlanAllumage.getName())
@@ -220,7 +236,13 @@ public class modifyPlanAllumage extends Stage
 					}
 					
 				}
-
+				}
+				else
+				{
+					@SuppressWarnings("unused")
+					final DialogBox dialogBox = new DialogBox(stage,"Ce plan d'allumage est encore affécté à un appareil",1);
+				
+				}
 			}
 		});
 		boutonAnnuler.setOnAction(new EventHandler<ActionEvent>() {
@@ -318,7 +340,6 @@ public class modifyPlanAllumage extends Stage
 				}
 			}
 		}});
-		
 		
 		
 		comboPlans.setItems(FXCollections.observableArrayList(AppCore.getListePlansAllumages()));
