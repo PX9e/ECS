@@ -11,12 +11,55 @@ public class AppCore  {
 	
 	private AppCore(){}
 	
+	
+	private static Forfait THEFORFAIT;
 	private static ArrayList<Restaurant> Restaurants = new ArrayList<Restaurant>();;
 	private static ArrayList<Cuisine> Cuisines = new ArrayList<Cuisine>();
 	private static ArrayList<AppareilElectrique> AppareilsElectriques = new ArrayList<AppareilElectrique>();
 	private static ArrayList<Forfait> Forfaits = new ArrayList<Forfait>();
 	private static ArrayList<PlanAllumage> PlanAllumages = new ArrayList<PlanAllumage>();
+	 
 	
+	private static void SaveForfait() {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("forfait.save");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+			writer.println(THEFORFAIT.getName());
+			writer.println(THEFORFAIT.getCreuseH().getDebut().getHeures());
+			writer.println(THEFORFAIT.getCreuseH().getDebut().getMinutes());
+			writer.println(THEFORFAIT.getCreuseH().getFin().getHeures());
+			writer.println(THEFORFAIT.getCreuseH().getFin().getMinutes());
+			writer.println(THEFORFAIT.getPleineH().getDebut().getHeures());
+			writer.println(THEFORFAIT.getPleineH().getDebut().getMinutes());
+			writer.println(THEFORFAIT.getPleineH().getFin().getHeures());
+			writer.println(THEFORFAIT.getPleineH().getFin().getMinutes());
+			
+			writer.println(THEFORFAIT.getCreuse());
+			writer.println(THEFORFAIT.getPleine());
+			writer.println(THEFORFAIT.getPic());
+			
+			
+			writer.close();
+
+		}
+		static public void  LoadForfait()
+		 {
+			String myfile = readdatafromtextfile("forfait.save");
+			String[] MyLines = myfile.split("\n");
+			System.out.println(MyLines[0]);
+
+			//try{
+			THEFORFAIT =  new Forfait(MyLines[0], Double.parseDouble(MyLines[10]), Double.parseDouble(MyLines[9]),  new PlageHoraire(Integer.parseInt(MyLines[5]),Integer.parseInt(MyLines[6]),Integer.parseInt(MyLines[7]),Integer.parseInt(MyLines[8])),new PlageHoraire(Integer.parseInt(MyLines[1]), Integer.parseInt(MyLines[2]), Integer.parseInt(MyLines[3]), Integer.parseInt(MyLines[4])), Double.parseDouble(MyLines[11]));
+		 
+			//}
+			//catch(Exception E)
+			//{
+			// THEFORFAIT = 	null;
+			//}
+		 }
 	
 	public static ArrayList<Restaurant> getListeRestaurants() {
 		return Restaurants;
@@ -470,6 +513,7 @@ public class AppCore  {
 		return null;
 	}
 	
+	
 	/**
 	 * Penser a gérer les exceptions (si return null)
 	 * @param Name
@@ -487,6 +531,16 @@ public class AppCore  {
 		return null;
 	}
 	
+	public static Forfait getTHEFORFAIT() {
+		return THEFORFAIT;
+	}
+
+	public static void setTHEFORFAIT(Forfait tHEFORFAIT) {
+		
+		THEFORFAIT = tHEFORFAIT;
+		SaveForfait();
+	}
+
 	public static PlanAllumage getPlanAllumage(String Name)
 	{
 		for(int i=0; i < PlanAllumages.size(); i++)
