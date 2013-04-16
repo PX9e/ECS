@@ -109,11 +109,11 @@ public class newForfait extends Stage
 		HBox hbHeure = new HBox(10);
 		HBox hbHeureB = new HBox(10);
 		
-		Label DemandeDateDebut = new Label("Date de debut :");
+		Label DemandeDateDebut = new Label("Date de debut(Pleine) :");
 		Label DemandeDateFin = new Label("Date de fin :");
 		Label H1 = new Label("h");
 		Label H2 = new Label("h");
-		Label DemandeDateDebutB = new Label("Date de debut :");
+		Label DemandeDateDebutB = new Label("Date de debut(Creuse) :");
 		Label DemandeDateFinB = new Label("Date de fin :");
 		Label H1B = new Label("h");
 		Label H2B = new Label("h");

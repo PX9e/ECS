@@ -87,49 +87,14 @@ class NewCuisineWindow extends Stage{
 
 		final ObservableList<AppareilElectrique> itemsAppareilsAssocies= FXCollections.observableArrayList ();
 		listAppareilsAssocies.setItems(itemsAppareilsAssocies);
+		
 		grid.add(listAppareilsAssocies,0 ,2);
 		
 		final ObservableList<AppareilElectrique> itemsAppareilsNonAssocies = FXCollections.observableArrayList (AppCore.getListeAppareilsElectriques());
 		listAppareilsNonAssocies.setItems(itemsAppareilsNonAssocies);
 		//grid.add(listAppareilsNonAssocies, 2, 2);
 
-		if(!AppCore.getListeCuisines().isEmpty())
-			//System.out.println(AppCore.getListeCuisines().get(0));
 		
-		/*
-		boutonAjouterCuisine.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) 
-			{
-				if(!nomCuisineTextField.getText().isEmpty())
-				{
-					MaCuisine = new Cuisine(nomCuisineTextField.getText());
-					if(MaCuisine != null)
-					{
-
-						AppCore.AjouterCuisineToList(MaCuisine);
-						//Rafraichissement affichage liste
-						ObservableList<Cuisine> items = FXCollections.observableArrayList (AppCore.getListeCuisines());
-						listCuisine.setItems(items);
-
-						nomCuisineTextField.setText("");
-					}
-					else
-					{
-						actiontarget.setFill(Color.FIREBRICK);
-						actiontarget.setText("Une erreur s'est produite");
-					}               
-				}
-				else
-				{
-					actiontarget.setFill(Color.FIREBRICK);
-					actiontarget.setText("Entrer un nom pour votre nouvelle cuisine");
-				}
-
-			}
-		});
-		*/
 		boutonFlecheGauche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e)

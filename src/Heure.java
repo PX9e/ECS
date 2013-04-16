@@ -70,7 +70,18 @@ public class  Heure
 	
 	public String toString()
 	{
-		return String.valueOf(heures)+":"+ String.valueOf(minutes);
+		String Heure = String.valueOf(heures);
+		String Minute = String.valueOf(minutes);
+		if(Heure.length()<2)
+		{
+			Heure = "0"+Heure;
+		}
+		if(Minute.length()<2)
+		{
+			Minute = Minute +"0";
+		}
+		
+		return Heure+":"+ Minute;
 	}
 	public int toInt(){
 		return heures*60+minutes;
