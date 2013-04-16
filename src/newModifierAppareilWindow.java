@@ -155,7 +155,7 @@ public class newModifierAppareilWindow extends Stage {
 			}
 		});
 
-		final Label consoModeLabel = new Label("Consommation mode : ");
+		final Label consoModeLabel = new Label("Consommation mode(W) : ");
 		final Label nomModeLabel = new Label("Nom mode : ");
 		final TextField consoModeTextField = new TextField();
 		final Button AjouterMode = new Button("Ajouter Mode");

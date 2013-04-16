@@ -24,6 +24,8 @@ import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -32,14 +34,17 @@ public  class main extends Application{
 
 	private XYChart.Series<Number,Number> CuisineChart= new XYChart.Series<Number,Number>();
 	private XYChart.Series<Number,Number> AppareilChart= new XYChart.Series<Number,Number>();
+	private XYChart.Series<Number,Number> HighLimit= new XYChart.Series<Number,Number>();
 	final ListView<Restaurant> listRestaurant = new ListView<Restaurant>();
 	final ListView<Cuisine> listCuisine = new ListView<Cuisine>();
 	final ListView<AppareilElectrique> listAppareil = new ListView<AppareilElectrique>();
 	final NumberAxis xAxis = new NumberAxis(0, 24, 1);
-	
     final NumberAxis yAxis = new NumberAxis();
 	final AreaChart<Number,Number> ac = new AreaChart<Number,Number>(xAxis,yAxis);
-	
+	boolean Picccc= false;
+	Label PrixValue = new Label();
+	Label ConsoValue = new Label();
+	Label DepassementValue = new Label();
 	@SuppressWarnings(value = { "all" })
 	public static void main(String[] args) {
 		launch(args);
@@ -52,8 +57,9 @@ public  class main extends Application{
 		
 	
 		
-		ac.setTitle("Consommation electrique en fonction de la puissance en kW");
-		primaryStage.setTitle("ECS");  		
+		ac.setTitle("Consommation electrique en fonction de la puissance en W");
+		primaryStage.setTitle("ECS");
+		HighLimit.setName("Puissance Max");
 		new KeyCombination() {};
 		final Menu menuFichier = new Menu("Fichier");
 		final Menu menuRestaurant = new Menu("Restaurant");
@@ -188,8 +194,32 @@ public  class main extends Application{
 											});
 							}
 						}).accelerator( KeyCombination.keyCombination("ctrl+shift+R")).build());
-		menuForfait.getItems().add(new MenuItem("Nouveau"));
-		menuForfait.getItems().add(new MenuItem("Modifier/Supprimer"));
+		menuForfait.getItems().add(MenuItemBuilder.create()
+				.text("Configurer")
+				.onAction(
+						new EventHandler<ActionEvent>()
+						{
+							@Override public void handle(ActionEvent e)
+							{
+								newForfait monAppareilWindow = new newForfait(primaryStage);
+								monAppareilWindow.setOnHiding(new EventHandler<WindowEvent>()
+										{
+											@Override
+											public void handle(WindowEvent e) 
+											{
+											
+												if(e.getEventType() == WindowEvent.WINDOW_HIDING)
+												{
+													refreshListAll();
+
+													DrawGrapB();
+													DrawGraphA();
+												}
+											}
+											});
+							}
+						}).accelerator( KeyCombination.keyCombination("ctrl+F")).build());
+	
 		menuAppareilElectrique.getItems().add(MenuItemBuilder.create()
 				.text("Nouveau")
 				.onAction(
@@ -346,13 +376,31 @@ public  class main extends Application{
 		grid.add(AppareilTitleLabel, 2, 0);
 		AppareilTitleLabel.setVisible(false); 
 
-
-		
 		
 		listAppareil.setPrefHeight(350);
 		listAppareil.setPrefWidth(200);
 		grid.add(listAppareil,2 ,1);
 		listAppareil.setVisible(false);
+		VBox Summary = new VBox(10);
+		HBox Price = new HBox(10);
+		HBox ConsoH = new HBox(10);
+		HBox DepassementH = new HBox(10);
+		Label Prix  = new Label("Coût : ");
+		
+		Label Conso = new Label("Consommation : ");
+		
+		Label Depassement = new Label("Depassement :");
+		
+		ConsoH.getChildren().add(Conso);
+		ConsoH.getChildren().add(ConsoValue);
+		Price.getChildren().add(Prix);
+		Price.getChildren().add(PrixValue);
+		DepassementH.getChildren().add(Depassement);
+		DepassementH.getChildren().add(DepassementValue);
+		Summary.getChildren().add(Price);
+		Summary.getChildren().add(ConsoH);
+		Summary.getChildren().add(DepassementH);
+		grid.add(Summary, 3, 1);
 		
 		Label RestaurantTitleLabel = new Label("Nom du restaurant:");
 		grid.add(RestaurantTitleLabel, 0, 0);
@@ -373,11 +421,14 @@ public  class main extends Application{
 		listRestaurant.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
+				if(listRestaurant.getSelectionModel().getSelectedItem()!=null)
+				{
 				listAppareil.getItems().clear();
 				refreshListB();
 				listCuisine.setVisible(true);
 				CuisineTitleLabel.setVisible(true);
 				DrawGrapB();
+				}
 			}
 		}); 
 		
@@ -442,6 +493,7 @@ public  class main extends Application{
 
 	private void refreshListAll()
 	{
+		AppCore.LoadForfait();
 		AppCore.LoadPlanAllumage();
 		AppCore.LoadAppareilElectrique();
 		AppCore.LoadCuisine();
@@ -477,6 +529,7 @@ public  class main extends Application{
 	private void DrawGraphA()
 	{
 		
+		ac.setAnimated(false);
 		if(listAppareil.getSelectionModel().getSelectedItem()!=null)
 		{
 		AppareilChart.setName(listAppareil.getSelectionModel().getSelectedItem().getNom());
@@ -533,8 +586,9 @@ public  class main extends Application{
 				}
 				
 			}	
-			
-		ac.getData().remove(AppareilChart);
+		ac.getData().clear();
+		
+		ac.getData().retainAll();
 		AppareilChart.getData().clear();
 		AppareilChart.getData().add(new XYChart.Data((0), Data.get(0)));
 		for(int i = 1 ; i<Data.size()-1;i++)
@@ -545,15 +599,80 @@ public  class main extends Application{
 			}
 		}
 		AppareilChart.getData().add(new XYChart.Data(24, Data.get(1439)));
-		ac.getData().addAll(AppareilChart);
+	
+		double SumA = 0.0;
+		double SumB = 0.0;
+		int NbPic = 0 ;
+		if(AppCore.getTHEFORFAIT()!=null)
+		{
+			
+			for(int i = 0; i<Data.size();i++)
+			{
+				if(AppCore.getTHEFORFAIT().getPleineH().getDebut().toInt()<AppCore.getTHEFORFAIT().getCreuseH().getFin().toInt())
+				{
+					if((i >= AppCore.getTHEFORFAIT().getPleineH().getDebut().toInt())&&(i<AppCore.getTHEFORFAIT().getCreuseH().getFin().toInt()))
+					{
+						SumA = SumA + Data.get(i);
+					}
+					else
+					{
+						SumB = SumB + Data.get(i);
+					}
+				}
+				else
+				{
+					if((i <= AppCore.getTHEFORFAIT().getPleineH().getDebut().toInt())&&(i>=AppCore.getTHEFORFAIT().getCreuseH().getFin().toInt()))
+					{
+						SumA = SumA + Data.get(i);
+					}
+					else
+					{
+						SumB = SumB + Data.get(i);
+					}
+				}
+				if(Data.get(i)>AppCore.getTHEFORFAIT().getPic())
+				{
+					NbPic = NbPic +1 ;
+				}
+			}
+			double Cout = ((SumA/60) * AppCore.getTHEFORFAIT().getPleine()/100 + (SumB/60) * AppCore.getTHEFORFAIT().getCreuse()/100)/1000;
+			double Consom = ((SumA +SumB)/60)/1000;
+			PrixValue.setText(Double.toString(Cout) + " €");
+			ConsoValue.setText(Double.toString(Consom)+ " kWh");
+			DepassementValue.setText(Integer.toString(NbPic));
+			if((NbPic > 0 )||(Picccc==true))
+			{ 
+				
+				HighLimit.getData().clear();
+				HighLimit.getData().add(new XYChart.Data(0,AppCore.getTHEFORFAIT().getPic()));
+
+				HighLimit.getData().add(new XYChart.Data(24,AppCore.getTHEFORFAIT().getPic()));
+				
+			
+				ac.getData().add(CuisineChart);
+				ac.getData().add(AppareilChart);
+				ac.getData().add(HighLimit);
+		
+			}
+			else
+			{
+		
+			ac.getData().add(CuisineChart);
+			ac.getData().add(AppareilChart);
+			}
+			ac.setAnimated(false);
 		}
+		
+		}
+		
 		 
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void DrawGrapB()
 	{
-		//ac.setAnimated(false);
+	
 		getCuisineChart().setName("Consommation Cuisine");
+		
 		if(listRestaurant.getSelectionModel().getSelectedItem() != null)
 		{	
 		Restaurant restaurantClique = listRestaurant.getSelectionModel().getSelectedItem();
@@ -610,7 +729,7 @@ public  class main extends Application{
 				
 			}	
 		}
-		ac.getData().remove(getCuisineChart());
+		
 		
 		getCuisineChart().getData().clear();
 		getCuisineChart().getData().add(new XYChart.Data((0), Data.get(0)));
@@ -623,11 +742,13 @@ public  class main extends Application{
 		}
 		getCuisineChart().getData().add(new XYChart.Data(24, Data.get(1439)));
 		
-		ac.getData().remove(AppareilChart);
+		ac.getData().retainAll();
+		ac.getData().clear();
 		AppareilChart.getData().clear();
 		AppareilChart.getData().add(new XYChart.Data((0), Data.get(0)));
 		for(int i = 1 ; i<Data.size()-1;i++)
 		{
+			
 			if((Data.get(i)-Data.get(i-1)!=0)||(Data.get(i)-Data.get(i+1)!=0))
 			{
 				AppareilChart.getData().add(new XYChart.Data((double)(i/60.0), Data.get(i)));
@@ -635,10 +756,73 @@ public  class main extends Application{
 		}
 		AppareilChart.getData().add(new XYChart.Data(24, Data.get(1439)));
 		
-		ac.getData().addAll(CuisineChart,AppareilChart);
+		
+		double SumA = 0.0;
+		double SumB = 0.0;
+		int NbPic = 0 ;
+		if(AppCore.getTHEFORFAIT()!=null)
+		{
+			
+			for(int i = 0; i<Data.size();i++)
+			{
+				if(AppCore.getTHEFORFAIT().getPleineH().getDebut().toInt()<AppCore.getTHEFORFAIT().getCreuseH().getFin().toInt())
+				{
+					if((i >= AppCore.getTHEFORFAIT().getPleineH().getDebut().toInt())&&(i<AppCore.getTHEFORFAIT().getCreuseH().getFin().toInt()))
+					{
+						SumA = SumA + Data.get(i);
+					}
+					else
+					{
+						SumB = SumB + Data.get(i);
+					}
+				}
+				else
+				{
+					if((i <= AppCore.getTHEFORFAIT().getPleineH().getDebut().toInt())&&(i>=AppCore.getTHEFORFAIT().getCreuseH().getFin().toInt()))
+					{
+						SumA = SumA + Data.get(i);
+					}
+					else
+					{
+						SumB = SumB + Data.get(i);
+					}
+				}
+				if(Data.get(i)>AppCore.getTHEFORFAIT().getPic())
+				{
+					NbPic = NbPic +1 ;
+				}
+			}
+			double Cout = ((SumA/60) * AppCore.getTHEFORFAIT().getPleine()/100 + (SumB/60) * AppCore.getTHEFORFAIT().getCreuse()/100)/1000;
+			double Consom = ((SumA +SumB)/60)/1000;
+			PrixValue.setText(Double.toString(Cout) + " €");
+			ConsoValue.setText(Double.toString(Consom)+ " kWh");
+			DepassementValue.setText(Integer.toString(NbPic));
+			if(NbPic > 0 )
+			{ 
+				
+				HighLimit.getData().clear();
+				HighLimit.getData().add(new XYChart.Data(0,AppCore.getTHEFORFAIT().getPic()));
+
+				HighLimit.getData().add(new XYChart.Data(24,AppCore.getTHEFORFAIT().getPic()));
+				
+			
+				ac.getData().add(CuisineChart);
+				//ac.getData().add(AppareilChart);
+				ac.getData().add(HighLimit);
+				Picccc = true;
+		
+			}
+			else
+			{
+			Picccc = false;
+			ac.getData().add(CuisineChart);
+			//ac.getData().add(AppareilChart);
+			}
 		}
+		ac.setAnimated(true);}
 	}
 	@SuppressWarnings("rawtypes")
+		
 	public XYChart.Series getCuisineChart() {
 		return CuisineChart;
 	}
